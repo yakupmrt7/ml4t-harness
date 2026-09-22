@@ -1,0 +1,198 @@
+{
+ "decisions": 609,
+ "first": "2022-08-01 04:00:00+00:00",
+ "last": "2024-03-31 04:00:00+00:00",
+ "coverage": {
+  "carry": 1.0,
+  "basis_change": 0.9947454844006567,
+  "reversal_1d": 1.0,
+  "momentum_28d_skip1": 1.0
+ },
+ "impact_addon_bps": {
+  "ADAUSDT": 1.702,
+  "APEUSDT": 2.5869999999999997,
+  "ETCUSDT": 2.834,
+  "OPUSDT": 3.628,
+  "SOLUSDT": 1.7390000000000003,
+  "UNFIUSDT": 14.079999999999998,
+  "AVAXUSDT": 3.013,
+  "BNBUSDT": 1.3,
+  "BTCUSDT": 0.136,
+  "DOTUSDT": 2.072,
+  "ETHUSDT": 0.17,
+  "GMTUSDT": 2.468,
+  "MATICUSDT": 2.395,
+  "SANDUSDT": 4.008,
+  "XRPUSDT": 0.71
+ },
+ "factors": {
+  "carry": {
+   "sign": -1,
+   "days": 610,
+   "sr_gross": 0.09010506676920609,
+   "t_gross": 0.11648438151599344,
+   "sr_net": -0.4703217394081203,
+   "sr_price_only": -0.6526237345421444,
+   "ann_gross_bps_per_unit": 1342.7801024193361,
+   "funding_share_of_gross": 8.177809359521655,
+   "turnover_units_per_year": 938.2295081967213,
+   "breakeven_bps": 1.4311851105601632,
+   "traded_cost_bps": 8.892095269812632,
+   "sr_long_leg": 0.838085435678652,
+   "sr_short_leg": -0.7599952032011604,
+   "gross_long_share": 13.401391546385195,
+   "per_year": {
+    "2022": {
+     "sr_gross": 0.19467447554200318,
+     "sr_net": -0.28798765063780113,
+     "days": 154
+    },
+    "2023": {
+     "sr_gross": -0.13222250103027108,
+     "sr_net": -0.7214437253099122,
+     "days": 365
+    },
+    "2024Q1": {
+     "sr_gross": 0.8619421850573259,
+     "sr_net": 0.2745559246009044,
+     "days": 91
+    }
+   },
+   "mean_legs_changed_per_day": 0.7848932676518884,
+   "passes": false
+  },
+  "basis_change": {
+   "sign": -1,
+   "days": 610,
+   "sr_gross": 1.2440736861692185,
+   "t_gross": 1.6082908441200905,
+   "sr_net": -1.1628282714471359,
+   "sr_price_only": 1.0267411748265436,
+   "ann_gross_bps_per_unit": 18458.815297218276,
+   "funding_share_of_gross": 0.1828011909843589,
+   "turnover_units_per_year": 3957.55737704918,
+   "breakeven_bps": 4.664193980930094,
+   "traded_cost_bps": 9.020879016376211,
+   "sr_long_leg": 0.9793021338752478,
+   "sr_short_leg": -0.1479020325899042,
+   "gross_long_share": 1.1660343159590376,
+   "per_year": {
+    "2022": {
+     "sr_gross": 2.26174862734475,
+     "sr_net": -0.17227070139064546,
+     "days": 154
+    },
+    "2023": {
+     "sr_gross": 0.42660304878396704,
+     "sr_net": -2.0350279450543147,
+     "days": 365
+    },
+    "2024Q1": {
+     "sr_gross": 2.6082572773865387,
+     "sr_net": 0.4213679590585407,
+     "days": 91
+    }
+   },
+   "mean_legs_changed_per_day": 0.9967159277504105,
+   "passes": false
+  },
+  "reversal_1d": {
+   "sign": -1,
+   "days": 610,
+   "sr_gross": -0.6117328125058127,
+   "t_gross": -0.7908247657181845,
+   "sr_net": -2.4058836309680363,
+   "sr_price_only": -0.6503609417177324,
+   "ann_gross_bps_per_unit": -10376.457799512897,
+   "funding_share_of_gross": -0.05878465112323579,
+   "turnover_units_per_year": 3387.9180327868853,
+   "breakeven_bps": -3.0627830127806455,
+   "traded_cost_bps": 8.981442933356,
+   "sr_long_leg": 0.35858523186920604,
+   "sr_short_leg": -0.7809477288832157,
+   "gross_long_share": -0.7837161769712848,
+   "per_year": {
+    "2022": {
+     "sr_gross": -2.245454680084529,
+     "sr_net": -4.111135913632137,
+     "days": 154
+    },
+    "2023": {
+     "sr_gross": -0.19420541965913943,
+     "sr_net": -1.9324239494442137,
+     "days": 365
+    },
+    "2024Q1": {
+     "sr_gross": 0.3407597794520386,
+     "sr_net": -1.5975433666657979,
+     "days": 91
+    }
+   },
+   "mean_legs_changed_per_day": 0.9983579638752053,
+   "passes": false
+  },
+  "momentum_28d_skip1": {
+   "sign": 1,
+   "days": 610,
+   "sr_gross": 0.950345766394202,
+   "t_gross": 1.2285706319747594,
+   "sr_net": 0.5518777423725651,
+   "sr_price_only": 0.9865011287584133,
+   "ann_gross_bps_per_unit": 16333.6660038605,
+   "funding_share_of_gross": -0.03618462421441409,
+   "turnover_units_per_year": 777.8688524590164,
+   "breakeven_bps": 20.997968940684736,
+   "traded_cost_bps": 8.805468213429775,
+   "sr_long_leg": 1.0685481290526087,
+   "sr_short_leg": -0.35008289423608624,
+   "gross_long_share": 1.4874594051072918,
+   "per_year": {
+    "2022": {
+     "sr_gross": 0.24326657680982042,
+     "sr_net": -0.1575804341714556,
+     "days": 154
+    },
+    "2023": {
+     "sr_gross": 2.0727930815416062,
+     "sr_net": 1.6949070670746127,
+     "days": 365
+    },
+    "2024Q1": {
+     "sr_gross": -2.8939227049691394,
+     "sr_net": -3.3983983621916805,
+     "days": 91
+    }
+   },
+   "mean_legs_changed_per_day": 0.7208538587848933,
+   "passes": false
+  }
+ },
+ "rank_corr": {
+  "carry": {
+   "carry": 1.0,
+   "basis_change": -0.069,
+   "reversal_1d": 0.005,
+   "momentum_28d_skip1": -0.021
+  },
+  "basis_change": {
+   "carry": -0.069,
+   "basis_change": 1.0,
+   "reversal_1d": 0.082,
+   "momentum_28d_skip1": 0.003
+  },
+  "reversal_1d": {
+   "carry": 0.005,
+   "basis_change": 0.082,
+   "reversal_1d": 1.0,
+   "momentum_28d_skip1": 0.002
+  },
+  "momentum_28d_skip1": {
+   "carry": -0.021,
+   "basis_change": 0.003,
+   "reversal_1d": 0.002,
+   "momentum_28d_skip1": 1.0
+  }
+ },
+ "passing": [],
+ "decision": "STOP: no factor passes; no OOS"
+}

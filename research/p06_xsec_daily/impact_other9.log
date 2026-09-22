@@ -1,0 +1,64 @@
+mean effective half-spread (bps) by taker order notional:
+ bucket      <1k  1-10k  10-50k  50-100k  >100k
+asset                                         
+AVAXUSDT   0.77   1.30    3.77     8.88  14.24
+BNBUSDT    0.37   0.60    1.60     4.47   6.33
+BTCUSDT    0.05   0.09    0.19     0.31   0.97
+DOTUSDT    1.14   1.49    3.16     8.65  18.63
+ETHUSDT    0.07   0.13    0.23     0.40   1.25
+GMTUSDT    2.24   2.56    4.72    10.50  16.87
+MATICUSDT  1.06   1.47    3.29     8.98  13.08
+SANDUSDT   1.52   2.06    5.36    14.80  25.83
+XRPUSDT    1.06   1.28    1.74     5.64  10.06
+
+orders per bucket:
+ bucket        <1k   1-10k  10-50k  50-100k  >100k
+asset                                            
+AVAXUSDT   438902  223148   10465      737    259
+BNBUSDT    382191  230019   27572     2138    953
+BTCUSDT    743583  712694  397550    97191  90152
+DOTUSDT    248174  115120    6297      300     90
+ETHUSDT    802413  570129  328987    65845  50875
+GMTUSDT    229323   92039    8801      234     42
+MATICUSDT  533839  326845   30534     2531    955
+SANDUSDT   228753  100649    4207      282     57
+XRPUSDT    473052  206921   59608     3900   1812
+
+mean price levels swept:
+ bucket      <1k  1-10k  10-50k  50-100k  >100k
+asset                                         
+AVAXUSDT   1.20   2.08    7.89    19.05  31.30
+BNBUSDT    1.11   1.52    3.59     8.33  11.09
+BTCUSDT    1.17   1.52    2.59     4.38  13.79
+DOTUSDT    1.04   1.23    2.36     5.74  10.41
+ETHUSDT    1.22   1.61    2.80     4.93  15.14
+GMTUSDT    1.02   1.16    1.93     4.09   4.95
+MATICUSDT  1.03   1.27    2.42     5.39   7.54
+SANDUSDT   1.04   1.25    2.82     6.60  11.35
+XRPUSDT    1.01   1.08    1.29     2.35   3.78
+
+median order effective half-spread:
+ asset
+AVAXUSDT     0.44
+BNBUSDT      0.21
+BTCUSDT      0.02
+DOTUSDT      1.04
+ETHUSDT      0.03
+GMTUSDT      1.66
+MATICUSDT    0.84
+SANDUSDT     1.29
+XRPUSDT      0.99
+Name: eff_hs, dtype: float64
+
+quoted half-spread, time-weighted vs at order times:
+            tw_quoted_hs  quoted_hs_at_orders
+asset                                       
+AVAXUSDT          0.356                0.757
+BNBUSDT           0.198                0.300
+BTCUSDT           0.018                0.054
+DOTUSDT           0.917                1.088
+ETHUSDT           0.028                0.060
+GMTUSDT           2.110                2.252
+MATICUSDT         0.734                0.895
+SANDUSDT          1.175                1.352
+XRPUSDT           0.943                1.030

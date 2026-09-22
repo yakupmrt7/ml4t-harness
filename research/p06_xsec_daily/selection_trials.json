@@ -1,0 +1,70 @@
+[
+ {
+  "kind": "factor",
+  "name": "p06 carry",
+  "params": {
+   "sign": -1,
+   "legs": 3,
+   "decision": "04:00 UTC daily",
+   "costs": "p05 taker table + impact add-on, funding in gross"
+  },
+  "t_gross": 0.11648438151599344,
+  "breakeven_bps": 1.4311851105601632,
+  "traded_cost_bps": 8.892095269812632,
+  "sr_per_period": -0.024617764972045063,
+  "n": 610,
+  "period": "daily net",
+  "ts": "2026-09-22T20:29:18"
+ },
+ {
+  "kind": "factor",
+  "name": "p06 basis_change",
+  "params": {
+   "sign": -1,
+   "legs": 3,
+   "decision": "04:00 UTC daily",
+   "costs": "p05 taker table + impact add-on, funding in gross"
+  },
+  "t_gross": 1.6082908441200905,
+  "breakeven_bps": 4.664193980930094,
+  "traded_cost_bps": 9.020879016376211,
+  "sr_per_period": -0.06086521351396577,
+  "n": 610,
+  "period": "daily net",
+  "ts": "2026-09-22T20:29:29"
+ },
+ {
+  "kind": "factor",
+  "name": "p06 reversal_1d",
+  "params": {
+   "sign": -1,
+   "legs": 3,
+   "decision": "04:00 UTC daily",
+   "costs": "p05 taker table + impact add-on, funding in gross"
+  },
+  "t_gross": -0.7908247657181845,
+  "breakeven_bps": -3.0627830127806455,
+  "traded_cost_bps": 8.981442933356,
+  "sr_per_period": -0.12592970474168758,
+  "n": 610,
+  "period": "daily net",
+  "ts": "2026-09-22T20:29:40"
+ },
+ {
+  "kind": "factor",
+  "name": "p06 momentum_28d_skip1",
+  "params": {
+   "sign": 1,
+   "legs": 3,
+   "decision": "04:00 UTC daily",
+   "costs": "p05 taker table + impact add-on, funding in gross"
+  },
+  "t_gross": 1.2285706319747594,
+  "breakeven_bps": 20.997968940684736,
+  "traded_cost_bps": 8.805468213429775,
+  "sr_per_period": 0.028886601270287946,
+  "n": 610,
+  "period": "daily net",
+  "ts": "2026-09-22T20:29:51"
+ }
+]

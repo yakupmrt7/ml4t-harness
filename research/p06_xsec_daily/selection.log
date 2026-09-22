@@ -1,0 +1,23 @@
+factor coverage: {'carry': 1.0, 'basis_change': 0.9947, 'reversal_1d': 1.0, 'momentum_28d_skip1': 1.0} | causality check ok
+
+carry (sign -1): t_gross +0.12  SR gross +0.09 net -0.47 price-only -0.65  breakeven +1.43 vs cost 8.89 bps  turnover 938/yr  long/short SR +0.84/-0.76  funding share +8.18  => fail
+   per year: {"2022": {"sr_gross": 0.19, "sr_net": -0.29, "days": 154}, "2023": {"sr_gross": -0.13, "sr_net": -0.72, "days": 365}, "2024Q1": {"sr_gross": 0.86, "sr_net": 0.27, "days": 91}}
+
+basis_change (sign -1): t_gross +1.61  SR gross +1.24 net -1.16 price-only +1.03  breakeven +4.66 vs cost 9.02 bps  turnover 3958/yr  long/short SR +0.98/-0.15  funding share +0.18  => fail
+   per year: {"2022": {"sr_gross": 2.26, "sr_net": -0.17, "days": 154}, "2023": {"sr_gross": 0.43, "sr_net": -2.04, "days": 365}, "2024Q1": {"sr_gross": 2.61, "sr_net": 0.42, "days": 91}}
+
+reversal_1d (sign -1): t_gross -0.79  SR gross -0.61 net -2.41 price-only -0.65  breakeven -3.06 vs cost 8.98 bps  turnover 3388/yr  long/short SR +0.36/-0.78  funding share -0.06  => fail
+   per year: {"2022": {"sr_gross": -2.25, "sr_net": -4.11, "days": 154}, "2023": {"sr_gross": -0.19, "sr_net": -1.93, "days": 365}, "2024Q1": {"sr_gross": 0.34, "sr_net": -1.6, "days": 91}}
+
+momentum_28d_skip1 (sign +1): t_gross +1.23  SR gross +0.95 net +0.55 price-only +0.99  breakeven +21.00 vs cost 8.81 bps  turnover 778/yr  long/short SR +1.07/-0.35  funding share -0.04  => fail
+   per year: {"2022": {"sr_gross": 0.24, "sr_net": -0.16, "days": 154}, "2023": {"sr_gross": 2.07, "sr_net": 1.69, "days": 365}, "2024Q1": {"sr_gross": -2.89, "sr_net": -3.4, "days": 91}}
+
+mean daily cross-sectional rank correlation (signed scores):
+                    carry  basis_change  reversal_1d  momentum_28d_skip1
+carry                1.00         -0.07         0.01               -0.02
+basis_change        -0.07          1.00         0.08                0.00
+reversal_1d          0.01          0.08         1.00                0.00
+momentum_28d_skip1  -0.02          0.00         0.00                1.00
+
+KILL CHECK: passing = [] => STOP: no factor passes; no OOS
+(272s)

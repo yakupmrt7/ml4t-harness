@@ -1,0 +1,53 @@
+{
+ "n_decisions": 609,
+ "n_daily_buckets": 610,
+ "market": "equal-weight 15 perps",
+ "carry": {
+  "breakeven_bps": 1.4311851105601632,
+  "breakeven_se_bps": 12.286497914432106,
+  "breakeven_minus_1se": -10.855312803871943,
+  "beta_to_market": -0.0476027087006507,
+  "sr_gross": 0.09010506676920609,
+  "sr_gross_beta_hedged": 0.10824848900293213,
+  "t_iid": 0.11648438151599344,
+  "t_newey_west_10": 0.1266089381951113,
+  "daily_autocorr_1": -0.06680539251311943
+ },
+ "basis_change": {
+  "breakeven_bps": 4.664193980930094,
+  "breakeven_se_bps": 2.9000935981090614,
+  "breakeven_minus_1se": 1.7641003828210322,
+  "beta_to_market": 0.14336784131555613,
+  "sr_gross": 1.2440736861692185,
+  "sr_gross_beta_hedged": 1.1915638372696762,
+  "t_iid": 1.6082908441200905,
+  "t_newey_west_10": 1.5013107540024768,
+  "daily_autocorr_1": -0.06468730872448238
+ },
+ "reversal_1d": {
+  "breakeven_bps": -3.0627830127806455,
+  "breakeven_se_bps": 3.872897189808151,
+  "breakeven_minus_1se": -6.935680202588797,
+  "beta_to_market": -0.019259791267072838,
+  "sr_gross": -0.6117328125058127,
+  "sr_gross_beta_hedged": -0.6053078580276902,
+  "t_iid": -0.7908247657181845,
+  "t_newey_west_10": -0.8868243222976429,
+  "daily_autocorr_1": -0.022116598970086197
+ },
+ "momentum_28d_skip1": {
+  "breakeven_bps": 20.997968940684736,
+  "breakeven_se_bps": 17.091381149924906,
+  "breakeven_minus_1se": 3.906587790759829,
+  "beta_to_market": -0.11632090262356246,
+  "sr_gross": 0.950345766394202,
+  "sr_gross_beta_hedged": 0.9896770572149662,
+  "t_iid": 1.2285706319747594,
+  "t_newey_west_10": 1.259933804992692,
+  "daily_autocorr_1": -0.08189616865637059,
+  "shift_null_actual_sr": 0.9079862013010577,
+  "shift_null_p_gross": 0.08666666666666667,
+  "shift_null_mean": 0.09505740013910012,
+  "shift_null_std": 0.6277847552404883
+ }
+}
