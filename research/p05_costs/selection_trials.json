@@ -1,0 +1,42 @@
+[
+ {
+  "kind": "measurement",
+  "name": "p05 cost table + decision table",
+  "params": {
+   "days": "3/10/17/24 each month",
+   "T_minutes": [
+    1,
+    5,
+    15,
+    60
+   ],
+   "markout_minutes": [
+    5,
+    30,
+    240
+   ]
+  },
+  "n_days": 2757,
+  "ts": "2026-09-22T18:41:09"
+ },
+ {
+  "kind": "measurement",
+  "name": "p05 cost table + decision table",
+  "params": {
+   "days": "3/10/17/24 each month",
+   "T_minutes": [
+    1,
+    5,
+    15,
+    60
+   ],
+   "markout_minutes": [
+    5,
+    30,
+    240
+   ]
+  },
+  "n_days": 2757,
+  "ts": "2026-09-22T19:21:10"
+ }
+]

@@ -1,0 +1,49 @@
+mean effective half-spread (bps) by taker order notional:
+ bucket     <1k  1-10k  10-50k  50-100k  >100k
+asset                                        
+ADAUSDT   1.91   2.24    3.31     8.11  12.88
+APEUSDT   2.59   3.32    5.60    14.89  22.99
+ETCUSDT   0.72   1.22    3.48     8.03  10.73
+OPUSDT    0.76   1.47    4.38     9.37  16.34
+SOLUSDT   0.57   0.86    2.22     4.30   6.01
+UNFIUSDT  2.97   4.84   16.54    57.80    NaN
+
+orders per bucket:
+ bucket       <1k   1-10k  10-50k  50-100k  >100k
+asset                                           
+ADAUSDT   489383  264040   40651     2223    439
+APEUSDT   254689   80765    6629      260     28
+ETCUSDT   433605  182714    9568      772    285
+OPUSDT    826048  292628   17605     1524    754
+SOLUSDT   885090  819169   90050     8016   4268
+UNFIUSDT  151440   17611     430        4      0
+
+mean price levels swept:
+ bucket     <1k  1-10k  10-50k  50-100k  >100k
+asset                                        
+ADAUSDT   1.01   1.10    1.43     2.88   4.08
+APEUSDT   1.02   1.13    1.59     3.58   4.46
+ETCUSDT   1.19   2.07    7.13    16.72  28.97
+OPUSDT    1.33   2.73   10.29    23.40  48.48
+SOLUSDT   1.22   2.22    7.56    18.35  35.82
+UNFIUSDT  1.19   2.03    9.14    29.50    NaN
+
+median order effective half-spread:
+ asset
+ADAUSDT     1.91
+APEUSDT     2.17
+ETCUSDT     0.36
+OPUSDT      0.47
+SOLUSDT     0.34
+UNFIUSDT    1.61
+Name: eff_hs, dtype: float64
+
+quoted half-spread, time-weighted vs at order times:
+           tw_quoted_hs  quoted_hs_at_orders
+asset                                      
+ADAUSDT          1.468                1.608
+APEUSDT          2.940                3.013
+ETCUSDT          0.345                0.646
+OPUSDT           0.431                0.752
+SOLUSDT          0.244                0.481
+UNFIUSDT         1.546                2.460
