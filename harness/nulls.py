@@ -168,7 +168,7 @@ def validation_report(
             res["delay_sharpe_gross"][1] > 0
             and res["delay_sharpe_gross"][2] > 0.5 * res["delay_sharpe_gross"][1]),
     }
-    res["verdicts"] = verdicts
+    res["verdicts"] = {k: bool(v) for k, v in verdicts.items()}   # numpy bools -> JSON true/false
     res["backtest"] = bt
     res["preds"] = preds
     if verbose:
