@@ -1,0 +1,31 @@
+[
+ {
+  "name": "baseline_5m_1h",
+  "params": {
+   "symbol": "BTCUSDT-perp",
+   "bar": "5m",
+   "window": [
+    "2022-09-01",
+    "2026-09-01"
+   ],
+   "H": 12,
+   "labels": "triple_barrier pt=sl=1 width=ewm_vol(288)*sqrt(H)",
+   "features": "basic_features",
+   "model": "default_model",
+   "weights": "average_uniqueness",
+   "cv": "WalkForward(8, 0.4)",
+   "pos": {
+    "mode": "sign",
+    "threshold": 0.02,
+    "smooth": 12
+   },
+   "costs": [
+    5,
+    0.5
+   ]
+  },
+  "sr_per_period": -0.02278119168929561,
+  "n": 252454,
+  "ts": "2026-09-22T13:23:05"
+ }
+]
