@@ -13,6 +13,9 @@ from harness.data import load_binance_klines, load_funding, asof_join, check_clo
 from harness.features import basic_features, positioning_features, scale_free_basic_features
 from harness.portfolio import risk_scale, run_portfolio_backtest, portfolio_shift_null
 from harness.nulls import circular_shift_null
+from harness.costs import (load_book_ticker, load_agg_trades, quote_asof, trade_proxy_quotes, effective_half_spread,
+                           time_weighted_half_spread, simulate_maker, roll_half_spread, TableCostModel,
+                           overlap_calibration, monthly_cost_table)
 
 
 def _bars(n=2000, seed=0):
@@ -412,6 +415,164 @@ def test_scale_free_features_price_level_invariant_and_causal():
     assert len(f.columns) == 15 and f.iloc[-1].notna().all()
     h = scale_free_basic_features(bars.iloc[:9000], z_window=2000)
     assert np.allclose(h.to_numpy(), f.iloc[:9000].to_numpy(), equal_nan=True)
+
+
+# ---- costs (p05) ------------------------------------------------------------
+
+def _ts(sec):
+    return pd.Timestamp("2026-01-01", tz="UTC") + pd.to_timedelta(sec, unit="s")
+
+
+def _quotes(rows):
+    """rows: (sec, bid, ask)"""
+    return pd.DataFrame({"bid": [r[1] for r in rows], "ask": [r[2] for r in rows], "bid_qty": 1.0, "ask_qty": 1.0},
+                        index=pd.DatetimeIndex([_ts(r[0]) for r in rows]))
+
+
+def _trades(rows):
+    """rows: (sec, price, buyer_maker)"""
+    return pd.DataFrame({"price": [r[1] for r in rows], "qty": 1.0, "buyer_maker": [r[2] for r in rows]},
+                        index=pd.DatetimeIndex([_ts(r[0]) for r in rows]))
+
+
+def test_quote_asof_causal():
+    q = _quotes([(0, 99, 101), (10, 98, 100)])
+    a = quote_asof(q, [_ts(-1), _ts(9.999), _ts(10), _ts(11)])
+    assert np.isnan(a["bid"].iloc[0])
+    assert list(a["bid"].iloc[1:]) == [99, 98, 98]      # a quote stamped t is used at t, never before
+    assert a["mid"].iloc[1] == 100
+
+
+def test_time_weighted_half_spread():
+    q = _quotes([(0, 99, 101), (60, 98, 102)])           # 100 bps for 1 min, 200 bps for 3 min
+    tw = time_weighted_half_spread(q, _ts(0), _ts(240))
+    assert np.isclose(tw, (100 * 60 + 200 * 180) / 240)
+
+
+def test_trade_proxy_and_effective_half_spread():
+    tr = _trades([(0, 99, True), (1, 101, False), (2, 101, False), (3, 99, True)])
+    q = trade_proxy_quotes(tr)
+    assert q["bid"].iloc[-1] == 99 and q["ask"].iloc[-1] == 101
+    eff = effective_half_spread(tr)
+    # trades 3 and 4 see the proxy (99, 101) prevailing before them -> |p - 100| / 100
+    assert np.allclose(eff.iloc[2:].to_numpy(), 100.0)
+    assert np.isnan(eff.iloc[0])                          # nothing prevails before the first trade
+    bt = _quotes([(0, 99.5, 100.5)])
+    assert np.isclose(effective_half_spread(tr.iloc[1:2], bt).iloc[0], 100)   # 101 vs bookTicker mid 100
+
+
+def test_simulate_maker_strict_fill_timeout_and_shortfall():
+    q = _quotes([(0, 99, 101), (90, 100.5, 101.5), (400, 97, 99)])
+    tr = _trades([(30, 99, True),                        # prints AT the bid: not a fill (queue ahead of us)
+                  (120, 98.9, True)])                    # strictly below the bid after 2 min: fill
+    posts = pd.DataFrame({"side": [1.0]}, index=pd.DatetimeIndex([_ts(0)]))
+    r = simulate_maker(posts, q, tr, T_minutes=(1, 5), markout_minutes=(5,))
+    # T=1: unfilled -> taker buy at the ask at t+1min = 101 -> shortfall +100 bps, + taker fee
+    assert not r["filled_1"].iloc[0] and np.isclose(r["shortfall_1"].iloc[0], 100) and np.isclose(r["all_in_1"].iloc[0], 105)
+    # T=5: filled at the bid 99 -> shortfall -100 bps (half-spread captured), + maker fee
+    assert r["filled_5"].iloc[0] and np.isclose(r["fill_s_5"].iloc[0], 120)
+    assert np.isclose(r["shortfall_5"].iloc[0], -100) and np.isclose(r["all_in_5"].iloc[0], -98)
+    # markout from posting: mid at t+5min (quote from 90s) is 101, up from 100: in favour of a buy
+    assert np.isclose(r["mo_post_5"].iloc[0], -100)
+    # after the fill at 120s the mid is 101; at 420s it is 98 -> moved against the buy by ~297 bps
+    assert np.isclose(r["mo_fill_5_5"].iloc[0], -(98 - 101) / 101 * 1e4)
+    sell = simulate_maker(pd.DataFrame({"side": [-1.0]}, index=pd.DatetimeIndex([_ts(0)])), q,
+                          _trades([(30, 101, False), (60, 101.01, False)]), T_minutes=(1,), markout_minutes=(5,))
+    assert sell["filled_1"].iloc[0] and np.isclose(sell["shortfall_1"].iloc[0], -100)
+
+
+def test_roll_recovers_bounce_half_spread():
+    rng = np.random.default_rng(0)
+    s = 0.0005                                             # 5 bps half-spread, constant mid
+    p = pd.Series(100 * (1 + s * rng.choice([-1, 1], 20000)))
+    assert abs(roll_half_spread(p) - 5) < 0.3
+
+
+def test_table_cost_model_matches_constant_cost_model():
+    c = _bars(3000, 11)
+    rng = np.random.default_rng(3)
+    tgt = pd.Series(rng.choice([-1.0, 0, 1.0], len(c)), c.index)
+    months = sorted(set(c.index.strftime("%Y-%m")))
+    tab = pd.DataFrame({"asset": "X", "month": months, "taker_all_in_bps": 5.5})
+    a = run_backtest(c, tgt, CostModel(5, 0.5))
+    b = run_backtest(c, tgt, TableCostModel(tab, "X"))
+    assert np.allclose(a["net"], b["net"])
+    pa, _ = run_portfolio_backtest({"X": c}, {"X": tgt}, CostModel(5, 0.5))
+    pb, _ = run_portfolio_backtest({"X": c}, {"X": tgt}, {"X": TableCostModel(tab, "X")})
+    assert np.allclose(pa["net"], pb["net"])
+    try:
+        run_backtest(c, tgt, TableCostModel(tab.iloc[:0], "X"))
+    except KeyError:
+        pass
+    else:
+        raise AssertionError("missing month did not raise")
+    assert np.allclose(run_backtest(c, tgt, TableCostModel(tab.iloc[:0], "X", fallback_bps=5.5))["net"], a["net"])
+    # a delisted asset whose table stops at its delisting month must not raise in the portfolio
+    d = c.iloc[:1500]
+    tab_d = pd.DataFrame({"asset": "D", "month": sorted(set(d.index.strftime("%Y-%m"))), "taker_all_in_bps": 5.5})
+    pf2, _ = run_portfolio_backtest({"X": c, "D": d}, {"X": tgt, "D": tgt},
+                                    {"X": TableCostModel(tab, "X"), "D": TableCostModel(tab_d, "D")})
+    assert np.isfinite(pf2["net"]).all()
+    # a gap in an asset's data: trades at the gap must still be charged the table cost
+    g = c.drop(c.index[1000:1003])
+    ref, _ = run_portfolio_backtest({"X": c, "G": g}, {"X": tgt, "G": tgt}, CostModel(5, 0.5))
+    tb, _ = run_portfolio_backtest({"X": c, "G": g}, {"X": tgt, "G": tgt},
+                                   {"X": TableCostModel(tab, "X"), "G": TableCostModel(tab.assign(asset="G"), "G")})
+    assert np.allclose(ref["cost"], tb["cost"])
+    # delisting on the last bar of a month: the exit fill is priced at the last listed month, no KeyError
+    c2 = _bars(12000, 12)                                   # spans 2026-01 and 2026-02
+    m2 = sorted(set(c2.index.strftime("%Y-%m")))
+    e = c2.loc[: c2.index[c2.index.strftime("%Y-%m") == m2[0]][-1]]   # delists on the month's last bar
+    tab_x = pd.DataFrame({"asset": "X", "month": m2, "taker_all_in_bps": 5.5})
+    tab_e = pd.DataFrame({"asset": "E", "month": [m2[0]], "taker_all_in_bps": 5.5})
+    one = pd.Series(1.0, c2.index)
+    _, parts3 = run_portfolio_backtest({"X": c2, "E": e}, {"X": one, "E": one},
+                                       {"X": TableCostModel(tab_x, "X"), "E": TableCostModel(tab_e, "E")})
+    assert np.isclose(parts3["cost"]["E"].sum(), 2 * 5.5 / 1e4)          # entry + exit, no KeyError
+
+
+def test_cost_loaders_with_and_without_header():
+    d = pathlib.Path(tempfile.mkdtemp())
+    (d / "b1.csv").write_text("1,2.811,3699,2.812,6556,1686355205267,1686355205271\n")
+    _write(d / "b2.csv", "update_id,best_bid_price,best_bid_qty,best_ask_price,best_ask_qty,transaction_time,event_time",
+           [[1, "2.811", "3699", "2.812", "6556", 1686355205267, 1686355205271]])
+    for f in ("b1.csv", "b2.csv"):
+        b = load_book_ticker(d / f)
+        assert b["bid"].iloc[0] == 2.811 and b.index[0] == pd.Timestamp(1686355205267, unit="ms", tz="UTC")
+    _write(d / "a1.csv", "agg_trade_id,price,quantity,first_trade_id,last_trade_id,transact_time,is_buyer_maker",
+           [[1, "2.812", "67", 3, 4, 1686355205293, "false"], [2, "2.811", "354", 5, 6, 1686355205405, "true"]])
+    a = load_agg_trades(d / "a1.csv")
+    assert list(a["buyer_maker"]) == [False, True] and a["price"].iloc[1] == 2.811
+
+
+def _orders(asset, t, quotes, hs, all_in, filled=True, kind="grid"):
+    r = {"asset": asset, "t": pd.Timestamp(t, tz="UTC"), "side": 1.0, "kind": kind, "quotes": quotes, "hs_bps": hs}
+    for T in (1, 5, 15, 60):
+        r[f"all_in_{T}"] = all_in
+        r[f"filled_{T}"] = filled
+    return r
+
+
+def test_monthly_cost_table_sources_and_calibration():
+    rows = [_orders("A", "2023-06-03 04:00", "bookTicker", 2.0, 3.0), _orders("A", "2023-06-03 04:00", "proxy", 1.0, 2.0),
+            _orders("A", "2022-09-03 04:00", "proxy", 1.5, 2.5, filled=False),
+            _orders("A", "2022-09-03 04:00", "proxy", 9.9, 9.9, kind="p04")]      # other kind: ignored
+    o = pd.DataFrame(rows)
+    days = pd.DataFrame({"asset": "A", "month": ["2023-06", "2022-09"], "date": ["2023-06-03", "2022-09-03"],
+                         "volume_usd": 1.0, "eff_hs_proxy_vw": 1.0, "tick_bps_trades": 1.0})
+    cal = overlap_calibration(o)
+    assert np.isclose(cal.loc["A", "hs_ratio_bt_over_proxy"], 2.0) and np.isclose(cal.loc["A", "maker_all_in_5_bt_minus_proxy"], 1.0)
+    tab = monthly_cost_table(o, days, cal).set_index("month")
+    assert tab.loc["2023-06", "method"] == "bookTicker" and np.isclose(tab.loc["2023-06", "taker_all_in_bps"], 7.0)
+    assert tab.loc["2022-09", "method"] == "proxy_calibrated"
+    assert np.isclose(tab.loc["2022-09", "half_spread_bps"], 3.0)          # 1.5 x overlap ratio 2
+    assert np.isclose(tab.loc["2022-09", "maker_all_in_bps"], 3.5)         # 2.5 + (bt - proxy) = 2.5 + 1
+    assert tab.loc["2022-09", "fill_rate_T5"] == 0.0
+    raw = monthly_cost_table(o, days, None).set_index("month")
+    assert raw.loc["2022-09", "method"] == "proxy" and np.isclose(raw.loc["2022-09", "half_spread_bps"], 1.5)
+    floored = monthly_cost_table(o, days.assign(tick_bps_trades=[1.0, 8.0]), cal).set_index("month")
+    assert floored.loc["2022-09", "method"] == "proxy_calibrated+tick_floor"
+    assert np.isclose(floored.loc["2022-09", "half_spread_bps"], 4.0)    # 3.0 < tick/2 = 4.0
 
 
 if __name__ == "__main__":

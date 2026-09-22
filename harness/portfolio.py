@@ -79,19 +79,48 @@ def _pnl(C, W, cost_per_unit: float, delay: int):
     return H, H * R, trade * cost_per_unit
 
 
+def _cost_matrix(costs, grid, assets, traded, when):
+    """Per-unit cost per bar and asset. costs: one CostModel for all assets, or
+    {asset: cost model}. Time-varying models (per_unit_at, e.g.
+    harness.costs.TableCostModel) are asked ONLY about bars where that asset
+    trades (traded[:, j]), at time when[:, j] (epoch ns: the bar time, or the last listed
+    bar for the exit fill after a delisting). A missing month on a traded bar
+    raises; bars without trades cost nothing anyway."""
+    def one(cm, j):
+        out = np.zeros(len(grid))
+        if hasattr(cm, "per_unit_at"):
+            rows = traded[:, j]
+            if rows.any():
+                out[rows] = cm.per_unit_at(pd.to_datetime(when[rows, j], unit="ns", utc=True))
+        else:
+            out[:] = cm.per_unit_turnover
+        return out
+    return np.column_stack([one(costs[a] if isinstance(costs, dict) else costs, j) for j, a in enumerate(assets)])
+
+
 def run_portfolio_backtest(closes: dict, targets: dict, costs: CostModel = CostModel(), delay: int = 1):
     """Sum of per-asset bar-level P&L. Funding is NOT included, whatever
     costs.include_funding says: add it separately from parts['held'].
 
     closes  : {asset: live close Series}
     targets : {asset: target weight Series} (already risk-scaled if wanted)
+    costs   : a CostModel for all assets, or {asset: cost model}
     Returns (pf, parts). pf: per-bar gross, cost, net, turnover (sum |dw|),
     gross_exposure, net_exposure, equity. parts: {'held','gross','cost','net'}
     -> DataFrames (grid x assets)."""
     if delay < 1:
         raise ValueError("delay must be >= 1; delay=0 is lookahead")
     grid, assets, C, _, W = _panel(closes, targets, delay)
-    H, G, K = _pnl(C, W, costs.per_unit_turnover, delay)
+    H, G, _ = _pnl(C, W, 0.0, delay)
+    trade = np.abs(np.diff(H, axis=0, prepend=0.0))
+    g_ns = grid.as_unit("ns").asi8
+    when = np.repeat(g_ns[:, None], len(assets), axis=1)     # epoch ns
+    for j, a in enumerate(assets):          # exit fill after a delisting: price it at the last listed bar
+        last = closes[a].loc[: grid[-1]].index
+        if len(last) and last[-1] < grid[-1]:
+            i1 = grid.get_loc(last[-1])
+            when[i1 + 1:, j] = g_ns[i1]
+    K = trade * _cost_matrix(costs, grid, assets, trade > 0, when)
     N = G - K
     parts = {k: pd.DataFrame(v, index=grid, columns=assets) for k, v in
              (("held", H), ("gross", G), ("cost", K), ("net", N))}

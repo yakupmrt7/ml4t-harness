@@ -116,7 +116,9 @@ def run_backtest(
     ret = close.pct_change().fillna(0.0)
     gross = held * ret
     trade = held.diff().abs().fillna(held.abs())
-    cost = trade * costs.per_unit_turnover
+    # time-varying cost models (harness.costs.TableCostModel) give a per-bar cost
+    per_unit = costs.per_unit_at(close.index) if hasattr(costs, "per_unit_at") else costs.per_unit_turnover
+    cost = trade * per_unit
 
     fund = pd.Series(0.0, index=close.index)
     if funding is not None and costs.include_funding and len(funding):
