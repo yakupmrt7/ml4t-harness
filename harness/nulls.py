@@ -18,7 +18,7 @@ from .pipeline import oos_predict, oos_auc, align, default_model
 def feature_lookahead_audit(X: pd.DataFrame, close: pd.Series, flag_ic: float = 0.10) -> pd.DataFrame:
     """Correlation of each feature at t with the NEXT bar's return and with
     the CURRENT bar's return. Real predictive features on crypto bars have
-    next-bar |IC| well under 0.05. Anything above `flag_ic` almost certainly
+    next-bar |IC| well under 0.05. Anything above `flag_ic`  almost certainly
     peeks at the future (centred windows, t1-aligned joins, resample labels
     at the wrong edge...)."""
     r = np.log(close).diff()
@@ -40,7 +40,7 @@ def feature_lookahead_audit(X: pd.DataFrame, close: pd.Series, flag_ic: float = 
 
 def shuffled_label_test(
     X, labels, splitter, close, costs=CostModel(), n_perm=10, model_factory=default_model,
-    weights=None, pos_kwargs=None, seed=0,
+    weights=None, pos_kwargs=None, seed=0, position_fn=None,
 ):
     """Train on permuted labels. A correct pipeline must then show AUC ~0.5
     and gross Sharpe centred on 0. If not, something other than the labels
@@ -55,7 +55,8 @@ def shuffled_label_test(
         yp = rng.permutation(y)
         p = oos_predict(X, labels, splitter, model_factory, weights, y_override=yp)
         aucs.append(oos_auc(p, labels))
-        bt = run_backtest(close.loc[p.index[0]: p.index[-1]], signal_to_position(p, **pos_kwargs), costs)
+        target = position_fn(p) if position_fn else signal_to_position(p, **pos_kwargs)
+        bt = run_backtest(close.loc[p.index[0]: p.index[-1]], target, costs)
         srs.append(sharpe(bt["gross"], ppy))
     return np.array(aucs), np.array(srs)
 
@@ -111,9 +112,12 @@ def delay_check(close, target, costs=CostModel()):
 
 def validation_report(
     X, labels, close, splitter, costs=CostModel(), weights=None, model_factory=default_model,
-    pos_kwargs=None, n_perm=8, n_shift=300, too_good_sharpe=4.0, verbose=True,
+    pos_kwargs=None, n_perm=8, n_shift=300, too_good_sharpe=4.0, verbose=True, position_fn=None,
 ):
-    """Run the full gauntlet on one configuration. Returns dict of results."""
+    """Run the full gauntlet on one configuration. Returns dict of results.
+
+    position_fn(prob_up) -> target replaces signal_to_position(**pos_kwargs),
+    both for the headline backtest and the permuted-label null."""
     pos_kwargs = pos_kwargs or {}
     X, labels = align(X, labels)
     res = {}
@@ -122,7 +126,7 @@ def validation_report(
     res["lookahead_suspects"] = audit.index[audit["suspect"]].tolist()
 
     preds = oos_predict(X, labels, splitter, model_factory, weights)
-    target = signal_to_position(preds, **pos_kwargs)
+    target = position_fn(preds) if position_fn else signal_to_position(preds, **pos_kwargs)
     c = close.loc[preds.index[0]: preds.index[-1]]
     bt = run_backtest(c, target, costs)
     ppy = periods_per_year(c.index)
@@ -130,7 +134,8 @@ def validation_report(
     res["sharpe_gross"] = sharpe(bt["gross"], ppy)
     res["sharpe_net"] = sharpe(bt["net"], ppy)
 
-    aucs, srs = shuffled_label_test(X, labels, splitter, close, costs, n_perm, model_factory, weights, pos_kwargs)
+    aucs, srs = shuffled_label_test(X, labels, splitter, close, costs, n_perm, model_factory, weights, pos_kwargs,
+                                    position_fn=position_fn)
     res["perm_auc_mean"], res["perm_sharpe_mean"], res["perm_sharpe_std"] = (
         float(np.nanmean(aucs)), float(srs.mean()), float(srs.std()))
 

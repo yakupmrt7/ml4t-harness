@@ -8,7 +8,7 @@ import pandas as pd
 from harness.labeling import triple_barrier, fixed_horizon_labels, ewm_vol
 from harness.weights import average_uniqueness, concurrency
 from harness.cv import PurgedKFold, WalkForward
-from harness.backtest import run_backtest, CostModel
+from harness.backtest import run_backtest, CostModel, hysteresis_position
 
 
 def _bars(n=2000, seed=0):
@@ -92,6 +92,59 @@ def test_delay_zero_rejected():
     except ValueError:
         return
     raise AssertionError
+
+
+def _hyst(ps, **kw):
+    idx = pd.date_range("2026-01-01", periods=len(ps), freq="5min", tz="UTC")
+    return hysteresis_position(pd.Series(ps, idx), **kw).tolist()
+
+
+def test_hysteresis_entry():
+    # strictly beyond 0.5 +- theta_in to enter; the band edge itself does not
+    assert _hyst([.5, .52, .531, .52], theta_in=.03, theta_out=.01) == [0, 0, 1, 1]
+    assert _hyst([.5, .48, .469, .48], theta_in=.03, theta_out=.01) == [0, 0, -1, -1]
+
+
+def test_hysteresis_exit():
+    # long survives inside (0.5+theta_out, 0.5+theta_in], exits at <= 0.5+theta_out
+    assert _hyst([.54, .52, .511, .51, .52], theta_in=.03, theta_out=.01) == [1, 1, 1, 0, 0]
+    assert _hyst([.46, .48, .489, .49, .48], theta_in=.03, theta_out=.01) == [-1, -1, -1, 0, 0]
+    # theta_out=0: hold until the signal crosses 0.5
+    assert _hyst([.54, .501, .5], theta_in=.03) == [1, 1, 0]
+    # NaN holds the current position
+    assert _hyst([.54, np.nan, np.nan, .5], theta_in=.03) == [1, 1, 1, 0]
+
+
+def test_hysteresis_min_hold():
+    # entry at bar 0 is frozen for 3 bars even though p says exit
+    assert _hyst([.54, .5, .5, .5, .5], theta_in=.03, min_hold=3) == [1, 1, 1, 0, 0]
+    # the exit to flat (bar 3) is a change too: no re-entry before bar 6
+    assert _hyst([.54, .5, .5, .5, .54, .54, .54, .54], theta_in=.03, min_hold=3) == [1, 1, 1, 0, 0, 0, 1, 1]
+    # min_hold=1 imposes nothing
+    assert _hyst([.54, .5, .54], theta_in=.03, min_hold=1) == [1, 0, 1]
+
+
+def test_hysteresis_no_direct_flip():
+    # a strong reversal inside min_hold does not flip, and it goes straight to
+    # short once min_hold is up (the long exit condition is met on that bar)
+    assert _hyst([.54, .40, .40, .40], theta_in=.03, min_hold=3) == [1, 1, 1, -1]
+    # on random p: every long<->short flip happens on a bar that meets the exit
+    # AND entry conditions, and never inside min_hold
+    rng = np.random.default_rng(0)
+    p = np.clip(0.5 + np.cumsum(rng.normal(0, 0.01, 5000)) * 0.1 + rng.normal(0, .03, 5000), 0, 1)
+    ti, to, mh = .03, .01, 6
+    pos = np.array(_hyst(p, theta_in=ti, theta_out=to, min_hold=mh))
+    chg = np.flatnonzero(np.diff(pos) != 0) + 1
+    assert len(chg) > 20 and np.diff(chg).min() >= mh
+    for i in chg:
+        if pos[i - 1] == 1 and pos[i] == -1:
+            assert p[i] <= .5 + to and p[i] < .5 - ti
+        if pos[i - 1] == -1 and pos[i] == 1:
+            assert p[i] >= .5 - to and p[i] > .5 + ti
+        if pos[i - 1] == 1 and pos[i] == 0:
+            assert p[i] <= .5 + to
+        if pos[i - 1] == -1 and pos[i] == 0:
+            assert p[i] >= .5 - to
 
 
 if __name__ == "__main__":

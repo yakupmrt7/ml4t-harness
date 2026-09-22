@@ -55,6 +55,46 @@ def signal_to_position(
     return pos.clip(-max_pos, max_pos)
 
 
+def hysteresis_position(
+    prob_up: pd.Series,
+    theta_in: float,
+    theta_out: float = 0.0,
+    min_hold: int = 1,
+) -> pd.Series:
+    """Discrete {-1, 0, +1} positions with an entry/exit band and a minimum hold.
+
+    Enter long when p > 0.5+theta_in, short when p < 0.5-theta_in. A long
+    exits when p <= 0.5+theta_out (a short when p >= 0.5-theta_out), going
+    straight to the opposite side only if that bar also meets its entry
+    condition. After any change, the position is frozen for min_hold bars
+    (min_hold=1: may change again on the next bar). NaN p holds the current
+    position. Cuts turnover vs signal_to_position: small wiggles of p around
+    the threshold no longer trade.
+    """
+    if not 0 <= theta_out < theta_in:
+        raise ValueError("need 0 <= theta_out < theta_in")
+    if min_hold < 1:
+        raise ValueError("min_hold must be >= 1")
+    p = prob_up.to_numpy(dtype=float)
+    out = np.zeros(len(p))
+    pos, since = 0, min_hold
+    hi_in, lo_in, hi_out, lo_out = 0.5 + theta_in, 0.5 - theta_in, 0.5 + theta_out, 0.5 - theta_out
+    for i, x in enumerate(p):
+        if since >= min_hold and x == x:
+            new = pos
+            if pos == 1 and x <= hi_out:
+                new = 0
+            elif pos == -1 and x >= lo_out:
+                new = 0
+            if new == 0:
+                new = 1 if x > hi_in else -1 if x < lo_in else 0
+            if new != pos:
+                pos, since = new, 0
+        out[i] = pos
+        since += 1
+    return pd.Series(out, index=prob_up.index)
+
+
 def run_backtest(
     close: pd.Series,
     target: pd.Series,
