@@ -7,14 +7,15 @@ labels 420,757  effective n 43,596  barriers {'vert': 0.68, 'sl': 0.16, 'pt': 0.
   shift-null p (gross)    0.053
   PSR(net SR > 0)         0.000   breakeven cost 0.68 bps/turnover
   purge probe AUC         naive +0.575 vs purged +0.538
-  Sharpe by delay         d=1: -7.39, d=2: -7.53, d=3: -7.65
+  Sharpe by delay (net)   d=1: -7.39, d=2: -7.53, d=3: -7.65
+  Sharpe by delay (gross) d=1: +1.04, d=2: +0.89, d=3: +0.77
   Sharpe by cost (bps)    0:+1.04, 1:-0.50, 2:-2.03, 4:-5.09, 6:-8.15, 8:-11.21, 12:-17.32
   [PASS] no lookahead-looking features
   [PASS] not implausibly good (gross Sharpe < 4.0)
   [PASS] pipeline clean (permuted labels -> AUC~0.5, Sharpe~0)
   [FAIL] timing edge beats shifted nulls (gross, p<0.05)
   [FAIL] net Sharpe > 0 with PSR > 0.95
-  [FAIL] survives 1 extra bar of delay
+  [PASS] gross edge survives 1 extra bar (d=2 keeps >50% of d=1)
 {
  "n_labels": 420757,
  "effective_n": 43596.318169723076,

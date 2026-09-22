@@ -4,8 +4,11 @@ Last 4 years of the archive (2022-09-01 .. 2026-08-31). 2022-08 is loaded
 only as warm-up for the 288-bar feature/vol windows; no label starts before
 2022-09-01. Config follows the README baseline recipe.
 
-Run from the repo root:  python research/p01_baseline/run.py
+Run from the repo root:  python research/p01_baseline/run.py [--no-log]
+--no-log re-runs an identical config without adding a trial to trials.json.
+OOS predictions are saved to preds.parquet (gitignored) for later re-evaluation.
 """
+import argparse
 import json
 import time
 from pathlib import Path
@@ -43,6 +46,9 @@ def load_bars():
 
 
 if __name__ == "__main__":
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--no-log", action="store_true", help="identical re-run: skip TrialLog.log")
+    args = ap.parse_args()
     t = time.time()
     bars = load_bars()
     close = bars["close"]
@@ -62,6 +68,7 @@ if __name__ == "__main__":
 
     res = validation_report(X, labels, close, SPLITTER, costs=COSTS, weights=u, pos_kwargs=POS)
     bt = res["backtest"]
+    res["preds"].rename("prob_up").rename_axis("t0").to_frame().to_parquet(OUT / "preds.parquet")
 
     # Perp funding: validation_report ignores it, so rerun the same positions with it.
     funding = load_funding("data/raw/BTCUSDT-fundingRate-*.zip")
@@ -74,7 +81,8 @@ if __name__ == "__main__":
               "labels": "triple_barrier pt=sl=1 width=ewm_vol(288)*sqrt(H)", "features": "basic_features",
               "model": "default_model", "weights": "average_uniqueness",
               "cv": "WalkForward(8, 0.4)", "pos": POS, "costs": [COSTS.fee_bps, COSTS.slippage_bps]}
-    trials.log("baseline_5m_1h", bt, params)
+    if not args.no_log:
+        trials.log("baseline_5m_1h", bt, params)
     s = summarize(bt, trials)
     if "dsr" not in s:   # single trial: nothing to deflate against, DSR == PSR
         s["n_trials"], s["dsr"] = len(trials), s["psr_vs_0"]

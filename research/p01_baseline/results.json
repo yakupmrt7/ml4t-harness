@@ -17,6 +17,11 @@
   "2": -7.532239507996671,
   "3": -7.653102956052718
  },
+ "delay_sharpe_gross": {
+  "1": 1.037623581693185,
+  "2": 0.8939530820650629,
+  "3": 0.7663909443502558
+ },
  "cost_sweep": {
   "0": 1.04,
   "1": -0.5,
@@ -34,7 +39,7 @@
   "pipeline clean (permuted labels -> AUC~0.5, Sharpe~0)": "True",
   "timing edge beats shifted nulls (gross, p<0.05)": false,
   "net Sharpe > 0 with PSR > 0.95": false,
-  "survives 1 extra bar of delay": "False"
+  "gross edge survives 1 extra bar (d=2 keeps >50% of d=1)": "True"
  },
  "n_labels": 420757,
  "effective_n": 43596.318169723076,

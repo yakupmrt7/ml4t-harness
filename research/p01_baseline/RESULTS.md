@@ -22,6 +22,9 @@ and the raw output is in `run.log`.
 | Costs | `CostModel(fee_bps=5, slippage_bps=0.5)`, delay=1 |
 
 ## validation_report verdict
+Refreshed after `3a30993` (the delay verdict now tests gross edge). This came
+from an identical re-run with `--no-log`, and every other number matched the
+original run exactly.
 ```
   OOS span                877 days (annualised Sharpe s.e. ~0.6)
   OOS AUC                 +0.528
@@ -30,14 +33,15 @@ and the raw output is in `run.log`.
   shift-null p (gross)    0.053
   PSR(net SR > 0)         0.000   breakeven cost 0.68 bps/turnover
   purge probe AUC         naive +0.575 vs purged +0.538
-  Sharpe by delay         d=1: -7.39, d=2: -7.53, d=3: -7.65
+  Sharpe by delay (net)   d=1: -7.39, d=2: -7.53, d=3: -7.65
+  Sharpe by delay (gross) d=1: +1.04, d=2: +0.89, d=3: +0.77
   Sharpe by cost (bps)    0:+1.04, 1:-0.50, 2:-2.03, 4:-5.09, 6:-8.15, 8:-11.21, 12:-17.32
   [PASS] no lookahead-looking features
   [PASS] not implausibly good (gross Sharpe < 4.0)
   [PASS] pipeline clean (permuted labels -> AUC~0.5, Sharpe~0)
   [FAIL] timing edge beats shifted nulls (gross, p<0.05)
   [FAIL] net Sharpe > 0 with PSR > 0.95
-  [FAIL] survives 1 extra bar of delay
+  [PASS] gross edge survives 1 extra bar (d=2 keeps >50% of d=1)
 ```
 
 ## Other numbers
@@ -67,8 +71,11 @@ and the raw output is in `run.log`.
   at 0.68 bps per unit of turnover. That is below the Binance VIP0 maker fee
   (about 2 bps) and far below taker cost (5 bps plus spread). One bp of cost
   is already enough to make it negative.
-- The delay check fails only because net is negative at every delay. It says
-  nothing extra about microstructure here.
+- **The gross edge that exists holds up under delay.** Gross Sharpe goes
+  1.04 → 0.89 → 0.77 at d=1/2/3, so d=2 keeps 86%. Whatever the model picks
+  up is unlikely to be bid-ask bounce. However, this is persistence of an edge that is
+  not itself significant (shift-null p = 0.053), so on its own it is weak
+  evidence.
 
 ## Next (each is a new logged trial)
 The binding constraint is turnover relative to edge per trade. The obvious
