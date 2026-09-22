@@ -1,0 +1,514 @@
+[
+ {
+  "name": "p02_sel in=0.01 out=0.0 hold=1",
+  "params": {
+   "theta_in": 0.01,
+   "theta_out": 0.0,
+   "min_hold": 1,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.02562308372314855,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.01 out=0.0 hold=6",
+  "params": {
+   "theta_in": 0.01,
+   "theta_out": 0.0,
+   "min_hold": 6,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.014888396683293595,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.01 out=0.0 hold=12",
+  "params": {
+   "theta_in": 0.01,
+   "theta_out": 0.0,
+   "min_hold": 12,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.010693945905958806,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.01 out=0.0 hold=24",
+  "params": {
+   "theta_in": 0.01,
+   "theta_out": 0.0,
+   "min_hold": 24,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.008416141164025753,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.01 out=0.005 hold=1",
+  "params": {
+   "theta_in": 0.01,
+   "theta_out": 0.005,
+   "min_hold": 1,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.03166887941372099,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.01 out=0.005 hold=6",
+  "params": {
+   "theta_in": 0.01,
+   "theta_out": 0.005,
+   "min_hold": 6,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.01587461729434203,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.01 out=0.005 hold=12",
+  "params": {
+   "theta_in": 0.01,
+   "theta_out": 0.005,
+   "min_hold": 12,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.011410932359878256,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.01 out=0.005 hold=24",
+  "params": {
+   "theta_in": 0.01,
+   "theta_out": 0.005,
+   "min_hold": 24,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.008149503856932938,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.02 out=0.0 hold=1",
+  "params": {
+   "theta_in": 0.02,
+   "theta_out": 0.0,
+   "min_hold": 1,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.017818844392048644,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.02 out=0.0 hold=6",
+  "params": {
+   "theta_in": 0.02,
+   "theta_out": 0.0,
+   "min_hold": 6,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.012638679842016635,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.02 out=0.0 hold=12",
+  "params": {
+   "theta_in": 0.02,
+   "theta_out": 0.0,
+   "min_hold": 12,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.008648510370096497,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.02 out=0.0 hold=24",
+  "params": {
+   "theta_in": 0.02,
+   "theta_out": 0.0,
+   "min_hold": 24,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.003998260153844444,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.02 out=0.01 hold=1",
+  "params": {
+   "theta_in": 0.02,
+   "theta_out": 0.01,
+   "min_hold": 1,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.02609740882213336,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.02 out=0.01 hold=6",
+  "params": {
+   "theta_in": 0.02,
+   "theta_out": 0.01,
+   "min_hold": 6,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.014630163383930469,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.02 out=0.01 hold=12",
+  "params": {
+   "theta_in": 0.02,
+   "theta_out": 0.01,
+   "min_hold": 12,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.009291728075976046,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.02 out=0.01 hold=24",
+  "params": {
+   "theta_in": 0.02,
+   "theta_out": 0.01,
+   "min_hold": 24,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.004449562015079319,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.03 out=0.0 hold=1",
+  "params": {
+   "theta_in": 0.03,
+   "theta_out": 0.0,
+   "min_hold": 1,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.013079535721801228,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.03 out=0.0 hold=6",
+  "params": {
+   "theta_in": 0.03,
+   "theta_out": 0.0,
+   "min_hold": 6,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.010272386622844716,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.03 out=0.0 hold=12",
+  "params": {
+   "theta_in": 0.03,
+   "theta_out": 0.0,
+   "min_hold": 12,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.00846914529334072,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.03 out=0.0 hold=24",
+  "params": {
+   "theta_in": 0.03,
+   "theta_out": 0.0,
+   "min_hold": 24,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.005616878892383021,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.03 out=0.015 hold=1",
+  "params": {
+   "theta_in": 0.03,
+   "theta_out": 0.015,
+   "min_hold": 1,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.02126050549719472,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.03 out=0.015 hold=6",
+  "params": {
+   "theta_in": 0.03,
+   "theta_out": 0.015,
+   "min_hold": 6,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.01243972320104174,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.03 out=0.015 hold=12",
+  "params": {
+   "theta_in": 0.03,
+   "theta_out": 0.015,
+   "min_hold": 12,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.009709828543256251,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.03 out=0.015 hold=24",
+  "params": {
+   "theta_in": 0.03,
+   "theta_out": 0.015,
+   "min_hold": 24,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.00913110874165005,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.05 out=0.0 hold=1",
+  "params": {
+   "theta_in": 0.05,
+   "theta_out": 0.0,
+   "min_hold": 1,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.006970851676540031,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.05 out=0.0 hold=6",
+  "params": {
+   "theta_in": 0.05,
+   "theta_out": 0.0,
+   "min_hold": 6,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.007162026402706796,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.05 out=0.0 hold=12",
+  "params": {
+   "theta_in": 0.05,
+   "theta_out": 0.0,
+   "min_hold": 12,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.006361261484611421,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.05 out=0.0 hold=24",
+  "params": {
+   "theta_in": 0.05,
+   "theta_out": 0.0,
+   "min_hold": 24,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.0037198094969124107,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.05 out=0.025 hold=1",
+  "params": {
+   "theta_in": 0.05,
+   "theta_out": 0.025,
+   "min_hold": 1,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.013564536899816014,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.05 out=0.025 hold=6",
+  "params": {
+   "theta_in": 0.05,
+   "theta_out": 0.025,
+   "min_hold": 6,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.01024323795070068,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.05 out=0.025 hold=12",
+  "params": {
+   "theta_in": 0.05,
+   "theta_out": 0.025,
+   "min_hold": 12,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.005311323996484291,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p02_sel in=0.05 out=0.025 hold=24",
+  "params": {
+   "theta_in": 0.05,
+   "theta_out": 0.025,
+   "min_hold": 24,
+   "costs": [
+    2,
+    0.5
+   ],
+   "segment": "pre-OOS PurgedKFold(5)"
+  },
+  "sr_per_period": -0.005811093939219485,
+  "n": 168192,
+  "ts": "2026-09-22T13:45:19"
+ }
+]

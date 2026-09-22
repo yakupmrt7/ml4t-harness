@@ -27,5 +27,23 @@
   "sr_per_period": -0.02278119168929561,
   "n": 252454,
   "ts": "2026-09-22T13:23:05"
+ },
+ {
+  "name": "p02_hysteresis",
+  "params": {
+   "base": "p01 config and OOS preds (research/p01_baseline/preds.parquet)",
+   "position": "hysteresis_position",
+   "theta_in": 0.05,
+   "theta_out": 0.0,
+   "min_hold": 24,
+   "selection": "pre-OOS (t0 < 2024-04-07) PurgedKFold(5, 0.01), max net Sharpe at maker cost",
+   "costs": [
+    2,
+    0.5
+   ]
+  },
+  "sr_per_period": -0.003102249223292444,
+  "n": 252454,
+  "ts": "2026-09-22T13:45:19"
  }
 ]
