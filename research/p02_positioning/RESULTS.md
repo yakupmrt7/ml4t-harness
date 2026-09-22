@@ -174,3 +174,36 @@ so the next levers are on the prediction side:
   funding rate, open interest, the perp–spot basis, and order-book imbalance
   from the collector (since 2026-07-25, so too short for OOS on its own).
 - Any choice between these should be made on the pre-OOS segment, as here.
+
+## Add-on: per-fold and long/short split
+Added later. This is reporting only: no trial and no refit.
+`addon_folds.py` rebuilds the selected p02 backtest from p01's
+`preds.parquet`, checks that it reproduces the gross Sharpe above exactly,
+and writes `addon_folds.json`. Folds are p01's 8 WalkForward test blocks.
+
+| fold | span | gross SR | net SR maker | exposure | BTC over fold |
+|---:|---|---:|---:|---:|---:|
+| 1 | 2024-04-07 → 2024-07-25 | +2.23 | +0.08 | 51% | -5% |
+| 2 | 2024-07-25 → 2024-11-12 | +1.44 | -0.42 | 52% | +31% |
+| 3 | 2024-11-12 → 2025-03-02 | -0.41 | -1.99 | 50% | -0% |
+| 4 | 2025-03-02 → 2025-06-19 | +3.37 | +1.48 | 43% | +22% |
+| 5 | 2025-06-19 → 2025-10-07 | +0.79 | -1.77 | 40% | +18% |
+| 6 | 2025-10-07 → 2026-01-24 | +0.79 | -0.67 | 43% | -28% |
+| 7 | 2026-01-24 → 2026-05-14 | -1.54 | -3.00 | 42% | -11% |
+| 8 | 2026-05-14 → 2026-08-31 | -0.72 | -2.45 | 40% | -1% |
+
+Each fold is about 110 days, so the per-fold Sharpe s.e. is about 1.8.
+Individual folds tell you little. The pattern does: gross Sharpe is positive
+in 5 of 8 folds, and the most recent two (2026) are both negative. Whatever
+edge the model had does not look stable.
+
+| leg | share of bars | gross P&L (sum of bar returns) | per year | hit rate |
+|---|---:|---:|---:|---:|
+| long | 28% | +48.5% | +20.2% | 50.9% |
+| short | 17% | +13.8% | +5.7% | 51.3% |
+| total | 45% | +62.3% | +25.9% | |
+
+BTC buy-and-hold over the OOS period was +13%. The long leg earns 78% of
+gross P&L. Market drift explains only a few points of that (about 28%
+exposure × 13%), so it is mostly timing rather than beta. The short leg is
+positive but small.
