@@ -1,0 +1,99 @@
+{
+ "n_archived_um_symbols": 1018,
+ "n_perps": 967,
+ "n_listed_by_2022_06": 170,
+ "universe": [
+  "BTCUSDT",
+  "ETHUSDT",
+  "ETCUSDT",
+  "SOLUSDT",
+  "MATICUSDT",
+  "GMTUSDT",
+  "AVAXUSDT",
+  "ADAUSDT",
+  "BNBUSDT",
+  "APEUSDT",
+  "SANDUSDT",
+  "OPUSDT",
+  "UNFIUSDT",
+  "XRPUSDT",
+  "DOTUSDT"
+ ],
+ "lifetimes": {
+  "BTCUSDT": {
+   "last_live_bar": "2026-09-01 00:00:00+00:00",
+   "archive_last_bar": "2026-09-01 00:00:00+00:00",
+   "delisted": false
+  },
+  "ETHUSDT": {
+   "last_live_bar": "2026-09-01 00:00:00+00:00",
+   "archive_last_bar": "2026-09-01 00:00:00+00:00",
+   "delisted": false
+  },
+  "ETCUSDT": {
+   "last_live_bar": "2026-09-01 00:00:00+00:00",
+   "archive_last_bar": "2026-09-01 00:00:00+00:00",
+   "delisted": false
+  },
+  "SOLUSDT": {
+   "last_live_bar": "2026-09-01 00:00:00+00:00",
+   "archive_last_bar": "2026-09-01 00:00:00+00:00",
+   "delisted": false
+  },
+  "MATICUSDT": {
+   "last_live_bar": "2024-09-04 09:00:00+00:00",
+   "archive_last_bar": "2024-09-11 09:45:00+00:00",
+   "delisted": true
+  },
+  "GMTUSDT": {
+   "last_live_bar": "2026-09-01 00:00:00+00:00",
+   "archive_last_bar": "2026-09-01 00:00:00+00:00",
+   "delisted": false
+  },
+  "AVAXUSDT": {
+   "last_live_bar": "2026-09-01 00:00:00+00:00",
+   "archive_last_bar": "2026-09-01 00:00:00+00:00",
+   "delisted": false
+  },
+  "ADAUSDT": {
+   "last_live_bar": "2026-09-01 00:00:00+00:00",
+   "archive_last_bar": "2026-09-01 00:00:00+00:00",
+   "delisted": false
+  },
+  "BNBUSDT": {
+   "last_live_bar": "2026-09-01 00:00:00+00:00",
+   "archive_last_bar": "2026-09-01 00:00:00+00:00",
+   "delisted": false
+  },
+  "APEUSDT": {
+   "last_live_bar": "2026-09-01 00:00:00+00:00",
+   "archive_last_bar": "2026-09-01 00:00:00+00:00",
+   "delisted": false
+  },
+  "SANDUSDT": {
+   "last_live_bar": "2026-09-01 00:00:00+00:00",
+   "archive_last_bar": "2026-09-01 00:00:00+00:00",
+   "delisted": false
+  },
+  "OPUSDT": {
+   "last_live_bar": "2026-09-01 00:00:00+00:00",
+   "archive_last_bar": "2026-09-01 00:00:00+00:00",
+   "delisted": false
+  },
+  "UNFIUSDT": {
+   "last_live_bar": "2024-10-30 09:05:00+00:00",
+   "archive_last_bar": "2026-09-01 00:00:00+00:00",
+   "delisted": true
+  },
+  "XRPUSDT": {
+   "last_live_bar": "2026-09-01 00:00:00+00:00",
+   "archive_last_bar": "2026-09-01 00:00:00+00:00",
+   "delisted": false
+  },
+  "DOTUSDT": {
+   "last_live_bar": "2026-09-01 00:00:00+00:00",
+   "archive_last_bar": "2026-09-01 00:00:00+00:00",
+   "delisted": false
+  }
+ }
+}
