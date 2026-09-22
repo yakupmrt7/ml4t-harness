@@ -1,0 +1,8 @@
+data/raw/*
+data/collector/*
+data/bars/*
+!data/**/.gitkeep
+__pycache__/
+*.egg-info/
+.venv/
+.ipynb_checkpoints/
