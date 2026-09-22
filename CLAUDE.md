@@ -17,6 +17,18 @@ when it comes up, and skip ML basics.
 - `data/raw` = Binance archive zips, `data/collector` = slices synced from the GCS collector, `data/bars` = parquet caches. All gitignored.
 - `trials.json`: the trial log. Committed. Never delete or edit its entries.
 
+## Research script conventions (research/pNN_<name>/run.py)
+- Take a `--no-log` flag that skips `TrialLog.log`. Re-running an identical
+  config (e.g. after a report-only harness change) is not a new trial. Any
+  change to data, features, labels, model, CV, positions or costs IS a new
+  trial and must be logged.
+- Save the OOS predictions to `research/pNN_<name>/preds.parquet` (index `t0`,
+  column `prob_up`; gitignored), so later re-evaluations need no refit.
+- On a `--no-log` re-run, check that every number unrelated to the change
+  matches the committed `results.json` exactly. If anything differs, stop and
+  find out why before updating RESULTS.md.
+- Commit `run.py`, `RESULTS.md`, `results.json` and `run.log`.
+
 ## Non-negotiable rules
 1. **Causality.** A feature at bar t may use data up to the close of bar t only. Trailing windows only, never `center=True` or `shift(-k)` in features. Bars are indexed by CLOSE time.
 2. **No delay=0.** Backtests use delay>=1. Report delay=2 as a robustness check.
