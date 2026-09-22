@@ -155,13 +155,23 @@ def validation_report(
     sweep = cost_sweep(c, target)
     res["cost_sweep"] = sweep["sharpe_net"].round(2).to_dict()
 
+    res["oos_years"] = len(c) / ppy
+    res["verdicts"] = verdicts(res, n_perm, too_good_sharpe)
+    res["backtest"] = bt
+    res["preds"] = preds
+    if verbose:
+        print_report(res)
+    return res
+
+
+def verdicts(res, n_perm, too_good_sharpe=4.0):
+    """Pass/fail block shared by validation_report and
+    portfolio.portfolio_validation_report. Sets res['sharpe_se']."""
     # Annualised Sharpe standard error is ~1/sqrt(years). On 1-2 months of
     # out-of-sample data that is ~3, so "too good" must scale with it.
-    years = len(c) / ppy
-    res["oos_years"] = years
-    res["sharpe_se"] = 1 / np.sqrt(years)
+    res["sharpe_se"] = 1 / np.sqrt(res["oos_years"])
     too_good = max(too_good_sharpe, 4 * res["sharpe_se"])
-    verdicts = {
+    v = {
         "no lookahead-looking features": not res["lookahead_suspects"],
         "not implausibly good (gross Sharpe < %.1f)" % too_good: abs(res["sharpe_gross"]) < too_good,
         "pipeline clean (permuted labels -> AUC~0.5, Sharpe~0)": (
@@ -173,12 +183,7 @@ def validation_report(
             res["delay_sharpe_gross"][1] > 0
             and res["delay_sharpe_gross"][2] > 0.5 * res["delay_sharpe_gross"][1]),
     }
-    res["verdicts"] = {k: bool(v) for k, v in verdicts.items()}   # numpy bools -> JSON true/false
-    res["backtest"] = bt
-    res["preds"] = preds
-    if verbose:
-        print_report(res)
-    return res
+    return {k: bool(x) for k, x in v.items()}   # numpy bools -> JSON true/false
 
 
 def print_report(res):

@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 
 from .data import asof_join
+from .labeling import ewm_vol
 
 
 def basic_features(bars: pd.DataFrame, windows=(1, 6, 12, 48, 288)) -> pd.DataFrame:
@@ -35,6 +36,27 @@ def basic_features(bars: pd.DataFrame, windows=(1, 6, 12, 48, 288)) -> pd.DataFr
     f["hour_sin"] = np.sin(2 * np.pi * hour / 24)
     f["hour_cos"] = np.cos(2 * np.pi * hour / 24)
     return f
+
+
+def scale_free_basic_features(bars: pd.DataFrame, windows=(1, 6, 12, 48, 288), z_window: int = 30 * 288) -> pd.DataFrame:
+    """basic_features with the asset-specific units removed, for pooling assets.
+
+    ret_w  -> ret_w / (ewm_vol(288) * sqrt(w)): returns in units of the
+              triple-barrier width (which is ewm_vol(288) * sqrt(H)).
+    vol_w  -> z-score of log(vol_w) over the trailing z_window bars
+              (min_periods 90%).
+    The other columns are already scale-free and are kept as they are.
+    Trailing windows only, per asset: call it once per asset.
+    """
+    f = basic_features(bars, windows)
+    sig = ewm_vol(bars["close"], 288)
+    for w in windows:
+        f[f"ret_{w}"] = f[f"ret_{w}"] / (sig * np.sqrt(w))
+    mp = int(0.9 * z_window)
+    for w in (48, 288):
+        lv = np.log(f[f"vol_{w}"].where(f[f"vol_{w}"] > 0))
+        f[f"vol_{w}"] = (lv - lv.rolling(z_window, min_periods=mp).mean()) / lv.rolling(z_window, min_periods=mp).std()
+    return f.rename(columns={**{f"ret_{w}": f"ret_{w}_vs" for w in windows}, "vol_48": "vol_48_z", "vol_288": "vol_288_z"})
 
 
 def positioning_features(

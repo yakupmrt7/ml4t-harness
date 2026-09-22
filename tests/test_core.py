@@ -10,7 +10,9 @@ from harness.weights import average_uniqueness, concurrency
 from harness.cv import PurgedKFold, WalkForward
 from harness.backtest import run_backtest, CostModel, hysteresis_position
 from harness.data import load_binance_klines, load_funding, asof_join, check_close_alignment
-from harness.features import basic_features, positioning_features
+from harness.features import basic_features, positioning_features, scale_free_basic_features
+from harness.portfolio import risk_scale, run_portfolio_backtest, portfolio_shift_null
+from harness.nulls import circular_shift_null
 
 
 def _bars(n=2000, seed=0):
@@ -252,6 +254,164 @@ def test_features_ignore_snapshot_stamped_at_bar_close():
     assert np.allclose(base.loc[t].to_numpy(), bumped.loc[t].to_numpy(), equal_nan=True)
     nxt = bars.index[-99]   # ... but the next bar sees it
     assert not np.allclose(base.loc[nxt].to_numpy(), bumped.loc[nxt].to_numpy(), equal_nan=True)
+
+
+# ---- multi-asset (p04) ----------------------------------------------------
+
+def _pooled_labels(seed=0):
+    """3 assets on shifted grids with different horizons, stacked on (t0, asset)."""
+    out = []
+    for j, (h, off) in enumerate(((24, 0), (12, 7), (36, 3))):
+        c = _bars(1500, seed + j)
+        c.index = c.index + pd.Timedelta(minutes=5 * off)
+        lab = fixed_horizon_labels(c, h)
+        lab.index = pd.MultiIndex.from_arrays([lab.index, [f"A{j}"] * len(lab)], names=["t0", "asset"])
+        out.append(lab)
+    return pd.concat(out).sort_index(level=0, sort_remaining=True)
+
+
+def test_pooled_purged_kfold_purges_across_assets():
+    lab = _pooled_labels()
+    t1 = lab["t1"]
+    t0 = t1.index.get_level_values(0)
+    cross_asset_purged = 0
+    for train, test in PurgedKFold(5, 0.02).split(t1):
+        a, b = t0[test].min(), t1.iloc[test].max()
+        overlap = (t0[train] <= b) & (t1.iloc[train].to_numpy() >= a)
+        assert not overlap.any()   # no row of ANY asset overlaps the test block
+        # rows that were purged, by asset: other assets' labels must be purged too
+        dropped = np.setdiff1d(np.setdiff1d(np.arange(len(t1)), test), train)
+        cross_asset_purged += len(set(t1.index[dropped].get_level_values(1)))
+    assert cross_asset_purged >= 5 * 2
+
+
+def test_pooled_walk_forward_strictly_past_across_assets():
+    lab = _pooled_labels(1)
+    t1 = lab["t1"]
+    t0 = t1.index.get_level_values(0)
+    for train, test in WalkForward(4, 0.4).split(t1):
+        assert (t1.iloc[train].to_numpy() < t0[test].min()).all()
+
+
+def test_multiindex_single_asset_matches_plain():
+    c = _bars()
+    lab = fixed_horizon_labels(c, 24)
+    mi = lab.copy()
+    mi.index = pd.MultiIndex.from_arrays([lab.index, ["X"] * len(lab)])
+    for sp in (PurgedKFold(5, 0.02), WalkForward(3, 0.5)):
+        for (tr, te), (tr2, te2) in zip(sp.split(lab["t1"]), sp.split(mi["t1"])):
+            assert np.array_equal(tr, tr2) and np.array_equal(te, te2)
+
+
+def test_pooled_split_rejects_unsorted_time():
+    lab = _pooled_labels()
+    try:
+        next(PurgedKFold(5).split(lab["t1"].sort_index(level=1)))
+    except ValueError:
+        return
+    raise AssertionError("unsorted pooled t0 accepted")
+
+
+def test_portfolio_backtest_matches_run_backtest():
+    c = _bars(3000, 3)
+    rng = np.random.default_rng(0)
+    tgt = pd.Series(rng.choice([-1.0, 0.0, 0.5, 1.0], len(c)), c.index).iloc[100:2900]
+    for d in (1, 2):
+        cm = CostModel(fee_bps=3, slippage_bps=1)
+        ref = run_backtest(c.loc[tgt.index[0]:tgt.index[-1]], tgt, cm, delay=d)
+        pf, parts = run_portfolio_backtest({"X": c}, {"X": tgt}, cm, delay=d)
+        for k in ("gross", "cost", "net"):
+            assert np.allclose(pf[k].to_numpy(), ref[k].to_numpy(), atol=1e-15)
+        assert np.allclose(parts["held"]["X"].to_numpy(), ref["held"].to_numpy())
+
+
+def test_portfolio_sums_assets_on_union_grid():
+    a, b = _bars(2000, 4), _bars(2000, 5)
+    b.index = b.index + pd.Timedelta("1h")          # b starts later, ends later
+    rng = np.random.default_rng(1)
+    ta = pd.Series(rng.choice([-1.0, 0, 1.0], len(a)), a.index)
+    tb = pd.Series(rng.choice([-1.0, 0, 1.0], len(b)), b.index)
+    cm = CostModel(2, 0.5)
+    pf, parts = run_portfolio_backtest({"a": a, "b": b}, {"a": ta, "b": tb}, cm)
+    ra, rb = run_backtest(a, ta, cm), run_backtest(b, tb, cm)
+    # a is "delisted" relative to b's grid: its last bar is flattened, so compare before it
+    cut = a.index[-2]
+    assert np.allclose(parts["net"]["a"].loc[:cut].to_numpy(), ra["net"].loc[:cut].to_numpy())
+    assert np.allclose(parts["net"]["b"].loc[b.index].to_numpy(), rb["net"].to_numpy())
+    assert np.allclose(pf["net"].to_numpy(), parts["net"].sum(axis=1).to_numpy())
+
+
+def test_delisted_asset_exits_at_last_close_and_pays_once():
+    a = _bars(1000, 6)
+    b = a.iloc[:600] * 2                             # b delists at bar 599
+    tgt = pd.Series(1.0, a.index)
+    cm = CostModel(fee_bps=10, slippage_bps=0)
+    for d in (1, 2):
+        pf, parts = run_portfolio_backtest({"a": a, "b": b}, {"a": tgt, "b": tgt}, cm, delay=d)
+        held, gross, cost = parts["held"]["b"], parts["gross"]["b"], parts["cost"]["b"]
+        tl = b.index[-1]
+        assert (held.loc[tl:].iloc[d:] == 0).all()            # flat after the exit fill
+        assert (gross.loc[tl:].iloc[1:] == 0).all()           # no P&L after the last traded bar
+        assert np.isclose(cost.sum(), 2 * 10 / 1e4)           # one entry + one exit, nothing else
+        # held through the last traded bar, so gross = buy-and-hold to b's last close
+        live = b.pct_change().fillna(0)
+        assert np.isclose(gross.loc[:tl].sum(), live.iloc[d:].sum())
+
+
+def test_portfolio_shift_null_uses_one_offset_for_all_assets():
+    c = _bars(4000, 7)
+    rng = np.random.default_rng(2)
+    tgt = pd.Series(np.sign(rng.normal(size=len(c))), c.index).rolling(20).mean().fillna(0)
+    single = circular_shift_null(c, tgt, CostModel(0, 0), n=50, seed=3)
+    pair = portfolio_shift_null({"a": c, "b": c}, {"a": tgt, "b": tgt}, CostModel(0, 0), n=50, seed=3)
+    # identical assets + identical offsets -> portfolio = 2x the single asset, same Sharpe path
+    assert np.isclose(single[0], pair[0]) and np.allclose(single[1], pair[1]) and single[2] == pair[2]
+
+
+def test_portfolio_shift_null_finds_planted_timing():
+    c = _bars(6000, 8)
+    r = c.pct_change().shift(-1)                    # peeks: must beat every shifted copy
+    pk = np.sign(r).fillna(0)
+    null_ok = portfolio_shift_null({"a": c, "b": c * 3}, {"a": pk, "b": pk}, n=40)
+    assert null_ok[2] == 0.0
+    rng = np.random.default_rng(4)
+    rnd = pd.Series(rng.choice([-1.0, 1.0], len(c)), c.index)
+    assert portfolio_shift_null({"a": c, "b": c * 3}, {"a": rnd, "b": rnd}, n=40)[2] > 0.0
+
+
+def test_portfolio_shift_null_with_delisted_asset():
+    a = _bars(3000, 10)
+    b = a.iloc[:1800] * 2                           # delists 40% before the end
+    rng = np.random.default_rng(6)
+    tgt = pd.Series(rng.choice([-1.0, 0, 1.0], len(a)), a.index).rolling(12).mean().fillna(0)
+    actual, null, pv = portfolio_shift_null({"a": a, "b": b}, {"a": tgt, "b": tgt}, n=30)
+    pf, _ = run_portfolio_backtest({"a": a, "b": b}, {"a": tgt, "b": tgt}, CostModel(0, 0))
+    from harness.metrics import sharpe, periods_per_year
+    assert np.isclose(actual, sharpe(pf["gross"], periods_per_year(pf.index)))   # same book as the backtest
+    assert np.isfinite(null).all() and 0 <= pv <= 1
+
+
+def test_risk_scale_latched():
+    idx = pd.date_range("2026-01-01", periods=8, freq="5min")
+    pos = pd.Series([0, 1, 1, 1, -1, -1, 0, 1.0], idx)
+    vol = pd.Series([.5, .5, .25, .1, .25, 1.0, .5, .01], idx)
+    w = risk_scale(pos, vol, target_vol=0.5, cap=3)
+    assert list(w) == [0, 1, 1, 1, -2, -2, 0, 3]    # latched at entry, capped at 3
+    assert (risk_scale(pos, vol.where(vol.index != idx[1]), 0.5, 3).iloc[1:4] == 0).all()   # NaN vol at entry -> flat
+
+
+def test_scale_free_features_price_level_invariant_and_causal():
+    c = _bars(12000, 9)
+    rng = np.random.default_rng(5)
+    bars = pd.DataFrame({"close": c, "volume": rng.uniform(1, 2, len(c))})
+    bars["taker_buy_volume"] = bars["volume"] * rng.uniform(0.3, 0.7, len(c))
+    f = scale_free_basic_features(bars, z_window=2000)
+    g = scale_free_basic_features(bars.assign(close=bars["close"] * 1000, volume=bars["volume"] * 7,
+                                              taker_buy_volume=bars["taker_buy_volume"] * 7), z_window=2000)
+    assert np.allclose(f.to_numpy(), g.to_numpy(), equal_nan=True)
+    assert len(f.columns) == 15 and f.iloc[-1].notna().all()
+    h = scale_free_basic_features(bars.iloc[:9000], z_window=2000)
+    assert np.allclose(h.to_numpy(), f.iloc[:9000].to_numpy(), equal_nan=True)
 
 
 if __name__ == "__main__":

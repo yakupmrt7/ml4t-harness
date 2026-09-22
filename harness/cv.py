@@ -2,6 +2,9 @@
 
 All splitters take `t1`: a Series indexed by event start time t0 whose values
 are the label end times. They yield integer positions into that Series.
+For pooled multi-asset data the index may be a (t0, asset) MultiIndex sorted
+by t0: purging, embargo and walk-forward then use the t0 TIME of every row,
+so a test block also excludes other assets' labels that overlap it.
 
 PurgedKFold  -> model selection / hyperparameters (uses past AND future data
                 for training, purged + embargoed around each test block).
@@ -17,16 +20,23 @@ import numpy as np
 import pandas as pd
 
 
+def _t0(t1: pd.Series) -> np.ndarray:
+    """Event start times; level 0 of a (t0, asset) MultiIndex."""
+    idx = t1.index
+    return (idx.get_level_values(0) if isinstance(idx, pd.MultiIndex) else idx).to_numpy()
+
+
 def _check(t1: pd.Series):
-    if not t1.index.is_monotonic_increasing:
+    t0v = _t0(t1)
+    if (t0v[1:] < t0v[:-1]).any():
         raise ValueError("t1 index (t0) must be sorted")
-    if (t1.to_numpy() < t1.index.to_numpy()).any():
+    if (t1.to_numpy() < t0v).any():
         raise ValueError("found t1 < t0")
 
 
 def purge_train(t1: pd.Series, train_pos: np.ndarray, test_start, test_end) -> np.ndarray:
     """Drop training events whose label interval overlaps [test_start, test_end]."""
-    t0v = t1.index.to_numpy()[train_pos]
+    t0v = _t0(t1)[train_pos]
     t1v = t1.to_numpy()[train_pos]
     overlap = (t0v <= test_end) & (t1v >= test_start)
     return train_pos[~overlap]
@@ -42,7 +52,7 @@ class PurgedKFold:
         n = len(t1)
         emb = int(np.ceil(n * self.embargo_frac))
         pos = np.arange(n)
-        t0v = t1.index.to_numpy()
+        t0v = _t0(t1)
         for test_pos in np.array_split(pos, self.n_splits):
             a, b = test_pos[0], test_pos[-1]
             test_start = t0v[a]
@@ -76,7 +86,7 @@ class WalkForward:
         n = len(t1)
         pos = np.arange(n)
         start = int(n * self.min_train_frac)
-        t0v = t1.index.to_numpy()
+        t0v = _t0(t1)
         t1v = t1.to_numpy()
         for test_pos in np.array_split(pos[start:], self.n_splits):
             test_start = t0v[test_pos[0]]
