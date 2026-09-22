@@ -1,0 +1,48 @@
+[
+ {
+  "kind": "model",
+  "name": "pooled no_id",
+  "params": {
+   "features": "scale_free_basic_features",
+   "H": 48,
+   "cv": "PurgedKFold(5, 0.01) pooled",
+   "position": "hysteresis 0.05/0.025/48, risk-scaled",
+   "costs": "maker 2+0.5 portfolio"
+  },
+  "auc": 0.5256244718986715,
+  "sharpe_gross": 1.7927916492514213,
+  "breakeven_cost_bps": 2.507267931322347,
+  "turnover_per_year": 1473.4403866117534,
+  "mean_gross_exposure": 0.36844484198846233,
+  "mean_net_exposure": -0.015459002195700875,
+  "years": 1.6837116891018329,
+  "sharpe_maker": 0.00519574715976686,
+  "sharpe_taker": -2.1381788482437734,
+  "sr_per_period": 1.601978387611821e-05,
+  "n": 177113,
+  "ts": "2026-09-22T17:13:28"
+ },
+ {
+  "kind": "model",
+  "name": "pooled asset_id",
+  "params": {
+   "features": "scale_free_basic_features + asset one-hot",
+   "H": 48,
+   "cv": "PurgedKFold(5, 0.01) pooled",
+   "position": "hysteresis 0.05/0.025/48, risk-scaled",
+   "costs": "maker 2+0.5 portfolio"
+  },
+  "auc": 0.5275444637015066,
+  "sharpe_gross": 2.039826966483559,
+  "breakeven_cost_bps": 2.7741310056385062,
+  "turnover_per_year": 1455.706663256818,
+  "mean_gross_exposure": 0.36380306282280445,
+  "mean_net_exposure": -0.011850686754219932,
+  "years": 1.6837116891018329,
+  "sharpe_maker": 0.2015440260897475,
+  "sharpe_taker": -2.0030603815309296,
+  "sr_per_period": 0.0006214104805718376,
+  "n": 177113,
+  "ts": "2026-09-22T17:14:23"
+ }
+]

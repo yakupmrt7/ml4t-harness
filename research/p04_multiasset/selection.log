@@ -1,0 +1,31 @@
+pre-OOS pooled labels 2,656,211, effective n 73,541 (sum over assets), 2022-08-01 00:00:00+00:00 .. 2024-04-06 23:55:00+00:00
+lookahead audit: no suspects; max |IC next bar| by asset: {'ADAUSDT': 0.0406, 'APEUSDT': 0.0383, 'AVAXUSDT': 0.036, 'BNBUSDT': 0.0368, 'BTCUSDT': 0.0646, 'DOTUSDT': 0.0365, 'ETCUSDT': 0.0491, 'ETHUSDT': 0.0609, 'GMTUSDT': 0.0413, 'MATICUSDT': 0.0327, 'OPUSDT': 0.0381, 'SANDUSDT': 0.0391, 'SOLUSDT': 0.0466, 'UNFIUSDT': 0.0403, 'XRPUSDT': 0.0504}
+no_id     auc +0.5256  sharpe_gross +1.7928  breakeven_cost_bps +2.5073  turnover_per_year +1473.4404  mean_gross_exposure +0.3684  mean_net_exposure -0.0155  years +1.6837  sharpe_maker +0.0052  sharpe_taker -2.1382
+asset_id  auc +0.5275  sharpe_gross +2.0398  breakeven_cost_bps +2.7741  turnover_per_year +1455.7067  mean_gross_exposure +0.3638  mean_net_exposure -0.0119  years +1.6837  sharpe_maker +0.2015  sharpe_taker -2.0031
+asset id: AUC gain +0.0019, gross Sharpe +1.793 -> +2.040  => use_asset_id = False
+
+PER ASSET (pre-OOS PurgedKFold, unscaled +-1 hysteresis; net at maker):
+             auc  n_preds  sharpe_gross  sharpe_net_maker  turnover_per_year  breakeven_bps  exposure  mean_position  sharpe_net_taker
+asset                                                                                                                                 
+ADAUSDT    0.528   177092         1.637             0.837           1755.111          5.121     0.440          0.039            -0.121
+APEUSDT    0.520   177080         1.489             0.885           1765.257          6.159     0.441          0.035             0.159
+AVAXUSDT   0.523   177072         1.322             0.652           1759.298          4.935     0.447          0.033            -0.151
+BNBUSDT    0.530   177091         0.819            -0.227           1751.547          1.958     0.446         -0.009            -1.480
+BTCUSDT    0.526   177067         0.160            -1.013           1724.167          0.341     0.441         -0.004            -2.416
+DOTUSDT    0.530   177085         0.976             0.165           1742.103          3.008     0.443          0.025            -0.808
+ETCUSDT    0.536   177090         1.673             0.953           1728.977          5.809     0.436          0.012             0.089
+ETHUSDT    0.530   177094         0.244            -0.740           1721.791          0.620     0.442          0.011            -1.919
+GMTUSDT    0.517   177086         0.407            -0.159           1756.942          1.799     0.446          0.028            -0.837
+MATICUSDT  0.522   177090         1.162             0.450           1769.325          4.078     0.450          0.043            -0.405
+OPUSDT     0.517   177063         1.269             0.767           1747.389          6.322     0.440          0.034             0.165
+SANDUSDT   0.528   177090         1.592             0.925           1746.795          5.968     0.442          0.011             0.125
+SOLUSDT    0.520   177060         1.029             0.530           1771.447          5.160     0.445          0.042            -0.068
+UNFIUSDT   0.520   177058         0.637             0.171           1751.893          3.414     0.437         -0.003            -0.389
+XRPUSDT    0.540   177093         0.893             0.101           1734.322          2.817     0.436          0.008            -0.850
+
+PORTFOLIO (pre-OOS, risk-scaled): {"auc": 0.5256, "sharpe_gross": 1.7928, "breakeven_cost_bps": 2.5073, "turnover_per_year": 1473.4404, "mean_gross_exposure": 0.3684, "mean_net_exposure": -0.0155, "years": 1.6837, "sharpe_maker": 0.0052, "sharpe_taker": -2.1382}
+CORRELATION: {"daily": {"n_assets": 15, "avg_pairwise_corr": 0.22310624829366354, "effective_n": 3.6376974798395536}, "bar": {"n_assets": 15, "avg_pairwise_corr": 0.21829739630102402, "effective_n": 3.698075736271414}}
+LONG/SHORT gross share: {'long': 0.5178623340952249, 'short': 0.482137665904775}
+
+KILL CHECK: pooled AUC 0.5256 (min 0.52), breakeven 2.51 bps (min 3.5)  =>  KILLED: do not run OOS
+(155s)

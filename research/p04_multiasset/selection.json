@@ -1,0 +1,390 @@
+{
+ "assets": {
+  "BTCUSDT": {
+   "first_bar": "2022-06-01 00:00:00+00:00",
+   "last_bar": "2026-09-01 00:00:00+00:00",
+   "labels": 429540,
+   "effective_n": 12184.043671623207,
+   "zero_trade_bars": 43
+  },
+  "ETHUSDT": {
+   "first_bar": "2022-06-01 00:05:00+00:00",
+   "last_bar": "2026-09-01 00:00:00+00:00",
+   "labels": 429570,
+   "effective_n": 12114.74269757923,
+   "zero_trade_bars": 24
+  },
+  "ETCUSDT": {
+   "first_bar": "2022-06-01 00:05:00+00:00",
+   "last_bar": "2026-09-01 00:00:00+00:00",
+   "labels": 429570,
+   "effective_n": 12102.981180645751,
+   "zero_trade_bars": 24
+  },
+  "SOLUSDT": {
+   "first_bar": "2022-06-01 00:05:00+00:00",
+   "last_bar": "2026-09-01 00:00:00+00:00",
+   "labels": 429570,
+   "effective_n": 12170.151222629873,
+   "zero_trade_bars": 24
+  },
+  "MATICUSDT": {
+   "first_bar": "2022-06-01 00:05:00+00:00",
+   "last_bar": "2024-09-04 09:00:00+00:00",
+   "labels": 220367,
+   "effective_n": 6211.712786262059,
+   "zero_trade_bars": 3
+  },
+  "GMTUSDT": {
+   "first_bar": "2022-06-01 00:05:00+00:00",
+   "last_bar": "2026-09-01 00:00:00+00:00",
+   "labels": 429546,
+   "effective_n": 12044.952264346251,
+   "zero_trade_bars": 26
+  },
+  "AVAXUSDT": {
+   "first_bar": "2022-06-01 00:05:00+00:00",
+   "last_bar": "2026-09-01 00:00:00+00:00",
+   "labels": 429570,
+   "effective_n": 12252.277746678601,
+   "zero_trade_bars": 24
+  },
+  "ADAUSDT": {
+   "first_bar": "2022-06-01 00:05:00+00:00",
+   "last_bar": "2026-09-01 00:00:00+00:00",
+   "labels": 429570,
+   "effective_n": 12080.421145146816,
+   "zero_trade_bars": 24
+  },
+  "BNBUSDT": {
+   "first_bar": "2022-06-01 00:05:00+00:00",
+   "last_bar": "2026-09-01 00:00:00+00:00",
+   "labels": 429570,
+   "effective_n": 12143.485008581294,
+   "zero_trade_bars": 24
+  },
+  "APEUSDT": {
+   "first_bar": "2022-06-01 00:05:00+00:00",
+   "last_bar": "2026-09-01 00:00:00+00:00",
+   "labels": 429570,
+   "effective_n": 12052.84350571655,
+   "zero_trade_bars": 24
+  },
+  "SANDUSDT": {
+   "first_bar": "2022-06-01 00:05:00+00:00",
+   "last_bar": "2026-09-01 00:00:00+00:00",
+   "labels": 429570,
+   "effective_n": 12117.13775633571,
+   "zero_trade_bars": 24
+  },
+  "OPUSDT": {
+   "first_bar": "2022-06-01 14:05:00+00:00",
+   "last_bar": "2026-09-01 00:00:00+00:00",
+   "labels": 429570,
+   "effective_n": 12107.242510170361,
+   "zero_trade_bars": 24
+  },
+  "UNFIUSDT": {
+   "first_bar": "2022-06-01 00:05:00+00:00",
+   "last_bar": "2024-10-30 09:05:00+00:00",
+   "labels": 236458,
+   "effective_n": 6513.352208120629,
+   "zero_trade_bars": 19
+  },
+  "XRPUSDT": {
+   "first_bar": "2022-06-01 00:05:00+00:00",
+   "last_bar": "2026-09-01 00:00:00+00:00",
+   "labels": 429570,
+   "effective_n": 11987.437262625564,
+   "zero_trade_bars": 24
+  },
+  "DOTUSDT": {
+   "first_bar": "2022-06-01 00:05:00+00:00",
+   "last_bar": "2026-09-01 00:00:00+00:00",
+   "labels": 429570,
+   "effective_n": 12051.64838073916,
+   "zero_trade_bars": 24
+  }
+ },
+ "pre_oos_labels": 2656211,
+ "pre_oos_effective_n": 73541.39237970296,
+ "pre_oos_effective_n_by_asset": {
+  "ADAUSDT": 4880.408165374765,
+  "APEUSDT": 4899.363845224416,
+  "AVAXUSDT": 4931.74914439231,
+  "BNBUSDT": 4872.852380382416,
+  "BTCUSDT": 4945.405469641006,
+  "DOTUSDT": 4908.025477272926,
+  "ETCUSDT": 4902.137299870935,
+  "ETHUSDT": 4926.256245036665,
+  "GMTUSDT": 4884.805855775327,
+  "MATICUSDT": 4972.41193676606,
+  "OPUSDT": 4922.189010494598,
+  "SANDUSDT": 4902.992732739165,
+  "SOLUSDT": 4936.4560991264625,
+  "UNFIUSDT": 4859.146570749736,
+  "XRPUSDT": 4797.19214685618
+ },
+ "sel_end": "2024-04-07 00:00:00+00:00",
+ "lookahead_max_abs_ic_next_by_asset": {
+  "ADAUSDT": 0.04064573055800475,
+  "APEUSDT": 0.038325811456713876,
+  "AVAXUSDT": 0.03595525892318156,
+  "BNBUSDT": 0.036760795234726105,
+  "BTCUSDT": 0.06462491705431436,
+  "DOTUSDT": 0.03653985955929256,
+  "ETCUSDT": 0.049095311978335276,
+  "ETHUSDT": 0.06085038579348379,
+  "GMTUSDT": 0.04129230414700784,
+  "MATICUSDT": 0.03266555421283957,
+  "OPUSDT": 0.038123714032167105,
+  "SANDUSDT": 0.03914043313643284,
+  "SOLUSDT": 0.04657976644173497,
+  "UNFIUSDT": 0.04031651757142128,
+  "XRPUSDT": 0.050421812371328006
+ },
+ "asset_id_rule": "include iff AUC gain >= 0.002 and portfolio gross Sharpe higher",
+ "asset_id_candidates": {
+  "no_id": {
+   "auc": 0.5256244718986715,
+   "sharpe_gross": 1.7927916492514213,
+   "breakeven_cost_bps": 2.507267931322347,
+   "turnover_per_year": 1473.4403866117534,
+   "mean_gross_exposure": 0.36844484198846233,
+   "mean_net_exposure": -0.015459002195700875,
+   "years": 1.6837116891018329,
+   "sharpe_maker": 0.00519574715976686,
+   "sharpe_taker": -2.1381788482437734
+  },
+  "asset_id": {
+   "auc": 0.5275444637015066,
+   "sharpe_gross": 2.039826966483559,
+   "breakeven_cost_bps": 2.7741310056385062,
+   "turnover_per_year": 1455.706663256818,
+   "mean_gross_exposure": 0.36380306282280445,
+   "mean_net_exposure": -0.011850686754219932,
+   "years": 1.6837116891018329,
+   "sharpe_maker": 0.2015440260897475,
+   "sharpe_taker": -2.0030603815309296
+  }
+ },
+ "use_asset_id": false,
+ "chosen": "no_id",
+ "portfolio": {
+  "auc": 0.5256244718986715,
+  "sharpe_gross": 1.7927916492514213,
+  "breakeven_cost_bps": 2.507267931322347,
+  "turnover_per_year": 1473.4403866117534,
+  "mean_gross_exposure": 0.36844484198846233,
+  "mean_net_exposure": -0.015459002195700875,
+  "years": 1.6837116891018329,
+  "sharpe_maker": 0.00519574715976686,
+  "sharpe_taker": -2.1381788482437734
+ },
+ "per_asset": [
+  {
+   "asset": "ADAUSDT",
+   "auc": 0.5283174086376623,
+   "n_preds": 177092,
+   "sharpe_gross": 1.6366406438171566,
+   "sharpe_net_maker": 0.8374929544928181,
+   "turnover_per_year": 1755.1105264049418,
+   "breakeven_bps": 5.121394808198577,
+   "exposure": 0.44028750981045356,
+   "mean_position": 0.03915147340308401,
+   "sharpe_net_taker": -0.12085719404001925
+  },
+  {
+   "asset": "APEUSDT",
+   "auc": 0.5196943944080277,
+   "n_preds": 177080,
+   "sharpe_gross": 1.4890359661190005,
+   "sharpe_net_maker": 0.8845118750700571,
+   "turnover_per_year": 1765.257444862283,
+   "breakeven_bps": 6.159169516491604,
+   "exposure": 0.440971869318246,
+   "mean_position": 0.034720104798364786,
+   "sharpe_net_taker": 0.1592641330192176
+  },
+  {
+   "asset": "AVAXUSDT",
+   "auc": 0.5233426476899543,
+   "n_preds": 177072,
+   "sharpe_gross": 1.322315331598273,
+   "sharpe_net_maker": 0.6524336691479309,
+   "turnover_per_year": 1759.2979492275726,
+   "breakeven_bps": 4.935381569658066,
+   "exposure": 0.44729085734935403,
+   "mean_position": 0.03310484235251603,
+   "sharpe_net_taker": -0.15118681618213753
+  },
+  {
+   "asset": "BNBUSDT",
+   "auc": 0.5295817373649798,
+   "n_preds": 177091,
+   "sharpe_gross": 0.8193867662609539,
+   "sharpe_net_maker": -0.22685455763786527,
+   "turnover_per_year": 1751.5468502091956,
+   "breakeven_bps": 1.9577442353957777,
+   "exposure": 0.4458491194588582,
+   "mean_position": -0.008859051307966371,
+   "sharpe_net_taker": -1.4798389125236109
+  },
+  {
+   "asset": "BTCUSDT",
+   "auc": 0.525507178968599,
+   "n_preds": 177067,
+   "sharpe_gross": 0.16003546439081495,
+   "sharpe_net_maker": -1.0128120456858969,
+   "turnover_per_year": 1724.1669216827675,
+   "breakeven_bps": 0.34097572029704726,
+   "exposure": 0.44067346835071397,
+   "mean_position": -0.0044096142011032504,
+   "sharpe_net_taker": -2.415930738383619
+  },
+  {
+   "asset": "DOTUSDT",
+   "auc": 0.5300118173483797,
+   "n_preds": 177085,
+   "sharpe_gross": 0.9760160563781821,
+   "sharpe_net_maker": 0.16480281785124343,
+   "turnover_per_year": 1742.1027323391736,
+   "breakeven_bps": 3.0080295042734453,
+   "exposure": 0.4431651995189186,
+   "mean_position": 0.025256774382979203,
+   "sharpe_net_taker": -0.807733347444296
+  },
+  {
+   "asset": "ETCUSDT",
+   "auc": 0.5361522751991092,
+   "n_preds": 177090,
+   "sharpe_gross": 1.6734749321115376,
+   "sharpe_net_maker": 0.9530674753791343,
+   "turnover_per_year": 1728.9769009694705,
+   "breakeven_bps": 5.808883259070411,
+   "exposure": 0.43582128317909513,
+   "mean_position": 0.01240493035283755,
+   "sharpe_net_taker": 0.08891034139060551
+  },
+  {
+   "asset": "ETHUSDT",
+   "auc": 0.5296547788484158,
+   "n_preds": 177094,
+   "sharpe_gross": 0.24414780870248312,
+   "sharpe_net_maker": -0.7401261124228858,
+   "turnover_per_year": 1721.791218035943,
+   "breakeven_bps": 0.6199651438883943,
+   "exposure": 0.44171799924342087,
+   "mean_position": 0.011111550253228165,
+   "sharpe_net_taker": -1.9188286119494296
+  },
+  {
+   "asset": "GMTUSDT",
+   "auc": 0.5168094944236378,
+   "n_preds": 177086,
+   "sharpe_gross": 0.4068131712599007,
+   "sharpe_net_maker": -0.1586225096018836,
+   "turnover_per_year": 1756.9419656469154,
+   "breakeven_bps": 1.7986378230547373,
+   "exposure": 0.4460198077943784,
+   "mean_position": 0.028113742363157956,
+   "sharpe_net_taker": -0.8368309454413083
+  },
+  {
+   "asset": "MATICUSDT",
+   "auc": 0.521944219308977,
+   "n_preds": 177090,
+   "sharpe_gross": 1.1623573876359468,
+   "sharpe_net_maker": 0.4497736464095413,
+   "turnover_per_year": 1769.3252705930179,
+   "breakeven_bps": 4.0781638422422075,
+   "exposure": 0.44997769760206874,
+   "mean_position": 0.0428996505016628,
+   "sharpe_net_taker": -0.4050198877843158
+  },
+  {
+   "asset": "OPUSDT",
+   "auc": 0.5174036553307115,
+   "n_preds": 177063,
+   "sharpe_gross": 1.2686641702906556,
+   "sharpe_net_maker": 0.7668969861414914,
+   "turnover_per_year": 1747.3892279808251,
+   "breakeven_bps": 6.321836314401805,
+   "exposure": 0.4396720626513915,
+   "mean_position": 0.03393993461579723,
+   "sharpe_net_taker": 0.1648606703510126
+  },
+  {
+   "asset": "SANDUSDT",
+   "auc": 0.5276065603034088,
+   "n_preds": 177090,
+   "sharpe_gross": 1.5924812790385843,
+   "sharpe_net_maker": 0.9252429979535244,
+   "turnover_per_year": 1746.795281948201,
+   "breakeven_bps": 5.968167050374179,
+   "exposure": 0.4415184041285776,
+   "mean_position": 0.011382949290541875,
+   "sharpe_net_taker": 0.12482629140669224
+  },
+  {
+   "asset": "SOLUSDT",
+   "auc": 0.519736258269062,
+   "n_preds": 177060,
+   "sharpe_gross": 1.029251549715102,
+   "sharpe_net_maker": 0.5304877480063329,
+   "turnover_per_year": 1771.447133168057,
+   "breakeven_bps": 5.1595234031211525,
+   "exposure": 0.4452695719941043,
+   "mean_position": 0.042077740192119815,
+   "sharpe_net_taker": -0.06789296507860691
+  },
+  {
+   "asset": "UNFIUSDT",
+   "auc": 0.5202492993667263,
+   "n_preds": 177058,
+   "sharpe_gross": 0.63749297283929,
+   "sharpe_net_maker": 0.1706516717347024,
+   "turnover_per_year": 1751.8930604499865,
+   "breakeven_bps": 3.4139134041574644,
+   "exposure": 0.43712162284268546,
+   "mean_position": -0.00344492635763983,
+   "sharpe_net_taker": -0.38943948786678667
+  },
+  {
+   "asset": "XRPUSDT",
+   "auc": 0.5403811004379078,
+   "n_preds": 177093,
+   "sharpe_gross": 0.8933880636508738,
+   "sharpe_net_maker": 0.10051512808246134,
+   "turnover_per_year": 1734.3224152630896,
+   "breakeven_bps": 2.8170586899393295,
+   "exposure": 0.43575917383276774,
+   "mean_position": 0.007712851553015973,
+   "sharpe_net_taker": -0.8497644581358665
+  }
+ ],
+ "correlation": {
+  "daily": {
+   "n_assets": 15,
+   "avg_pairwise_corr": 0.22310624829366354,
+   "effective_n": 3.6376974798395536
+  },
+  "bar": {
+   "n_assets": 15,
+   "avg_pairwise_corr": 0.21829739630102402,
+   "effective_n": 3.698075736271414
+  }
+ },
+ "mean_single_asset_gross_sharpe_unscaled": 1.0207667709205837,
+ "long_short_gross_share": {
+  "long": 0.5178623340952249,
+  "short": 0.482137665904775
+ },
+ "kill_check": {
+  "pooled_auc": 0.5256244718986715,
+  "auc_min": 0.52,
+  "portfolio_breakeven_bps": 2.507267931322347,
+  "breakeven_min": 3.5,
+  "killed": true
+ }
+}
