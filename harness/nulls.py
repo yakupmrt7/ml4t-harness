@@ -144,6 +144,9 @@ def validation_report(
     res["turnover_per_year"] = s["turnover_per_year"]
     res["purge_probe_naive_auc"], res["purge_probe_purged_auc"] = purge_probe(X, labels, model_factory)
     res["delay_sharpe"] = delay_check(c, target, costs)
+    # Delay verdict uses GROSS Sharpe: net fails at every delay whenever costs
+    # dominate, which says nothing about whether the edge is microstructure.
+    res["delay_sharpe_gross"] = delay_check(c, target, CostModel(0, 0))
     sweep = cost_sweep(c, target)
     res["cost_sweep"] = sweep["sharpe_net"].round(2).to_dict()
 
@@ -161,7 +164,9 @@ def validation_report(
             and abs(res["perm_sharpe_mean"]) < 3 * res["perm_sharpe_std"] / np.sqrt(n_perm) + 0.25),
         "timing edge beats shifted nulls (gross, p<0.05)": res["shift_null_p_gross"] < 0.05,
         "net Sharpe > 0 with PSR > 0.95": res["psr_net"] > 0.95,
-        "survives 1 extra bar of delay": res["delay_sharpe"][2] > 0,
+        "gross edge survives 1 extra bar (d=2 keeps >50% of d=1)": (
+            res["delay_sharpe_gross"][1] > 0
+            and res["delay_sharpe_gross"][2] > 0.5 * res["delay_sharpe_gross"][1]),
     }
     res["verdicts"] = verdicts
     res["backtest"] = bt
@@ -180,7 +185,8 @@ def print_report(res):
     print(f"  shift-null p (gross)    {res['shift_null_p_gross']:.3f}")
     print(f"  PSR(net SR > 0)         {res['psr_net']:.3f}   breakeven cost {res['breakeven_cost_bps']:.2f} bps/turnover")
     print(f"  purge probe AUC         naive {f(res['purge_probe_naive_auc'])} vs purged {f(res['purge_probe_purged_auc'])}")
-    print(f"  Sharpe by delay         " + ", ".join(f"d={k}: {v:+.2f}" for k, v in res["delay_sharpe"].items()))
+    print(f"  Sharpe by delay (net)   " + ", ".join(f"d={k}: {v:+.2f}" for k, v in res["delay_sharpe"].items()))
+    print(f"  Sharpe by delay (gross) " + ", ".join(f"d={k}: {v:+.2f}" for k, v in res["delay_sharpe_gross"].items()))
     print(f"  Sharpe by cost (bps)    " + ", ".join(f"{k}:{v:+.2f}" for k, v in res["cost_sweep"].items()))
     if res["lookahead_suspects"]:
         print(f"  LOOKAHEAD SUSPECTS      {res['lookahead_suspects']}")
