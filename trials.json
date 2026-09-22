@@ -45,5 +45,27 @@
   "sr_per_period": -0.003102249223292444,
   "n": 252454,
   "ts": "2026-09-22T13:45:19"
+ },
+ {
+  "name": "p03_positioning_H48",
+  "params": {
+   "features": "basic_features (15) + positioning_features (25)",
+   "labels": "triple_barrier H=48 pt=sl=1 width=ewm_vol(288)*sqrt(H)",
+   "model": "default_model",
+   "weights": "average_uniqueness",
+   "cv": "WalkForward(8) from 2024-04-07 09:15:00+00:00",
+   "position": "hysteresis_position",
+   "theta_in": 0.05,
+   "theta_out": 0.025,
+   "min_hold": 48,
+   "costs": [
+    2,
+    0.5
+   ],
+   "selection": "pre-OOS (t0, t1 < 2024-04-07): H by PurgedKFold gross Sharpe, hysteresis by maker net Sharpe"
+  },
+  "sr_per_period": -2.9231137679143175e-06,
+  "n": 252418,
+  "ts": "2026-09-22T14:14:19"
  }
 ]
