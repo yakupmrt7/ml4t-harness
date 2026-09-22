@@ -40,5 +40,13 @@ when it comes up, and skip ML basics.
 8. A result is claimed only after `validation_report` has been run on it. Paste its verdict block into RESULTS.md.
 
 ## Data notes
-- Binance archive klines: close_time is ms before 2025 and us after; `load_binance_klines` handles both.
+- Binance archive timestamps: futures klines, premiumIndexKlines and funding are ms throughout;
+  SPOT klines switched to us on 2025-01-01. `load_binance_klines` decides the unit per row, so one
+  glob can span both.
+- `data/raw` layout: perp klines + fundingRate at top level; `premiumIndexKlines/`, `spot/`, `metrics/`
+  (daily files only) in subfolders, because premium/spot/perp kline files share the same file name.
+  `python scripts/download_binance.py --kinds metrics premium spot --start 2022-08 --end 2026-08`.
+- Snapshot data (metrics, funding) is joined with `asof_join` (strict: a row stamped T is first used
+  by the bar closing AFTER T). Metrics rows summarise the 5 min ENDING at T; funding rows are settled
+  rates with a few ms of stamp jitter. Top-trader long/short ratios are empty until 2022-12-14.
 - Collector (GCS, europe-west3): Polymarket CLOB, Binance spot/futures websockets and Chainlink, since 2026-07-25. The schema is not documented here yet, so ask or inspect a file before writing loaders.

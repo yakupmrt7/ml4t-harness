@@ -1,6 +1,6 @@
 """Unit tests for the parts where an off-by-one silently creates fake alpha.
 Run: python -m pytest tests -q   (or python tests/test_core.py)"""
-import sys, pathlib
+import sys, pathlib, tempfile
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 import numpy as np
 import pandas as pd
@@ -9,6 +9,8 @@ from harness.labeling import triple_barrier, fixed_horizon_labels, ewm_vol
 from harness.weights import average_uniqueness, concurrency
 from harness.cv import PurgedKFold, WalkForward
 from harness.backtest import run_backtest, CostModel, hysteresis_position
+from harness.data import load_binance_klines, load_funding, asof_join, check_close_alignment
+from harness.features import basic_features, positioning_features
 
 
 def _bars(n=2000, seed=0):
@@ -145,6 +147,111 @@ def test_hysteresis_no_direct_flip():
             assert p[i] <= .5 + to
         if pos[i - 1] == -1 and pos[i] == 0:
             assert p[i] >= .5 - to
+
+
+def _write(path, header, rows):
+    path.write_text(header + "\n" + "\n".join(",".join(map(str, r)) for r in rows) + "\n")
+
+
+def test_klines_mixed_ms_us_files():
+    # spot archive switched to microseconds in 2025; one glob must handle both
+    hdr = "open_time,open,high,low,close,volume,close_time,quote_volume,count,taker_buy_volume,taker_buy_quote_volume,ignore"
+    with tempfile.TemporaryDirectory() as d:
+        d = pathlib.Path(d)
+        t0 = 1735689300000  # 2024-12-31 23:55 UTC in ms
+        _write(d / "a-2024-12.csv", hdr, [[t0, 1, 1, 1, 1, 1, t0 + 299999, 1, 1, 0.5, 0.5, 0]])
+        t1 = (t0 + 300000) * 1000
+        _write(d / "a-2025-01.csv", hdr, [[t1, 2, 2, 2, 2, 1, t1 + 299999999, 1, 1, 0.5, 0.5, 0]])
+        k = load_binance_klines(str(d / "a-*.csv"))
+    assert list(k.index) == [pd.Timestamp("2025-01-01 00:00", tz="UTC"), pd.Timestamp("2025-01-01 00:05", tz="UTC")]
+
+
+def test_asof_join_strict_and_tolerance():
+    t = lambda s: pd.Timestamp(f"2026-01-01 {s}", tz="UTC")
+    snaps = pd.Series([1.0, 2.0, 3.0], [t("00:00"), t("00:05"), t("00:07")])
+    idx = pd.DatetimeIndex([t("00:05"), t("00:10"), t("00:15")])
+    out = asof_join(idx, snaps, tolerance="6min")
+    # the row stamped exactly at the bar close is NOT used; stale rows -> NaN
+    assert out.iloc[0] == 1.0 and out.iloc[1] == 3.0 and np.isnan(out.iloc[2])
+    assert asof_join(idx, snaps, tolerance="6min", allow_exact=True).iloc[0] == 2.0
+
+
+def test_funding_uses_last_settled_rate_only():
+    with tempfile.TemporaryDirectory() as d:
+        d = pathlib.Path(d)
+        base = 1704067200000  # 2024-01-01 00:00 UTC
+        # 08:00 settlement stamped exactly, 16:00 one stamped 6 ms late
+        _write(d / "f-2024-01.csv", "calc_time,funding_interval_hours,last_funding_rate",
+               [[base, 8, 0.0001], [base + 8 * 3600000, 8, 0.0002], [base + 16 * 3600000 + 6, 8, 0.0003]])
+        fr = load_funding(str(d / "f-*.csv"))
+    t = lambda s: pd.Timestamp(f"2024-01-01 {s}", tz="UTC")
+    idx = pd.DatetimeIndex([t("07:55"), t("08:00"), t("08:05"), t("16:00"), t("16:05")])
+    got = asof_join(idx, fr).tolist()
+    # a rate is usable from the first bar closing strictly after its settlement
+    assert got == [0.0001, 0.0001, 0.0002, 0.0002, 0.0003]
+
+
+def test_close_alignment_check():
+    c = _bars(3000)
+    spot = c * np.exp(np.random.default_rng(1).normal(0, 1e-5, len(c)))
+    assert check_close_alignment(c, spot)[0] > 0.9
+    try:  # spot accidentally indexed by OPEN time = shifted one bar
+        check_close_alignment(c, spot.shift(1))
+    except ValueError:
+        return
+    raise AssertionError
+
+
+def _positioning_inputs(days=40, seed=0):
+    rng = np.random.default_rng(seed)
+    n = days * 288
+    idx = pd.date_range("2026-01-01 00:05", periods=n, freq="5min", tz="UTC")
+    close = pd.Series(30000 * np.exp(np.cumsum(rng.normal(0, 1e-3, n))), idx)
+    bars = pd.DataFrame({"close": close, "volume": rng.uniform(1, 2, n)})
+    bars["taker_buy_volume"] = bars["volume"] * rng.uniform(0.3, 0.7, n)
+    mt = pd.DataFrame({
+        "sum_open_interest": 1e5 * np.exp(np.cumsum(rng.normal(0, 1e-3, n))),
+        "sum_open_interest_value": 1.0,
+        "count_toptrader_long_short_ratio": np.exp(rng.normal(0, .1, n)),
+        "sum_toptrader_long_short_ratio": np.exp(rng.normal(0, .1, n)),
+        "count_long_short_ratio": np.exp(rng.normal(0, .1, n)),
+        "sum_taker_long_short_vol_ratio": np.exp(rng.normal(0, .3, n)),
+    }, index=idx)
+    mt = mt.drop(idx[8950:9050])   # a data gap straddling the first t_cut below
+    fidx = pd.date_range(pd.Timestamp("2025-12-01", tz="UTC"), idx[-1], freq="8h") + pd.Timedelta("6ms")
+    funding = pd.Series(rng.normal(1e-4, 5e-5, len(fidx)), fidx)
+    spot = close * np.exp(rng.normal(0, 1e-4, n))
+    prem = pd.Series(rng.normal(0, 3e-4, n), idx)
+    return bars, mt, funding, spot, prem
+
+
+def test_features_prefix_invariant():
+    """Features at t computed from all data == computed from data up to t only.
+    Catches centred windows, shift(-k), forward-filled joins, full-sample stats."""
+    bars, mt, fr, spot, prem = _positioning_inputs()
+    full = positioning_features(bars, mt, fr, spot, prem).join(basic_features(bars), rsuffix="_b")
+    assert full.loc[bars.index[9000], "oi_chg_1h"] != full.loc[bars.index[9000], "oi_chg_1h"]  # NaN in the gap
+    for t_cut in (bars.index[9000], bars.index[-500]):
+        cut = lambda x: x[x.index <= t_cut]
+        part = positioning_features(cut(bars), cut(mt), cut(fr), cut(spot), cut(prem)).join(
+            basic_features(cut(bars)), rsuffix="_b")
+        a, b = full.loc[:t_cut].to_numpy(), part.to_numpy()
+        assert a.shape == b.shape and np.allclose(a, b, equal_nan=True, rtol=1e-9, atol=1e-12)
+    assert full.iloc[-1].notna().all()   # every feature is populated once warmed up
+
+
+def test_features_ignore_snapshot_stamped_at_bar_close():
+    bars, mt, fr, spot, prem = _positioning_inputs()
+    t = bars.index[-100]
+    base = positioning_features(bars, mt, fr, spot, prem)
+    mt2 = mt.copy()
+    mt2.loc[t] *= 3.0   # metrics row stamped exactly at the bar close
+    fr2 = fr.copy()
+    fr2.loc[t] = 0.05   # a settlement stamped exactly at the bar close
+    bumped = positioning_features(bars, mt2, fr2.sort_index(), spot, prem)
+    assert np.allclose(base.loc[t].to_numpy(), bumped.loc[t].to_numpy(), equal_nan=True)
+    nxt = bars.index[-99]   # ... but the next bar sees it
+    assert not np.allclose(base.loc[nxt].to_numpy(), bumped.loc[nxt].to_numpy(), equal_nan=True)
 
 
 if __name__ == "__main__":
