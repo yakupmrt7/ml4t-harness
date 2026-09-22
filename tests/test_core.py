@@ -11,7 +11,7 @@ from harness.cv import PurgedKFold, WalkForward
 from harness.backtest import run_backtest, CostModel, hysteresis_position
 from harness.data import load_binance_klines, load_funding, asof_join, check_close_alignment
 from harness.features import basic_features, positioning_features, scale_free_basic_features
-from harness.portfolio import risk_scale, run_portfolio_backtest, portfolio_shift_null
+from harness.portfolio import risk_scale, run_portfolio_backtest, portfolio_shift_null, funding_pnl
 from harness.nulls import circular_shift_null
 from harness.costs import (load_book_ticker, load_agg_trades, quote_asof, trade_proxy_quotes, effective_half_spread,
                            time_weighted_half_spread, simulate_maker, roll_half_spread, TableCostModel,
@@ -573,6 +573,24 @@ def test_monthly_cost_table_sources_and_calibration():
     floored = monthly_cost_table(o, days.assign(tick_bps_trades=[1.0, 8.0]), cal).set_index("month")
     assert floored.loc["2022-09", "method"] == "proxy_calibrated+tick_floor"
     assert np.isclose(floored.loc["2022-09", "half_spread_bps"], 4.0)    # 3.0 < tick/2 = 4.0
+
+
+def test_portfolio_funding_matches_run_backtest():
+    c = _bars(2000, 13)
+    rng = np.random.default_rng(7)
+    tgt = pd.Series(rng.choice([-1.0, 0, 1.0], len(c)), c.index).rolling(50).mean().fillna(0)
+    fund = pd.Series(rng.normal(1e-4, 2e-4, 20),
+                     index=c.index[::96][:20] + pd.Timedelta(milliseconds=7))   # stamp jitter after the mark
+    ref = run_backtest(c, tgt, CostModel(0, 0), funding=fund)
+    _, parts = run_portfolio_backtest({"X": c}, {"X": tgt}, CostModel(0, 0))
+    ch = funding_pnl(parts["held"], {"X": fund})
+    assert np.allclose(ch["X"].to_numpy(), ref["funding"].to_numpy())
+
+
+def test_table_cost_model_add_bps():
+    c = _bars(500, 14)
+    tab = pd.DataFrame({"asset": "X", "month": sorted(set(c.index.strftime("%Y-%m"))), "taker_all_in_bps": 5.0})
+    assert np.allclose(TableCostModel(tab, "X", add_bps=2.5).per_unit_at(c.index), 7.5e-4)
 
 
 if __name__ == "__main__":

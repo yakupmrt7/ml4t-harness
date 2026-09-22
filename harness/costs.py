@@ -226,6 +226,7 @@ class TableCostModel:
     asset: str
     column: str = "taker_all_in_bps"
     fallback_bps: float | None = None
+    add_bps: float = 0.0          # constant add-on, e.g. size impact beyond top of book
     include_funding: bool = True
 
     def per_unit_at(self, index: pd.DatetimeIndex) -> np.ndarray:
@@ -237,7 +238,7 @@ class TableCostModel:
                 missing = sorted(set(months[np.isnan(v)]))
                 raise KeyError(f"no {self.column} for {self.asset} in months {missing[:5]}...")
             v = np.where(np.isnan(v), self.fallback_bps, v)
-        return v / 1e4
+        return (v + self.add_bps) / 1e4
 
     @property
     def per_unit_turnover(self):

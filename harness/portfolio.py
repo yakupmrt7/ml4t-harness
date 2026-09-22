@@ -133,6 +133,27 @@ def run_portfolio_backtest(closes: dict, targets: dict, costs: CostModel = CostM
     return pf, parts
 
 
+def funding_pnl(held: pd.DataFrame, funding: dict) -> pd.DataFrame:
+    """Funding CHARGE per bar and asset (subtract it from P&L), same arithmetic
+    as backtest.run_backtest: the weight held into the first bar at or after a
+    settlement pays weight * rate (longs pay positive rates).
+
+    held    : parts['held'] from run_portfolio_backtest (grid x assets)
+    funding : {asset: Series of settled rates indexed by settlement time}"""
+    out = pd.DataFrame(0.0, index=held.index, columns=held.columns)
+    for a in held.columns:
+        f = funding.get(a)
+        if f is None or not len(f):
+            continue
+        f = f.sort_index()
+        f = f[(f.index >= held.index[0]) & (f.index <= held.index[-1])]
+        pos = np.minimum(held.index.searchsorted(f.index, side="left"), len(held) - 1)
+        charge = np.zeros(len(held))
+        np.add.at(charge, pos, f.to_numpy())
+        out[a] = held[a].to_numpy() * charge
+    return out
+
+
 def portfolio_stats(pf: pd.DataFrame) -> dict:
     ppy = periods_per_year(pf.index)
     years = len(pf) / ppy
