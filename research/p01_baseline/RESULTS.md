@@ -13,7 +13,7 @@ and the raw output is in `run.log`.
 | | |
 |---|---|
 | Data | Binance USD-M perp BTCUSDT 5m klines (`data/raw`), label t0 in [2022-09-01, 2026-09-01). 2022-08 was loaded only as feature warm-up. 429,696 bars, 0 gaps |
-| Features | `basic_features` (16 cols: returns 1..288, vol 48/288, z-ret, vol ratio, volume z, taker imbalance, hour sin/cos) |
+| Features | `basic_features` (15 cols: returns 1..288, vol 48/288, z-ret, vol ratio, volume z, taker imbalance, hour sin/cos) |
 | Labels | `triple_barrier`, H=12 (1h), pt=sl=1 x `ewm_vol(288)*sqrt(12)`. Barrier hit: vertical 68%, sl 16%, pt 16% |
 | Sample size | 420,757 labels, **effective n = 43,596** (sum of uniqueness, ~9.7x overlap) |
 | Model / weights | `default_model` (LightGBM), average-uniqueness sample weights |
