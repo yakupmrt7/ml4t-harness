@@ -82,7 +82,7 @@ if __name__ == "__main__":
     elif a.to_parquet:
         import pandas as pd
         rows = [json.loads(l) for l in open(a.to_parquet) if l.strip()]
-        out = pd.DataFrame([{"slug": r["slug"], "http": r["http"], "n": r["n"],
+        out = pd.DataFrame([{"slug": r["slug"], "http": r["http"], "n": r["n"], "query": r.get("query"),
                              **{k: (json.dumps(v) if isinstance(v, (list, dict)) else v)
                                 for k, v in (r["market"] or {}).items()}} for r in rows])
         assert out["slug"].map(slug_start).max() <= LAST_DEV_START

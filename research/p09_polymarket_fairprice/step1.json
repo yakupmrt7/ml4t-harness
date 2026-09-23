@@ -1,0 +1,224 @@
+{
+ "n_markets_dev_5m": 11964,
+ "by_rule": {
+  "btc-usd-twap-60s-streams": 6623,
+  "btc-usd": 3325,
+  "btc-usd-twap-30s-streams": 2016
+ },
+ "n_chainlink_complete": 11959,
+ "chainlink": {
+  "n_rounds": 108207,
+  "seconds_with_2plus_rounds": 5673,
+  "gap_s_quantiles": {
+   "0.05": 31.0,
+   "0.25": 33.0,
+   "0.5": 33.0,
+   "0.75": 33.0,
+   "0.95": 35.0,
+   "0.99": 44.0
+  },
+  "gap_s_max": 28816
+ },
+ "gamma_status": {
+  "ok": 11963,
+  "unresolved": 1
+ },
+ "final_mid": {
+  "n_with_mid": 11918,
+  "n_called": 11653
+ },
+ "agreement": {
+  "btc-usd": {
+   "A": {
+    "a_rebuilt_vs_gamma": {
+     "n": 3320,
+     "agree": 2900,
+     "rate": 0.8734939759036144
+    },
+    "c_rebuilt_vs_finalmid": {
+     "n": 3290,
+     "agree": 2880,
+     "rate": 0.8753799392097265
+    }
+   },
+   "B": {
+    "a_rebuilt_vs_gamma": {
+     "n": 3320,
+     "agree": 2900,
+     "rate": 0.8734939759036144
+    },
+    "c_rebuilt_vs_finalmid": {
+     "n": 3290,
+     "agree": 2880,
+     "rate": 0.8753799392097265
+    }
+   },
+   "C": {
+    "a_rebuilt_vs_gamma": {
+     "n": 3320,
+     "agree": 2900,
+     "rate": 0.8734939759036144
+    },
+    "c_rebuilt_vs_finalmid": {
+     "n": 3290,
+     "agree": 2880,
+     "rate": 0.8753799392097265
+    }
+   }
+  },
+  "btc-usd-twap-30s-streams": {
+   "A": {
+    "a_rebuilt_vs_gamma": {
+     "n": 2016,
+     "agree": 1830,
+     "rate": 0.9077380952380952
+    },
+    "c_rebuilt_vs_finalmid": {
+     "n": 2007,
+     "agree": 1821,
+     "rate": 0.9073243647234679
+    }
+   },
+   "B": {
+    "a_rebuilt_vs_gamma": {
+     "n": 2016,
+     "agree": 1878,
+     "rate": 0.9315476190476191
+    },
+    "c_rebuilt_vs_finalmid": {
+     "n": 2007,
+     "agree": 1869,
+     "rate": 0.9312406576980568
+    }
+   },
+   "C": {
+    "a_rebuilt_vs_gamma": {
+     "n": 2016,
+     "agree": 1837,
+     "rate": 0.9112103174603174
+    },
+    "c_rebuilt_vs_finalmid": {
+     "n": 2007,
+     "agree": 1829,
+     "rate": 0.911310413552566
+    }
+   }
+  },
+  "btc-usd-twap-60s-streams": {
+   "A": {
+    "a_rebuilt_vs_gamma": {
+     "n": 6622,
+     "agree": 6225,
+     "rate": 0.940048323769254
+    },
+    "c_rebuilt_vs_finalmid": {
+     "n": 6354,
+     "agree": 5974,
+     "rate": 0.9401951526597419
+    }
+   },
+   "B": {
+    "a_rebuilt_vs_gamma": {
+     "n": 6622,
+     "agree": 6165,
+     "rate": 0.9309876170341287
+    },
+    "c_rebuilt_vs_finalmid": {
+     "n": 6354,
+     "agree": 5912,
+     "rate": 0.9304375196726472
+    }
+   },
+   "C": {
+    "a_rebuilt_vs_gamma": {
+     "n": 6622,
+     "agree": 6011,
+     "rate": 0.9077318030806403
+    },
+    "c_rebuilt_vs_finalmid": {
+     "n": 6354,
+     "agree": 5766,
+     "rate": 0.9074598677998111
+    }
+   }
+  }
+ },
+ "b_finalmid_vs_gamma": {
+  "btc-usd": {
+   "n": 3290,
+   "agree": 3290,
+   "rate": 1.0
+  },
+  "btc-usd-twap-30s-streams": {
+   "n": 2007,
+   "agree": 2007,
+   "rate": 1.0
+  },
+  "btc-usd-twap-60s-streams": {
+   "n": 6355,
+   "agree": 6355,
+   "rate": 1.0
+  }
+ },
+ "best_candidate": {
+  "btc-usd": "B",
+  "btc-usd-twap-30s-streams": "B",
+  "btc-usd-twap-60s-streams": "A"
+ },
+ "a_overall_best": {
+  "n": 11958,
+  "agree": 11003,
+  "rate": 0.9201371466800469
+ },
+ "a_by_margin": {
+  "(-0.001, 1e-05]": {
+   "size": 252,
+   "mean": 0.5912698412698413
+  },
+  "(0.0001, 0.0003]": {
+   "size": 2753,
+   "mean": 0.8935706501997821
+  },
+  "(0.0003, 0.001]": {
+   "size": 4751,
+   "mean": 0.9789517996211324
+  },
+  "(0.001, inf]": {
+   "size": 2438,
+   "mean": 0.9983593109105825
+  },
+  "(1e-05, 3e-05]": {
+   "size": 468,
+   "mean": 0.6816239316239316
+  },
+  "(3e-05, 0.0001]": {
+   "size": 1295,
+   "mean": 0.7637065637065638
+  }
+ },
+ "a_by_rounds_in_end_window": {
+  "0": {
+   "size": 5337,
+   "mean": 0.8954468802698144
+  },
+  "1": {
+   "size": 1286,
+   "mean": 0.9315707620528771
+  },
+  "2": {
+   "size": 5272,
+   "mean": 0.9413884673748103
+  },
+  "3": {
+   "size": 63,
+   "mean": 1.0
+  }
+ },
+ "zero_rounds_in_end_window_frac": {
+  "btc-usd": 1.0,
+  "btc-usd-twap-30s-streams": 1.0,
+  "btc-usd-twap-60s-streams": 0.00015101177891875566
+ },
+ "n_disagreements": 955,
+ "gate_99": false
+}
