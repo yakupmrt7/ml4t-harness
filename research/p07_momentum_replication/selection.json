@@ -1,0 +1,184 @@
+{
+ "plan": "research/p07_momentum_replication/PLAN.md",
+ "cost_bps_flat": 12,
+ "min_live": 8,
+ "windows": {
+  "new_2020-10_2022-07": {
+   "days": 657,
+   "sr_gross": 2.667199823773439,
+   "sr_se": 0.7453559924999299,
+   "t_gross": 3.5784240693197216,
+   "t_nw10": 3.3437481394586634,
+   "turnover_units": 1166.0,
+   "turnover_units_per_year": 647.7777777777777,
+   "breakeven_bps": 125.21952164758461,
+   "breakeven_se_bps": 34.992924041948314,
+   "breakeven_minus_1se": 90.2265976056363,
+   "sr_net_12bps": 2.4130238041959,
+   "sr_price_only": 2.682251796944398,
+   "beta_to_ew_live": 0.12430512753006491,
+   "sr_gross_beta_hedged": 2.5719120511743996,
+   "first_decision": "2020-10-01 04:00:00+00:00",
+   "last_decision": "2022-07-31 04:00:00+00:00",
+   "decisions": 669,
+   "days_dropped_lt8_live": 12,
+   "first_day_with_book": "2020-10-13 04:00:00+00:00",
+   "n_live_min_max_mean": [
+    8,
+    15,
+    11.802130898021309
+   ],
+   "mean_legs_changed_per_day": 0.6502242152466368,
+   "funding_share_of_gross": -0.0037202528695582165,
+   "per_segment_sr_gross": {
+    "2020Q4": {
+     "sr": 5.693397685933221,
+     "days": 80
+    },
+    "2021": {
+     "sr": 3.3811573002381006,
+     "days": 365
+    },
+    "2022-01..07": {
+     "sr": 0.2641407595105531,
+     "days": 212
+    }
+   },
+   "shift_null_price_only_bar_sr": 2.645324115216174,
+   "shift_null_p": 0.0,
+   "shift_null_mean": -0.40148464282840746,
+   "shift_null_std": 0.7107694031688221
+  },
+  "p06_2022-08_2024-03": {
+   "days": 609,
+   "sr_gross": 0.9511263505598546,
+   "sr_se": 0.7741725812440545,
+   "t_gross": 1.2285714756668917,
+   "t_nw10": 1.259763445695435,
+   "turnover_units": 1300.0,
+   "turnover_units_per_year": 779.1461412151068,
+   "breakeven_bps": 20.997968940684736,
+   "breakeven_se_bps": 17.09136941282691,
+   "breakeven_minus_1se": 3.906599527857825,
+   "sr_net_12bps": 0.4075604487496697,
+   "sr_price_only": 0.9873115655777266,
+   "beta_to_ew_live": -0.11633140063101965,
+   "sr_gross_beta_hedged": 0.9904935882747762,
+   "first_decision": "2022-08-01 04:00:00+00:00",
+   "last_decision": "2024-03-31 04:00:00+00:00",
+   "decisions": 609,
+   "days_dropped_lt8_live": 0,
+   "first_day_with_book": "2022-08-01 04:00:00+00:00",
+   "n_live_min_max_mean": [
+    15,
+    15,
+    15.0
+   ],
+   "mean_legs_changed_per_day": 0.7208538587848933,
+   "funding_share_of_gross": -0.03618462421441414,
+   "per_segment_sr_gross": {
+    "2022-08..12": {
+     "sr": 0.24405518799284873,
+     "days": 153
+    },
+    "2023": {
+     "sr": 2.0727930815416062,
+     "days": 365
+    },
+    "2024Q1": {
+     "sr": -2.8939227049691394,
+     "days": 91
+    }
+   },
+   "shift_null_price_only_bar_sr": 0.9079862013010577,
+   "shift_null_p": 0.08666666666666667,
+   "shift_null_mean": 0.09505740013910012,
+   "shift_null_std": 0.6277847552404883
+  }
+ },
+ "diagnostic_rank_demeaned": {
+  "_note": "DIAGNOSTIC ONLY: not part of the kill, not the book tested",
+  "new_2020-10_2022-07": {
+   "days": 657,
+   "sr_gross": 2.820985847224429,
+   "sr_se": 0.7453559924999299,
+   "t_gross": 3.784749670775196,
+   "t_nw10": 3.4323894636991525,
+   "breakeven_bps": 131.18826391209174,
+   "breakeven_se_bps": 34.66233577483121,
+   "turnover_units_per_year": 576.1455026455027,
+   "sr_net_12bps": 2.562189023574446,
+   "beta_to_ew_live": 0.18663265205751603,
+   "per_segment_sr_gross": {
+    "2020Q4": {
+     "sr": 5.258166074661368,
+     "days": 80
+    },
+    "2021": {
+     "sr": 3.511298623778717,
+     "days": 365
+    },
+    "2022-01..07": {
+     "sr": 0.45924028280143864,
+     "days": 212
+    }
+   }
+  },
+  "p06_2022-08_2024-03": {
+   "days": 609,
+   "sr_gross": 0.6932334660657203,
+   "sr_se": 0.7741725812440545,
+   "t_gross": 0.8954508114350043,
+   "t_nw10": 0.9144066831179017,
+   "breakeven_bps": 15.315345329745655,
+   "breakeven_se_bps": 17.103502653821998,
+   "turnover_units_per_year": 592.8360309641098,
+   "sr_net_12bps": 0.15007155880533257,
+   "beta_to_ew_live": -0.06887942066457914,
+   "per_segment_sr_gross": {
+    "2022-08..12": {
+     "sr": 0.4023748520697769,
+     "days": 153
+    },
+    "2023": {
+     "sr": 1.6654910390324167,
+     "days": 365
+    },
+    "2024Q1": {
+     "sr": -3.347755338752338,
+     "days": 91
+    }
+   }
+  },
+  "pooled": {
+   "days": 1266,
+   "sr_gross": 2.037485092298026,
+   "sr_se": 0.5369447240180956,
+   "t_gross": 3.794590022322969,
+   "t_nw10": 3.407588662622691,
+   "turnover_units": 2026.2047619047619,
+   "turnover_units_per_year": 584.1743586850222,
+   "breakeven_bps": 74.62198201061295,
+   "breakeven_se_bps": 19.665360835195294,
+   "breakeven_minus_1se": 54.95662117541766
+  }
+ },
+ "pooled": {
+  "days": 1266,
+  "sr_gross": 1.9990790143544874,
+  "sr_se": 0.5369447240180956,
+  "t_gross": 3.7230629614811455,
+  "t_nw10": 3.4651083324022554,
+  "turnover_units": 2466.0,
+  "turnover_units_per_year": 710.9715639810427,
+  "breakeven_bps": 70.27709726844033,
+  "breakeven_se_bps": 18.87615063068447,
+  "breakeven_minus_1se": 51.40094663775586
+ },
+ "kill_check": {
+  "killed": false,
+  "gate": true,
+  "underpowered": false,
+  "decision": "GATE: proceed to OOS gate, ask owner"
+ }
+}

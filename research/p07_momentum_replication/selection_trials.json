@@ -1,0 +1,27 @@
+[
+ {
+  "kind": "factor",
+  "name": "p07 momentum_28d_skip1 replication",
+  "params": {
+   "sign": 1,
+   "legs": 3,
+   "decision": "04:00 UTC daily",
+   "min_live": 8,
+   "costs": "flat 12 bps per unit, funding in gross",
+   "windows": [
+    "new_2020-10_2022-07",
+    "p06_2022-08_2024-03"
+   ]
+  },
+  "sr_gross_new": 2.667199823773439,
+  "sr_gross_p06": 0.9511263505598546,
+  "t_gross_pooled": 3.7230629614811455,
+  "breakeven_bps_new": 125.21952164758461,
+  "breakeven_bps_pooled": 70.27709726844033,
+  "breakeven_se_bps_pooled": 18.87615063068447,
+  "n": 1266,
+  "period": "daily gross",
+  "decision": "GATE: proceed to OOS gate, ask owner",
+  "ts": "2026-09-23T11:54:52"
+ }
+]
