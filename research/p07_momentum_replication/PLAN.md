@@ -31,7 +31,8 @@ universe are all p06's. The other three p06 factors are dropped.
 - Decision at the 04:00 UTC 5m close, daily. Held 24 h. delay = 1.
 - momentum(t) = close(t − 24h) / close(t − 28d) − 1, using exact 5m bars.
   An asset is **live** at t if the factor is not missing, i.e. its bars at
-  t, t − 24h and t − 28d all exist. Listing dates are not otherwise used.
+  t − 24h and t − 28d both exist (p06's code; the bar at t itself is not
+  checked). Listing dates are not otherwise used.
 - Long the 3 highest, short the 3 lowest, weight ±1, ties by symbol.
   Only changes in weight trade.
 - **Require ≥ 8 live.** On a day with fewer than 8 live, the book is flat
