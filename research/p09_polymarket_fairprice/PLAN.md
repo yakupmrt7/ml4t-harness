@@ -192,3 +192,50 @@ downloader + manifest check), `step1_settlement.py`, later `step2_*.py` and
 `step3_*.py`, `*.json` outputs, RESULTS.md, REVIEW.md. No harness changes are
 expected. If loaders become reusable, they go to `harness/` with tests,
 after this experiment.
+
+## Amendment 1 (2026-09-23, owner decisions; before any settlement or price analysis)
+Found while fetching (structure only, no outcomes or prices analysed):
+- `meta/polymarket__markets` holds one snapshot per market, taken when it is
+  added (≈5 min before start; `closed` = False, prices ≈ 0.5). **The
+  collector never records a resolution**, so 100% of markets are
+  unverifiable from collector data. This trips the "> 20% unverifiable, ask
+  the owner" rule above. The owner was asked.
+- `resolutionSource` changes over dev. For 5m markets:
+  - Chainlink `btc-usd` stream (a point price) for 2026-07-25 → 08-06
+    (3,325 markets);
+  - `btc-usd-twap-30s` for 08-07 → 08-13 (2,016);
+  - `btc-usd-twap-60s` for 08-14 → 09-05 (~6,620).
+- The chainlink stream is missing 2026-07-25 h22 on top of p08's list. The
+  per-hour manifest check handles this.
+
+Decisions:
+- **Scope: all dev 5m markets** (~12k). Each is rebuilt with its **own**
+  `resolutionSource` rule: point value at T for `btc-usd`, a 30 s window
+  for twap-30s, a 60 s window for twap-60s. Window placement follows
+  candidates A/B/C above, with the window length set by the rule. Results
+  are reported per regime. 15m markets are out of scope. A market with
+  window start ≥ 2026-09-06 00:00 is holdout, even if its metadata row was
+  written on 09-05.
+- **Resolution source: Polymarket's public Gamma API** (`/markets?slug=`),
+  **dev slugs only** (window start ≤ 2026-09-05 23:55 UTC). No holdout slug
+  is requested. Requests are rate-limited (~2/s) and resumable, and results
+  are cached to `data/collector/p09/resolutions.parquet`. The response
+  fields relied on are recorded. Markets Gamma reports as unresolved or
+  void are **skipped, not guessed**. Polymarket is not reachable from the
+  owner's machine, so the fetch runs on a throwaway GCE VM (europe-west3,
+  e2-small), which is deleted afterwards.
+- **Three agreement rates replace the single match rate:**
+  - (a) rebuilt Chainlink outcome vs Gamma resolution. **This is the one
+    that matters.**
+  - (b) final Polymarket Up mid (> 0.95 → Up, < 0.05 → Down, else no call)
+    vs Gamma resolution.
+  - (c) rebuilt outcome vs final mid.
+
+  Here, "final mid" = the last Up-token mid known in [T_end − 5 s, T_end +
+  60 s] (the book near and after expiry). This is a secondary check, not a
+  replacement.
+- **Step-1 gate raised to ~99% for (a), replacing 97%.** If (a) < 99%,
+  STOP and show every disagreeing market: start/end TWAP, the margin
+  |TWAP_end/TWAP_start − 1|, and the number of rounds in each window.
+  Failures at near-ties are expected. Systematic failures mean the
+  reconstruction is wrong.
