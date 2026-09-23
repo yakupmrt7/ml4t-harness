@@ -96,9 +96,14 @@ carries `M` instead of `X`/`st`.
 ```
 `answer / 1e8` = USD (77,827.75). 315 rows/hour, but only **112 distinct
 rounds**: the collector polls (median 33 s between round updates) and
-repeats unchanged rounds. Median gap from `updated_at` to `rt_ns` is
-**16.3 s**, so the on-chain feed is far behind the exchange streams.
-Dedupe on `round_id` and use `updated_at`.
+repeats unchanged rounds. Dedupe on `round_id` and use `updated_at`.
+
+Lag: measured over *all* rows, the gap from `updated_at` to `rt_ns` looks
+like 16.3 s, but that averages in repeated sightings of an old round. The
+figure that matters is the **first** sighting of each round: **473 ms**
+median. So the collector sees a new Chainlink round about half a second
+after its on-chain timestamp, while rounds themselves update only every
+~33 s — the feed is coarse in time, not badly delayed.
 
 ### polymarket__book (full snapshot)
 ```json
@@ -165,7 +170,7 @@ End-to-end on `binance_fut@bookTicker`, one hour: read 0.3 s, JSON parse
 16.3 s, aggregate 0.7 s → **17.2 s for 3.15 M rows (183 k rows/s)**, giving
 3,601 one-second rows at **0.19 MB/hour** output.
 
-Parse-only, by payload shape: trade 207 k rows/s, price_change (pending),
+Parse-only, by payload shape: trade 207 k rows/s, price_change 129 k rows/s,
 polymarket book 17 k rows/s (59 MB/s, big ladders), depth20 11.8 k rows/s
 (12 MB/s). **JSON parsing is ~95% of the work**; parquet read and the
 aggregation itself are noise.
