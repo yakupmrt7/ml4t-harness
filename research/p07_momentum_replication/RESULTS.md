@@ -1,10 +1,10 @@
 # p07 does p06's momentum sort replicate on 2020-10 → 2022-07?
 
-**Verdict: the gate passes mechanically but is NOT credited.** The 15-perp
-universe was ranked on 2022-07 volume, which is look-ahead for a window
-ending 2022-07. The recommendation is not to spend the OOS trial. The
-proposed next step is p07b (a point-in-time universe), which needs the
-owner's decision. No OOS run, `trials.json` untouched. One row in
+**Verdict: gate passes mechanically; NOT credited because the universe is
+look-ahead for the new window; OOS not spent; p07b (point-in-time
+universe) pre-registered.** The 15-perp universe was ranked on 2022-07
+volume, which is the last month of a window ending 2022-07. p07b is in
+`research/p07b_pit_universe/`. No OOS run, `trials.json` untouched. One row in
 `selection_trials.json`: its `decision` field says "GATE", and this file
 overrides that reading. The logged numbers are not edited.
 
@@ -37,6 +37,8 @@ Per-period gross SR:
 |---|---|---|---|---|---|
 | 2020-Q4 (80 d) | 2021 (365 d) | 2022-01→07 (212 d) | 2022-08→12 (153 d) | 2023 (365 d) | 2024-Q1 (91 d) |
 | +5.69 | +3.38 | +0.26 | +0.24 | +2.07 | −2.89 |
+
+The s.e. of a per-period SR is about 1/√(days/365): 2.1 for 2020-Q4, 1.0 for 2021, 1.3 for 2022-01→07.
 
 ## Kill / gate as pre-registered (PLAN.md)
 - Kill (new SR ≤ 0 or new breakeven < 12): **not hit** (2.67, 125 bps).
@@ -85,11 +87,6 @@ already-read window, not trials):
   223 bps/day of P&L comes from the ex-post mean return per asset. The
   universe is guaranteed to contain the 2021 pumps momentum rode, and it
   cannot contain coins where momentum bought the top and rode the collapse.
-- Not evidence of the bias (retracted from the draft): long leg +19.5 vs
-  short −4.9 units is the bull market lifting both legs, as p06's review
-  noted. The 2022 fade shows up in the hindsight-free 6-name subset too
-  (2022 SR −0.88), so it is the 2022 bear market, not the approaching
-  ranking month.
 
 What it is *not* (checked):
 - Not a fill or print artifact. delay=2 gives SR 2.65 (vs 2.67). The first bar
