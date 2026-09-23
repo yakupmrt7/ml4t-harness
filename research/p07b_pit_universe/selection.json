@@ -1,0 +1,393 @@
+{
+ "plan": "research/p07b_pit_universe/PLAN.md",
+ "universe": [
+  "BTCUSDT",
+  "ETHUSDT",
+  "LINKUSDT",
+  "TRXUSDT",
+  "BNBUSDT",
+  "YFIUSDT",
+  "DOTUSDT",
+  "BCHUSDT",
+  "XRPUSDT",
+  "EOSUSDT",
+  "SXPUSDT",
+  "LTCUSDT",
+  "ADAUSDT",
+  "NEOUSDT",
+  "OMGUSDT"
+ ],
+ "hole_fill": {
+  "BTCUSDT": {
+   "first_bar": "2020-01-01 00:05:00+00:00",
+   "missing_in_monthly": 0,
+   "days_fetched": [],
+   "days_without_daily_file": [],
+   "bars_filled": 0,
+   "still_missing": 0,
+   "last_live_bar": "2022-08-01 00:00:00+00:00",
+   "delisted_in_window": false
+  },
+  "ETHUSDT": {
+   "first_bar": "2020-01-01 00:05:00+00:00",
+   "missing_in_monthly": 0,
+   "days_fetched": [],
+   "days_without_daily_file": [],
+   "bars_filled": 0,
+   "still_missing": 0,
+   "last_live_bar": "2022-08-01 00:00:00+00:00",
+   "delisted_in_window": false
+  },
+  "LINKUSDT": {
+   "first_bar": "2020-01-17 08:05:00+00:00",
+   "missing_in_monthly": 0,
+   "days_fetched": [],
+   "days_without_daily_file": [],
+   "bars_filled": 0,
+   "still_missing": 0,
+   "last_live_bar": "2022-08-01 00:00:00+00:00",
+   "delisted_in_window": false
+  },
+  "TRXUSDT": {
+   "first_bar": "2020-01-15 08:10:00+00:00",
+   "missing_in_monthly": 1440,
+   "days_fetched": [
+    "2022-02-26",
+    "2022-02-27",
+    "2022-02-28",
+    "2022-04-01",
+    "2022-04-02"
+   ],
+   "days_without_daily_file": [],
+   "bars_filled": 1440,
+   "still_missing": 0,
+   "last_live_bar": "2022-08-01 00:00:00+00:00",
+   "delisted_in_window": false
+  },
+  "BNBUSDT": {
+   "first_bar": "2020-02-10 08:05:00+00:00",
+   "missing_in_monthly": 0,
+   "days_fetched": [],
+   "days_without_daily_file": [],
+   "bars_filled": 0,
+   "still_missing": 0,
+   "last_live_bar": "2022-08-01 00:00:00+00:00",
+   "delisted_in_window": false
+  },
+  "YFIUSDT": {
+   "first_bar": "2020-08-31 07:05:00+00:00",
+   "missing_in_monthly": 1440,
+   "days_fetched": [
+    "2022-02-26",
+    "2022-02-27",
+    "2022-02-28",
+    "2022-04-01",
+    "2022-04-02"
+   ],
+   "days_without_daily_file": [],
+   "bars_filled": 1440,
+   "still_missing": 0,
+   "last_live_bar": "2022-08-01 00:00:00+00:00",
+   "delisted_in_window": false
+  },
+  "DOTUSDT": {
+   "first_bar": "2020-08-22 07:05:00+00:00",
+   "missing_in_monthly": 0,
+   "days_fetched": [],
+   "days_without_daily_file": [],
+   "bars_filled": 0,
+   "still_missing": 0,
+   "last_live_bar": "2022-08-01 00:00:00+00:00",
+   "delisted_in_window": false
+  },
+  "BCHUSDT": {
+   "first_bar": "2020-01-01 00:05:00+00:00",
+   "missing_in_monthly": 0,
+   "days_fetched": [],
+   "days_without_daily_file": [],
+   "bars_filled": 0,
+   "still_missing": 0,
+   "last_live_bar": "2022-08-01 00:00:00+00:00",
+   "delisted_in_window": false
+  },
+  "XRPUSDT": {
+   "first_bar": "2020-01-06 08:25:00+00:00",
+   "missing_in_monthly": 1440,
+   "days_fetched": [
+    "2022-02-26",
+    "2022-02-27",
+    "2022-02-28",
+    "2022-04-01",
+    "2022-04-02"
+   ],
+   "days_without_daily_file": [],
+   "bars_filled": 1440,
+   "still_missing": 0,
+   "last_live_bar": "2022-08-01 00:00:00+00:00",
+   "delisted_in_window": false
+  },
+  "EOSUSDT": {
+   "first_bar": "2020-01-08 08:05:00+00:00",
+   "missing_in_monthly": 0,
+   "days_fetched": [],
+   "days_without_daily_file": [],
+   "bars_filled": 0,
+   "still_missing": 0,
+   "last_live_bar": "2022-08-01 00:00:00+00:00",
+   "delisted_in_window": false
+  },
+  "SXPUSDT": {
+   "first_bar": "2020-07-21 09:05:00+00:00",
+   "missing_in_monthly": 0,
+   "days_fetched": [],
+   "days_without_daily_file": [],
+   "bars_filled": 0,
+   "still_missing": 0,
+   "last_live_bar": "2022-08-01 00:00:00+00:00",
+   "delisted_in_window": false
+  },
+  "LTCUSDT": {
+   "first_bar": "2020-01-09 08:10:00+00:00",
+   "missing_in_monthly": 1440,
+   "days_fetched": [
+    "2022-02-26",
+    "2022-02-27",
+    "2022-02-28",
+    "2022-04-01",
+    "2022-04-02"
+   ],
+   "days_without_daily_file": [],
+   "bars_filled": 1440,
+   "still_missing": 0,
+   "last_live_bar": "2022-08-01 00:00:00+00:00",
+   "delisted_in_window": false
+  },
+  "ADAUSDT": {
+   "first_bar": "2020-01-31 08:05:00+00:00",
+   "missing_in_monthly": 0,
+   "days_fetched": [],
+   "days_without_daily_file": [],
+   "bars_filled": 0,
+   "still_missing": 0,
+   "last_live_bar": "2022-08-01 00:00:00+00:00",
+   "delisted_in_window": false
+  },
+  "NEOUSDT": {
+   "first_bar": "2020-02-17 08:50:00+00:00",
+   "missing_in_monthly": 0,
+   "days_fetched": [],
+   "days_without_daily_file": [],
+   "bars_filled": 0,
+   "still_missing": 0,
+   "last_live_bar": "2022-08-01 00:00:00+00:00",
+   "delisted_in_window": false
+  },
+  "OMGUSDT": {
+   "first_bar": "2020-07-02 09:05:00+00:00",
+   "missing_in_monthly": 1440,
+   "days_fetched": [
+    "2022-02-26",
+    "2022-02-27",
+    "2022-02-28",
+    "2022-04-01",
+    "2022-04-02"
+   ],
+   "days_without_daily_file": [],
+   "bars_filled": 1440,
+   "still_missing": 0,
+   "last_live_bar": "2022-08-01 00:00:00+00:00",
+   "delisted_in_window": false
+  }
+ },
+ "cost_bps_flat": 12,
+ "min_live": 8,
+ "windows": {
+  "new_2020-10_2022-07": {
+   "days": 669,
+   "sr_gross": 0.6559060768163242,
+   "sr_se": 0.7386409367770042,
+   "t_gross": 0.8879904215413698,
+   "t_nw10": 0.8258655967822097,
+   "turnover_units": 1414.0,
+   "turnover_units_per_year": 771.4648729446936,
+   "breakeven_bps": 20.378361593276143,
+   "breakeven_se_bps": 22.948852936840776,
+   "breakeven_minus_1se": -2.5704913435646333,
+   "sr_net_12bps": 0.26984114614964905,
+   "sr_price_only": 0.6893309204377852,
+   "beta_to_ew_live": -0.20936561152223637,
+   "sr_gross_beta_hedged": 0.7565871577807273,
+   "first_decision": "2020-10-01 04:00:00+00:00",
+   "last_decision": "2022-07-31 04:00:00+00:00",
+   "decisions": 669,
+   "days_dropped_lt8_live": 0,
+   "first_day_with_book": "2020-10-01 04:00:00+00:00",
+   "n_live_min_max_mean": [
+    15,
+    15,
+    15.0
+   ],
+   "mean_legs_changed_per_day": 0.7055306427503737,
+   "funding_share_of_gross": -0.051483717871582596,
+   "per_segment_sr_gross": {
+    "2020Q4": {
+     "sr": 3.9602352878700087,
+     "days": 92
+    },
+    "2021": {
+     "sr": 0.3209781919710971,
+     "days": 365
+    },
+    "2022-01..07": {
+     "sr": -0.7994961799528854,
+     "days": 212
+    }
+   },
+   "shift_null_price_only_bar_sr": 0.675591282655992,
+   "shift_null_p": 0.11666666666666667,
+   "shift_null_mean": -0.08941560755197939,
+   "shift_null_std": 0.6070252118397776,
+   "per_segment_sr_se": {
+    "2020Q4": 1.9918311435329614,
+    "2021": 1.0,
+    "2022-01..07": 1.3121349447398873
+   }
+  },
+  "p06_2022-08_2024-03": {
+   "days": 609,
+   "sr_gross": 0.9511263505598546,
+   "sr_se": 0.7741725812440545,
+   "t_gross": 1.2285714756668917,
+   "t_nw10": 1.259763445695435,
+   "turnover_units": 1300.0,
+   "turnover_units_per_year": 779.1461412151068,
+   "breakeven_bps": 20.997968940684736,
+   "breakeven_se_bps": 17.09136941282691,
+   "breakeven_minus_1se": 3.906599527857825,
+   "sr_net_12bps": 0.4075604487496697,
+   "sr_price_only": 0.9873115655777266,
+   "beta_to_ew_live": -0.11633140063101965,
+   "sr_gross_beta_hedged": 0.9904935882747762,
+   "first_decision": "2022-08-01 04:00:00+00:00",
+   "last_decision": "2024-03-31 04:00:00+00:00",
+   "decisions": 609,
+   "days_dropped_lt8_live": 0,
+   "first_day_with_book": "2022-08-01 04:00:00+00:00",
+   "n_live_min_max_mean": [
+    15,
+    15,
+    15.0
+   ],
+   "mean_legs_changed_per_day": 0.7208538587848933,
+   "funding_share_of_gross": -0.03618462421441414,
+   "per_segment_sr_gross": {
+    "2022-08..12": {
+     "sr": 0.24405518799284873,
+     "days": 153
+    },
+    "2023": {
+     "sr": 2.0727930815416062,
+     "days": 365
+    },
+    "2024Q1": {
+     "sr": -2.8939227049691394,
+     "days": 91
+    }
+   },
+   "shift_null_price_only_bar_sr": 0.9079862013010577,
+   "shift_null_p": 0.08666666666666667,
+   "shift_null_mean": 0.09505740013910012,
+   "shift_null_std": 0.6277847552404883,
+   "per_segment_sr_se": {
+    "2022-08..12": 1.5445455367300376,
+    "2023": 1.0,
+    "2024Q1": 2.0027453684852228
+   }
+  }
+ },
+ "diagnostic_rank_demeaned": {
+  "_note": "DIAGNOSTIC ONLY: not part of the kill, not the book tested",
+  "new_2020-10_2022-07": {
+   "days": 669,
+   "sr_gross": 0.9906696867671428,
+   "sr_se": 0.7386409367770042,
+   "t_gross": 1.34120604131399,
+   "t_nw10": 1.3045415668792895,
+   "breakeven_bps": 28.86114444208963,
+   "breakeven_se_bps": 21.518799910723736,
+   "turnover_units_per_year": 607.2421524663678,
+   "sr_net_12bps": 0.5788167664594539,
+   "beta_to_ew_live": -0.15685887667947146,
+   "per_segment_sr_gross": {
+    "2020Q4": {
+     "sr": 4.624762878112455,
+     "days": 92
+    },
+    "2021": {
+     "sr": 0.5988408318429169,
+     "days": 365
+    },
+    "2022-01..07": {
+     "sr": -0.6238572323445923,
+     "days": 212
+    }
+   }
+  },
+  "p06_2022-08_2024-03": {
+   "days": 609,
+   "sr_gross": 0.6932334660657203,
+   "sr_se": 0.7741725812440545,
+   "t_gross": 0.8954508114350043,
+   "t_nw10": 0.9144066831179017,
+   "breakeven_bps": 15.315345329745655,
+   "breakeven_se_bps": 17.103502653821998,
+   "turnover_units_per_year": 592.8360309641098,
+   "sr_net_12bps": 0.15007155880533257,
+   "beta_to_ew_live": -0.06887942066457914,
+   "per_segment_sr_gross": {
+    "2022-08..12": {
+     "sr": 0.4023748520697769,
+     "days": 153
+    },
+    "2023": {
+     "sr": 1.6654910390324167,
+     "days": 365
+    },
+    "2024Q1": {
+     "sr": -3.347755338752338,
+     "days": 91
+    }
+   }
+  },
+  "pooled": {
+   "days": 1278,
+   "sr_gross": 0.8617778440318287,
+   "sr_se": 0.5344179112944878,
+   "t_gross": 1.612554193672882,
+   "t_nw10": 1.5889895948448807,
+   "turnover_units": 2102.142857142857,
+   "turnover_units_per_year": 600.3772635814888,
+   "breakeven_bps": 22.487300537647247,
+   "breakeven_se_bps": 13.945144061439805,
+   "breakeven_minus_1se": 8.542156476207442
+  }
+ },
+ "pooled": {
+  "days": 1278,
+  "sr_gross": 0.7627946879013788,
+  "sr_se": 0.5344179112944878,
+  "t_gross": 1.4273374297162083,
+  "t_nw10": 1.3634044313580094,
+  "turnover_units": 2714.0,
+  "turnover_units_per_year": 775.1251956181534,
+  "breakeven_bps": 20.675152142882325,
+  "breakeven_se_bps": 14.48511873397244,
+  "breakeven_minus_1se": 6.190033408909885
+ },
+ "kill_check": {
+  "killed": false,
+  "gate": false,
+  "underpowered": false,
+  "decision": "FAIL ON GATE: not killed, not underpowered-band; stop"
+ }
+}

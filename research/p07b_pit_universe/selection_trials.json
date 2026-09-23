@@ -1,0 +1,45 @@
+[
+ {
+  "kind": "factor",
+  "name": "p07b momentum_28d_skip1, point-in-time universe (2020-09)",
+  "params": {
+   "sign": 1,
+   "legs": 3,
+   "decision": "04:00 UTC daily",
+   "min_live": 8,
+   "universe": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "LINKUSDT",
+    "TRXUSDT",
+    "BNBUSDT",
+    "YFIUSDT",
+    "DOTUSDT",
+    "BCHUSDT",
+    "XRPUSDT",
+    "EOSUSDT",
+    "SXPUSDT",
+    "LTCUSDT",
+    "ADAUSDT",
+    "NEOUSDT",
+    "OMGUSDT"
+   ],
+   "costs": "flat 12 bps per unit, funding in gross",
+   "windows": [
+    "new_2020-10_2022-07",
+    "p06_2022-08_2024-03"
+   ],
+   "note": "second look at the 2020-10..2022-07 window (p07 was the first)"
+  },
+  "sr_gross_new": 0.6559060768163242,
+  "sr_gross_p06": 0.9511263505598546,
+  "t_gross_pooled": 1.4273374297162083,
+  "breakeven_bps_new": 20.378361593276143,
+  "breakeven_bps_pooled": 20.675152142882325,
+  "breakeven_se_bps_pooled": 14.48511873397244,
+  "n": 1278,
+  "period": "daily gross",
+  "decision": "FAIL ON GATE: not killed, not underpowered-band; stop",
+  "ts": "2026-09-23T14:37:49"
+ }
+]
