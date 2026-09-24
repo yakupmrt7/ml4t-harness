@@ -106,7 +106,7 @@ if __name__ == "__main__":
     log = lambda s: print(s, flush=True)   # noqa: E731
     bars = pd.read_parquet("data/bars/BTCUSDT-5m-2022-08_2026-08.parquet")
     close = bars["close"]
-    pre_idx = close.loc[START:OOS_START].index
+    pre_idx = close.loc[pd.Timestamp(START, tz="UTC"):OOS_START].index
     pre_idx = pre_idx[pre_idx < OOS_START]
     Xb_all = basic_features(bars)
     Xe, info = external_features(bars, pre_idx)                     # evaluated on pre-OOS bar closes only
