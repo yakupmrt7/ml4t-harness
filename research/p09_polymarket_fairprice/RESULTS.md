@@ -13,10 +13,11 @@
 > whose finish is within 1 bp of a tie. Where the two differ materially, the
 > second is the honest one.
 
-**Status (after Steps 2–3): the model-based edge is not real, so there is
-no takeable edge to report.** The pre-registered kill (median takeable edge
-≥ 1 c AND ≥ $50/day) is **passed mechanically, but invalidated by realised
-P&L.**
+**Status (after Steps 2–3 and review): no takeable edge from this fair-value
+model.** The pre-registered kill (median takeable edge < 1 c OR < $50/day)
+**did not fire, but it is uninformative**: it was written on *model* edge.
+The pre-registered check on the model, realised P&L against Gamma
+outcomes, is what decides, and it fails.
 - The model claims a median 5.2 c edge per filled contract. Trading it
   **loses** 1.15 c per contract (t = −3.9, clustered by market) against
   Gamma outcomes.
@@ -236,8 +237,11 @@ the residual std in bp:
 
 ## Steps 2–3: fair value vs the market, and what is takeable (PLAN.md, amendment 3)
 - **Universe:** 11,958 Gamma-resolved dev markets, all with complete
-  Binance, price_change and book hours; 11,916 produce at least one scored
-  second. That is 3.56 M market-seconds, ≈ 41.5 market-days.
+  Binance, price_change and book hours.
+  - 24 have no Binance start price (the Step-1b coverage gap), so they
+    are dropped when the start reference is NaN; the code does this
+    without reporting it.
+  - 11,916 produce at least one scored second. That is 3.56 M market-seconds, ≈ 41.5 market-days.
 - **Model:** driftless diffusion on the Binance blend; start reference =
   the Step-1b blend over the rule window; σ = trailing 15 min realised vol
   of the 1 s futures mid; no fitted parameter; no lag shift.
@@ -275,11 +279,32 @@ Reliability of the model's P(up) against Gamma outcomes, in (i):
 | realised Up | 0.049 | 0.182 | 0.258 | 0.342 | 0.460 | 0.542 | 0.643 | 0.733 | 0.825 | 0.955 |
 | mean Polymarket mid | 0.066 | 0.194 | 0.276 | 0.361 | 0.465 | 0.550 | 0.644 | 0.733 | 0.813 | 0.935 |
 
-The model is well calibrated in the middle and **overconfident in the
-tails**. When it says 0.98, Up happens 95.5% of the time, and the mid
-(0.935) was closer. That is the classic failure of a Gaussian diffusion
-with a trailing-vol σ: fat tails, jumps and vol bursts inside 5 minutes.
-The market prices those, and the model does not.
+The model looks overconfident in the tails. When it says 0.98, Up happens
+95.5% of the time. **But the loss is not a fat-tail problem.** Splitting
+Brier by the *ex-ante* gap between the current price and the start
+reference (reviewer, reproduced) shows where it comes from:
+
+| \|current gap\| | < 0.1 bp | 0.1–0.3 | 0.3–1 | 1–3 | 3–10 | > 10 bp |
+|---|---:|---:|---:|---:|---:|---:|
+| seconds | 220 k | 179 k | 480 k | 959 k | 1,261 k | 461 k |
+| Brier, model | 0.2565 | 0.2414 | 0.2214 | 0.1808 | 0.1051 | 0.0367 |
+| Brier, mid | 0.2217 | 0.2197 | 0.2061 | 0.1733 | 0.1064 | 0.0426 |
+| model − mid | **+0.0348** | +0.0217 | +0.0153 | +0.0075 | −0.0013 | **−0.0059** |
+| t (clustered by market) | 12.1 | 13.0 | 12.3 | 5.1 | — | −4.3 |
+
+- **The model's whole Brier loss is where the price is within ~1 bp of
+  the start reference.** That is exactly the size of our settlement proxy's
+  error: Binance vs Chainlink Data Streams, ~0.75 bp. There, a Gaussian
+  model is confidently wrong about *which side of the strike we are on*.
+  - The reviewer also finds this loss worst at τ < 30 s.
+- **Far from the strike (> 10 bp) the model beats the mid** (Brier −0.0059,
+  t −4.3). In the P > 0.9 bin with |gap| > 10 bp, realised Up is 0.983,
+  the model says 0.988 and the mid 0.961.
+- So the failure is ~1 bp of **input error**, not missing tail risk. A
+  fat-tailed model is the wrong next step; an exact settlement price is
+  the right one.
+- The mid alone is within ~1.3 c of realised in every calibration bin, so
+  there is no model-free edge at the ask either.
 
 **Gap = model − mid, by time to expiry (i):**
 
@@ -306,9 +331,10 @@ The market prices those, and the model does not.
   else 0 (below 5 contracts = 0). One fill per touch price.
 - **Holding and cost:** held to Gamma resolution; gas $0.02 per position;
   fees 0.
-- **Latency:** L = 150 ms and L = 500 ms give **identical** results. With
-  1 s tables, both arrivals land in the same second, so latency below
-  ~1 s is **not resolved** by this data.
+- **Latency:** L = 150 ms and L = 500 ms give **identical** results by
+  construction. With 1 s tables both arrivals land in the same second, and
+  1 s means "the next second". So the grid is really two values, and
+  latency below ~1 s is **not resolved** by this data.
 
 | h, L | fills/day | median model edge at fill | realised P&L / contract | t (by market) | realised $/day after gas | notional $/day |
 |---|---:|---:|---:|---:|---:|---:|
@@ -323,9 +349,30 @@ The market prices those, and the model does not.
 (The full 12-row grid, with (ii) for every row, is in `step23.json` and
 `selection_trials.json`, marked `measurement`.)
 
-- **The bigger the claimed edge, the more it loses:** realised P&L falls
-  from −1.15 c to −1.57 c as h rises from 1 c to 5 c. The signal is anti-selected.
-  When the model disagrees most with the book, the book is right.
+- **The headline −1.15 c / t −3.9 depends on weighting, and on the
+  simulator's pyramiding.** "One fill per touch price" buys again at every
+  new touch: a median of **49 fills per market**, averaging down into
+  losers. At the kill config:
+
+| weighting | realised P&L / contract | t |
+|---|---:|---:|
+| per contract (size-weighted, the table above) | −1.15 c | −3.9 (by market) |
+| per fill | −0.62 c | −2.4 |
+| market-equal (each market's mean fill) | +0.53 c | +2.5 |
+| first fill per market only | +0.93 c | +2.1 |
+
+  - The **first-fill-per-market +0.93 c is not a finding.** It is positive
+    on only 22 of 43 days and in one half of dev only, and it was found
+    after ~20 extra looks at dev (reviewer). It must not be claimed, and dev
+    is now used up for any Binance-based rule.
+  - "The bigger the claimed edge, the more it loses" (−1.15 → −1.57 c as h
+    rises) is an **artefact of the pyramiding convention**, not a finding.
+    The earlier "anti-selected" reading is withdrawn.
+  - **Fill-timing bound (reviewer):** the sim fills at the end-of-arrival-second
+    ask. That is a sub-second look-ahead both ways: 51% of fills are below
+    the signal ask, and signals where the ask rose inside the second are
+    dropped. Filling every signal at the signal ask, unit size, gives
+    −0.31 c (t −1.2). Nothing turns the aggregate positive.
 - **By ex-ante gap at decision** (kill config, (i)):
 
 | \|current gap\| | < 0.1 bp | 0.1–0.3 | 0.3–1 | 1–3 | 3–10 | > 10 bp |
@@ -349,25 +396,56 @@ The market prices those, and the model does not.
 | (i) all | 5.2 c (≥ 1 c) | 2.05 M (≥ $50) | **no, mechanically** | **−1.15 c, t −3.9** |
 | (ii) excl. near-tie finish | 4.8 c | 2.08 M | no, mechanically | −0.31 c, t −1.0 |
 
-The kill was written on *model* edge, with realised P&L as the check on
-the model. The check fails: significantly negative in (i), zero in (ii),
-zero in the ex-ante reliable cut. **Verdict: there is no takeable edge from
-this fair-value model.** What the kill "passes" is the model's own
-miscalibration.
+The kill **did not fire, and is uninformative**: it was written on *model*
+edge, which here measures the model's own ~1 bp input error. The
+$50/day clause would pass under any sensible sizing: 5 contracts × 288
+markets ≈ $720/day.
+- The pre-registered check (realised P&L) fails:
+  - (i): −1.15 c per contract (t −3.9), or −0.62 c per fill;
+  - the ex-ante reliable cut: ~0;
+  - (ii): ~0, and biased upward.
+- **Verdict: no takeable edge from this fair-value model.**
+- **Fees:** PLAN required a `fee_rate_bps` check on raw `last_trade_price`.
+  On 75,043 prints (12:00 UTC on 07-28, 08-15 and 09-02) it is **0 in every
+  print**, so the zero-fee assumption holds for dev.
 
 ### What we learned
-1. The Polymarket 5-minute BTC book is **better calibrated than a
-   textbook diffusion on Binance**, especially in the tails. It prices the
-   jump and vol-burst risk that a Gaussian model with trailing σ misses.
+1. The Polymarket 5-minute BTC mid is better calibrated overall than a
+   textbook diffusion on Binance. **All of the model's deficit sits within
+   ~1 bp of the strike**, which is the size of our settlement proxy's
+   error. Far from the strike the model is the better forecaster, but the
+   book is already priced close to the outcome there, so there is nothing
+   to take at the ask.
 2. The hypothesised lag (book slow to react to the settlement feed) does
    **not show up at 1 s resolution** against the on-chain feed. The gap is
    flat across Chainlink staleness buckets. Any latency edge would sit
    below 1 s, which this data (1 s tables, ~127 ms collector lag) cannot
    resolve.
-3. Next steps that would make sense: a sub-second (event-level) test of
-   book reaction to Binance moves, and/or a fat-tailed fair value. Each
-   needs its own PLAN. The holdout (09-06 → 09-20) is still untouched and
-   is the only clean data left for this line.
+3. Next (reviewer, p10):
+   - after ≥ 7 full days of the new RTDS feed, check its settlement
+     agreement with Gamma;
+   - then rerun the same unfitted model with RTDS as both the start price
+     and the current price.
+   - Kills:
+     - agreement < 99.5% → abandon the settlement-exact line;
+     - model − mid Brier at |gap| < 1 bp still > +0.01 → abandon diffusion
+       fair value.
+   - If both pass, the only edge left is speed, which needs an
+     event-level lead-lag study.
+   - The holdout (09-06 → 09-20) has no RTDS data, so it cannot test p10.
+     It must not be spent on the first-fill pattern above.
+
+## Review
+REVIEW.md: **ACCEPT WITH FIXES.** The verdict holds under every
+convention tried, and Brier and P&L were recomputed independently. The
+three blocking wording fixes are applied above:
+1. the fat-tail explanation is replaced by Brier by gap;
+2. the weighting table and fill bound are added, and "anti-selected" is
+   withdrawn;
+3. the kill is reworded as "did not fire, uninformative", and the fee
+   check is reported.
+
+The holdout was not read.
 
 ## Collector: the real settlement feed, recorded from 2026-09-24 07:12:35 UTC
 Added on `poly-collector-eu` (e2-small: 2 vCPU, 2 GB RAM). The existing
@@ -410,6 +488,9 @@ so there was room for this.
 - `step1.json`, `step1.log`, `step1_disagreements.csv`
 - `step1b_binance.py`, `step1b.json`, `step1b.log`, `step1b_disagreements.csv`
 - `step23_fairvalue.py`, `step23.json`, `step23.log`, `step23_counts.json`, `selection_trials.json` (12 measurement rows)
+- `REVIEW.md` (research-reviewer, ACCEPT WITH FIXES)
+- `collector/rtds_collector.py` (copy of the script now running on `poly-collector-eu`)
+- Local, gitignored: `raw_sample/ltp_*.parquet` (fee check)
 - Local, gitignored: `step2_seconds.parquet`, `step3_trades.parquet`, `step23_markets.parquet`
 - Local, gitignored:
   - `data/collector/p09/resolutions.parquet` and `gamma.jsonl` (raw API rows)
