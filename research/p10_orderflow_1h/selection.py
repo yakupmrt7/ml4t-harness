@@ -12,6 +12,8 @@ import argparse
 import json
 import time
 
+import lightgbm  # noqa: F401  must load before torch: torch-first import segfaults LightGBM on macOS (OpenMP clash)
+
 import numpy as np
 import pandas as pd
 
