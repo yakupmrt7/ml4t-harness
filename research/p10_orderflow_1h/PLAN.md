@@ -186,3 +186,31 @@ That gives ~37 flow columns, plus p01's 15 `basic_features`.
 - Flow features live in `data/collector/flow_v1/` (gitignored).
 - If feature code becomes reusable, it moves to `harness/` with tests,
   and tests + selftest are run.
+
+## Amendment 1 (2026-09-24, validation criterion; before the VM run or any feature/label work)
+A one-day test of the reducer (2023-06-15, on the laptop: 1.24 M aggTrades,
+0.8 s) showed that the pre-registered check — every 5 m bar matching the
+kline to ≤ 1e-6 on ≥ 99.9% of bars — **cannot hold by construction**:
+- An aggTrade carries one `transact_time`, but the klines are built from
+  the individual trades inside it. Near a bar boundary those can fall on
+  either side.
+- On the test day only 82% of bars match exactly. Every mismatch is offset
+  by an equal and opposite one in the adjacent bar, and the day totals of
+  volume and taker-buy volume match exactly.
+
+This is a property of the data, not a result threshold, so the check is
+replaced, before any full run, with (on 2023-06, all days):
+1. Daily totals: volume and taker-buy volume within 1e-9 relative; trade
+   count within 1e-5 relative (the test day: −6 of 1.24 M, from
+   trade-id ranges the klines skip).
+2. **Every** per-bar residual (kline − aggTrade sum) must be covered by
+   the qty of aggTrades stamped within 1 s before that bar's start or end
+   boundary. That is the only way a trade can spill across (test day:
+   288/288).
+3. Report the share of exactly matching bars and the max |residual|/volume
+   (test day: 82%, 0.35%).
+
+If 1 or 2 fails on any day of 2023-06, stop and report. A second, smaller
+deviation: the reducer uses the **daily** aggTrades zips, which have the
+same rows as the monthly ones and a sha256 CHECKSUM each. That keeps the
+work unit at one day (resumable). CRC32C applies to the GCS uploads.
