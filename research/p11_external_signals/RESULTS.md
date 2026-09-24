@@ -69,20 +69,47 @@ starts 2022-09-01.
 - **H = 288:** none with |t| ≥ 2. The largest is `ivrv_1d` at −1.44.
 
 ## Reading
-1. **The external data carries no usable 4 h direction signal in this
-   form.** On its own it is at chance. Added to the basic features it
-   lowers AUC by 0.021, about 3 s.e. That is the same pattern as p03's
-   positioning features and p10's order flow: data with strong regime
-   content (implied-vol levels, funding levels, basis) lets the tree
-   model fit regimes, not direction.
+1. **As a model input set, the external data failed. One options-flow
+   feature carries a real-looking signal, but mostly one we already
+   had.** From the reviewer, pre-OOS diagnostics run after the fact:
+   - **`opt_netcall_4h` alone reaches AUC 0.539**, with the same sign in
+     all 5 folds, almost the basic model's 0.541. The pre-registered
+     26-feature external model, by contrast, is at chance (0.498).
+   - **It largely repeats p01's 4 h reversal:** its correlation with
+     `ret_48` is 0.39. Option traders buy calls after rallies and puts
+     after sell-offs. Added to the basic set after the fact, it gains
+     only **+0.005 AUC**, half the gate. The kill stands, and this is not
+     a claim.
+   - **Why the full external set fails:** a classifier asked which CV fold
+     a row comes from gets **99.8%** right from the external features, vs
+     47% from the basic ones. The raw levels (DVOL, basis, funding, ATM
+     IV) identify the regime, and the model's base rate goes wrong on
+     held-out regimes. That is the p10 failure again; its review had
+     already recommended regime-normalised features, and this
+     pre-registered set did not use them.
 2. **The basic features are still the only signal:** AUC 0.541, gross SR
    2.15, shift-null p 0.015 at H = 48. Consistent with p03 (the 4 h
    horizon helped) and with p10b (cost is the wall). The breakeven of
    2.85 bps, or 2.45 without the long drift, is still **below the 3.38 bps
    maker cost** and far below the 4 bps gate.
 3. **Liquidations**, the one requested family with a plausible mechanical
-   link to short-horizon moves, were not testable. No free history
+   link to short-horizon moves, were **not tested**. No free history
    exists for the window.
+4. **Weaker parts of the specification** (non-blocking, from the
+   reviewer):
+   - Binance and Bybit funding enter as the last *settled* rate, up to
+     8 h old, while Deribit's is ≤ 1 h old. The funding-difference
+     features partly measure that staleness gap, not venue disagreement.
+   - Option flow is counted in contracts, not premium or delta.
+
+## Review
+REVIEW.md: **ACCEPT WITH FIXES.** The kill is valid on both conditions.
+The reviewer recomputed 14 features by hand at 7 bar closes (≤ 1e-14)
+and checked the publication lags against the data itself (e.g. DVOL's
+candle-open stamp). It found no bug that could hide a signal. Its
+wording fixes are applied above: the options-flow nuance, the regime
+diagnosis, and the weaker spec points. The CLAUDE.md note is corrected
+to match.
 
 ## Closure
 Per PLAN.md and the owner's instruction, this kill closes **the 1 h / 4 h

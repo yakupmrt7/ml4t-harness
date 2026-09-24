@@ -54,7 +54,9 @@ when it comes up, and skip ML basics.
 ## Closed research lines (do not reopen)
 - **1 h / 4 h BTC bar-direction prediction is closed permanently** (p01–p05, p10, p10b, p11).
   Price/flow features (p01–p05, p10), a TCN on 1-minute flow (p10), and external data
-  (Deribit implied vol and options flow, cross-venue funding and basis; p11) all failed their
-  pre-registered kills. p10b showed a 4 bps breakeven needs AUC ≈ 0.56–0.59, against a best of 0.54.
+  (Deribit DVOL and option-trade flow, cross-venue funding and basis; p11) all failed their kill
+  or cost bar. p10b showed that at H=12 a 4 bps breakeven needs AUC ≈ 0.56–0.59, against a best of
+  0.54. Liquidations were NOT tested (no free history for 2022-08 → 2026-08).
   Do not reopen it under any framing (new features, new models, stacking, other horizons of the
   same bar-direction label), unless the owner explicitly and newly decides otherwise.
+  This does NOT cover the Polymarket settlement / fair-value / latency work (p09, p12).
