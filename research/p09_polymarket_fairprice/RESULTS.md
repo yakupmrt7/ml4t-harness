@@ -1,6 +1,12 @@
-# p09 Polymarket 5-minute BTC up/down: Step 1 (settlement reconstruction)
+# p09 Polymarket 5-minute BTC up/down: Step 1 / 1b (settlement reconstruction)
 
-**Status: STOPPED at the Step-1 gate.** The rebuilt Chainlink outcome agrees
+**Status (after Step 1b): STOPPED for the owner's decision.** A TWAP of the
+Binance mid (50/50 futures/spot blend) reproduces Polymarket's resolution on
+**96.7%** of dev markets, against 92.0% from on-chain Chainlink. The
+owner's rule puts 95–98% in the "report and stop" band (PLAN.md,
+amendment 2). The holdout is still untouched.
+
+**Step 1 status: STOPPED at the Step-1 gate.** The rebuilt Chainlink outcome agrees
 with Polymarket's resolution on **92.0%** of dev markets (11,003 / 11,958).
 The pre-registered gate is ≥ 99% (PLAN.md, amendment 1). Steps 2–3 were not
 run. The holdout (2026-09-06 → 09-20) was not read, and no holdout slug was
@@ -107,7 +113,90 @@ Consequences for the rest of p09:
 - **The kill cannot be evaluated honestly with this settlement model.** Any
   takeable edge would sit where our settlement is wrong 11–40% of the time.
 
+## Step 1b: Binance mid instead of on-chain Chainlink (PLAN.md, amendment 2)
+Same markets, same Gamma ground truth. 11,934 of the 11,958 have complete
+bookTicker hours; the other 24 are left out.
+- Futures is bucketed on Binance event time.
+- Spot is bucketed on receive time and shifted back 133 ms, its median
+  receive lag.
+- The blend averages the log mids of futures and spot.
+- Windows match each market's rule: point / 30 s / 60 s. A (trailing) is
+  primary; B and C are reported too. The best of the 9 (series ×
+  candidate) variants is a disclosed choice.
+
+| variant | point 07-25→08-06 | twap-30s 08-07→08-13 | twap-60s 08-14→09-05 | all |
+|---|---:|---:|---:|---:|
+| on-chain Chainlink (Step 1, best) | 87.3 | 93.2 | 94.0 | 92.0 |
+| Binance futures, A | 96.0 | 92.0 | 96.8 | 95.8 |
+| Binance spot, A | 96.2 | 93.4 | 97.3 | 96.3 |
+| **Binance 50/50 blend, A** | **97.0** | **93.9** | **97.4** | **96.7** |
+| blend, B (point at both ends) | 97.0 | 90.0 | 88.5 | 91.1 |
+| blend, C (forward start window) | 97.0 | 88.3 | 87.5 | 90.3 |
+
+Trailing windows (A) clearly beat the alternatives for the TWAP rules. The
+point rule is identical across A/B/C by construction.
+
+Blend/A agreement by gap bucket:
+
+| gap | < 0.1 bp | 0.1–0.3 | 0.3–1 | 1–3 | 3–10 | > 10 bp |
+|---|---:|---:|---:|---:|---:|---:|
+| markets (by the blend's own gap) | 292 | 426 | 1,282 | 2,760 | 4,714 | 2,460 |
+| agree | 54% | 69% | 90.8% | 99.6% | **100%** | **100%** |
+| agree, bucketed by the on-chain gap (Step 1) | 83% | 80% | 90% | 96.6% | 99.2% | 100% |
+
+- **Disagreements:** 393, split 193 rebuilt Up / Gamma Down and 200 the
+  other way, so there is again no direction. **All are within 1.5 bp** of a
+  tie on the blend's own gap: median 0.18 bp, p90 0.59, p99 1.24.
+- **Blend vs on-chain, on the same markets:**
+  - both right: 10,702;
+  - Binance right, on-chain wrong: 839;
+  - Binance wrong, on-chain right: 291;
+  - both wrong: 102.
+- The full list is in `step1b_disagreements.csv`.
+
+### How well Binance stands in for the (on-chain) Chainlink feed
+The on-chain Chainlink round price at time u is compared with the Binance
+mid at u − k. A rolling 1 h median basis is removed first. The table shows
+the residual std in bp:
+
+| k (s) | −5 | 0 | 2 | 3 | **4** | 5 | 6 | 8 | 10 | 15 | 30 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| futures | 2.15 | 1.51 | 1.16 | 0.97 | **0.80** | 0.81 | 0.96 | 1.29 | 1.62 | 2.36 | 3.59 |
+| spot | 1.96 | 1.30 | 0.99 | 0.81 | **0.73** | 0.82 | 1.02 | 1.36 | 1.70 | 2.43 | 3.63 |
+
+- **Lead/lag:** an on-chain round stamped u reflects the Binance price of
+  about **4 s earlier**. Binance leads the on-chain feed by ~4 s.
+- **Returns regression, round to round, at k = 4:**
+  - futures: slope 0.92, R² 0.93, residual 0.96 bp;
+  - spot: slope 0.95, R² 0.93, residual 0.91 bp.
+
+  The slope is below 1 because Chainlink is an aggregate across venues and
+  Binance moves a little more.
+- **Residual size:** ~0.7–0.8 bp in level at the best lag. That is about
+  the size of the gap where settlement agreement drops below 90%. That
+  residual is the floor on how well any Binance-based rebuild can do.
+
+### Reading
+- Binance is a much better stand-in for the settlement feed than our
+  on-chain copy: 96.7% vs 92.0%. Beyond a 1 bp gap it is essentially
+  exact: 99.6% at 1–3 bp and 100% above 3 bp.
+- **What remains is irreducible with Binance alone.** Every miss is within
+  1.5 bp of a tie. 17% of markets (2,000) have a gap under 1 bp, and there
+  agreement is 54–91%. Chainlink Data Streams is a multi-venue aggregate,
+  and ~0.7 bp of it is simply not Binance.
+- **For a fair-value model this matters less than for settlement.** A
+  market that ends within 1 bp of its strike is a near-coin-flip for
+  everyone, the book included. The mispricing Step 2 looks for would have
+  to be much larger than 1 bp of BTC to clear a Polymarket spread. That is
+  an argument, not a measurement.
+- **Not tried (would be a new, undisclosed parameter):** shifting the
+  Binance windows by the ~4 s lag seen against the on-chain feed. The
+  lag is to the on-chain aggregator, not to Data Streams, so there is no
+  basis for pre-registering a shift.
+
 ## Options (owner's decision)
+*(Written after Step 1; still relevant, with Step 1b's 96.7% in hand.)*
+
 1. **Stop p09 here** (the pre-registered default). The collector does not
    capture the settlement price source.
 2. **Record the real source going forward.** Add Chainlink Data Streams,
@@ -124,6 +213,7 @@ Consequences for the rest of p09:
 - `fetch_resolutions.py`: Gamma fetch, dev slugs only
 - `step1_settlement.py`
 - `step1.json`, `step1.log`, `step1_disagreements.csv`
+- `step1b_binance.py`, `step1b.json`, `step1b.log`, `step1b_disagreements.csv`
 - Local, gitignored:
   - `data/collector/p09/resolutions.parquet` and `gamma.jsonl` (raw API rows)
   - `step1_settlement.parquet`

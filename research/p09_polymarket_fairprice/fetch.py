@@ -17,6 +17,7 @@ STREAMS = {
     "meta/collector_log": "collector_log", "1s/polymarket__price_change": "polymarket__price_change",
     "1s/polymarket__book": "polymarket__book", "1s/polymarket__last_trade_price": "polymarket__last_trade_price",
     "1s/binance_fut__btcusdt@bookTicker": "binance_fut__btcusdt@bookTicker",
+    "1s/binance_spot__btcusdt@bookTicker": "binance_spot__btcusdt@bookTicker",
 }
 
 
