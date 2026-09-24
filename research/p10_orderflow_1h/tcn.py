@@ -59,16 +59,20 @@ def device():
 
 
 class Windows:
-    """Sequences cut on the fly from one (T, CH) minute array; end[i] = row of the bar-close minute."""
+    """Sequences cut on the fly from one (T, CH) minute array kept ON THE DEVICE (no per-batch host copy);
+    end[i] = row of the bar-close minute."""
 
     def __init__(self, M: np.ndarray, end: np.ndarray):
         self.M, self.end = M, end
-        self.off = np.arange(-SEQ + 1, 1)
+        self.dev = device()
+        self.Md = torch.from_numpy(np.nan_to_num(M).astype(np.float32)).to(self.dev)
+        self.off = torch.arange(-SEQ + 1, 1, device=self.dev)
 
     def batch(self, idx, mean, std):
-        x = self.M[self.end[idx][:, None] + self.off[None, :]]          # (B, SEQ, CH)
-        x = (x - mean) / std
-        return torch.from_numpy(np.ascontiguousarray(x.transpose(0, 2, 1), dtype=np.float32))
+        e = torch.from_numpy(self.end[idx].astype(np.int64)).to(self.dev)
+        x = self.Md[e[:, None] + self.off[None, :]]                        # (B, SEQ, CH)
+        x = (x - torch.as_tensor(mean, device=self.dev)) / torch.as_tensor(std, device=self.dev)
+        return x.transpose(1, 2).contiguous()
 
 
 def valid_end_rows(minute_index: pd.DatetimeIndex, M: np.ndarray, t0: pd.DatetimeIndex) -> np.ndarray:
@@ -92,8 +96,8 @@ def fit_predict(W: Windows, y, w, t0v, t1v, train, test, log=None):
     fit = train[:-n_val]
     fit = fit[t1v[fit] < t0v[val[0]]]                                    # purge: labels ending inside val
     rows = W.end[fit]
-    mean = W.M[rows].mean(0)
-    std = W.M[rows].std(0) + 1e-8
+    mean = W.M[rows].mean(0).astype(np.float32)
+    std = (W.M[rows].std(0) + 1e-8).astype(np.float32)
     fit = fit[y[fit] >= 0]
     val = val[y[val] >= 0]
     wf = w[fit] / w[fit].mean()
