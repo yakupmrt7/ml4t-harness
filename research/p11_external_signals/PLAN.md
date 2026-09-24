@@ -139,3 +139,70 @@ backfill.
   RESULTS.md, REVIEW.md.
 - If a loader becomes reusable it moves to `harness/` with tests, and
   tests + selftest are run.
+
+## Amendment 1 (2026-09-24, after Step 0 and the owner's go; BEFORE any backfill or feature computation)
+Sources, per AVAILABILITY.md:
+- Deribit DVOL (1 h);
+- Deribit BTC option trades;
+- Deribit perp funding (1 h);
+- Bybit funding (8 h);
+- Bybit and OKX perp 5 m candles;
+- Binance funding (on disk) and Binance perp 5 m bars (p01).
+
+**Liquidations are dropped** (no free history for the window), and so are
+OKX funding and Hyperliquid. Options flow is added as its own family, not
+as a liquidation substitute.
+
+### Publication lags (feature at 5 m bar close t)
+- **DVOL candle opening at T:** usable from bars closing ≥ T + 1 h + 1 min,
+  i.e. the last candle whose close + 1 min ≤ t.
+- **Option trades:** timestamp < t.
+- **Deribit funding row:** stamp ≤ t − 1 min.
+- **Bybit/Binance settled funding:** strict `asof_join` (first used by the
+  bar closing after the stamp).
+- **Bybit/OKX candle closing at t:** used at t (public at t; execution
+  delay ≥ 1).
+
+### Feature list (exactly these; trailing, causal)
+1. **Implied vol, DVOL (6):**
+   - `dvol` = last usable hourly DVOL close;
+   - `dvol_chg_4h`, `dvol_chg_1d` = change of that close over 4 h / 24 h;
+   - `dvol_z30d` = z-score over the trailing 30 days of hourly closes;
+   - `ivrv_1d` = dvol/100 − realised vol, where realised vol is the
+     annualised std of 5 m Binance log returns over the last 288 bars
+     (√(365·288) scaling);
+   - `ivrv_7d` = the same with 2,016 bars.
+2. **Options flow, Deribit trades (8):** over w ∈ {4 h, 1 d}:
+   - `opt_callput_w`: call minus put notional (BTC `amount`), divided by
+     the total;
+   - `opt_buysell_w`: buyer-initiated minus seller-initiated notional,
+     divided by the total;
+   - `opt_netcall_w`: (buy calls − sell calls) − (buy puts − sell puts)
+     notional, divided by the total;
+   - `opt_skew_w`: median `iv` of OTM puts (strike/index in [0.85, 0.97])
+     minus median `iv` of OTM calls (in [1.03, 1.15]), expiries 1–45 days.
+     NaN if either side has fewer than 5 trades.
+3. **ATM IV from trades (2):**
+   - `atm_iv_4h` = median `iv` of trades with strike/index in [0.97, 1.03]
+     and expiry 1–45 days, over the last 4 h;
+   - `atm_iv_minus_dvol` = atm_iv_4h − dvol.
+4. **Funding dispersion (4):** each venue's latest known rate, converted
+   to 8 h equivalent (Deribit: `interest_8h`):
+   - `fund_disp` = std across Binance/Bybit/Deribit;
+   - `fund_bin_minus_mean` = Binance minus the cross-venue mean;
+   - `fund_bybit_minus_bin`;
+   - `fund_deribit_minus_bin`.
+5. **Cross-venue basis (6):** log(close_venue / close_binance) at t for
+   Bybit and OKX (`basis_bybit`, `basis_okx`), their 1 h mean
+   (`*_1h`), and their 4 h change (`*_chg_4h`).
+
+That is **26 external features**. The basic set is p01's 15.
+
+### Missing data
+- A feature is NaN when its source has no data inside its lookback. The
+  common sample drops rows with NaN in any model's features, except the
+  skew / ATM-IV option features. Those are NaN-tolerant: LightGBM handles
+  NaN natively, so they are passed as-is, and the harness `align` is
+  bypassed for them only.
+- The row counts dropped by each source are reported.
+- Positions are held across dropped bars.
