@@ -152,4 +152,4 @@ RTDS settlement check, once ≥ 7 days of the new collector feed exist
 - `trials.json` untouched (3).
 - Files: `PLAN.md` (committed before any computation), `run.py`,
   `run.log`, `results.json`.
-- Runtime 25 s.
+- Runtime 25 s (first run), 49 s with both arms.
