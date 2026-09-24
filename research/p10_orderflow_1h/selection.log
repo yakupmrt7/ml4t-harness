@@ -1,0 +1,57 @@
+/Users/yakupmert/Desktop/ml4t-harness/research/p10_orderflow_1h/selection.py:96: Pandas4Warning: Starting with pandas version 4.0 all arguments of all will be keyword-only.
+  common = Xb.notna().all(1) & Xf.notna().all(1) & pd.Series(end >= 0, index=labels.index)
+/Users/yakupmert/Desktop/ml4t-harness/research/p10_orderflow_1h/selection.py:98: Pandas4Warning: Starting with pandas version 4.0 all arguments of all will be keyword-only.
+  "dropped_basic_nan": int((~Xb.notna().all(1)).sum()), "dropped_flow_nan": int((~Xf.notna().all(1)).sum()),
+{"labels_pre_oos": 168291, "common_sample": 156943, "dropped_basic_nan": 44, "dropped_flow_nan": 11318, "dropped_tcn_window": 98, "first": "2022-09-01 00:00:00+00:00", "last": "2024-04-07 00:00:00+00:00", "n_flow_features": 44, "effective_n": 16181.006656092628}
+lookahead suspects: []
+A-basic: AUC 0.5445 (215s)
+A-flow: AUC 0.5223 (9s)
+A-both: AUC 0.5369 (8s)
+  TCN fold 1: train 123,975 test 31,389
+    epoch 1 val_loss 0.69349 (25s)
+    epoch 2 val_loss 0.69418 (24s)
+    epoch 3 val_loss 0.69301 (23s)
+    epoch 4 val_loss 0.69455 (24s)
+    epoch 5 val_loss 0.69375 (24s)
+    epoch 6 val_loss 0.69433 (23s)
+  TCN fold 2: train 123,965 test 31,389
+    epoch 1 val_loss 0.69461 (24s)
+    epoch 2 val_loss 0.69642 (25s)
+    epoch 3 val_loss 0.69244 (24s)
+    epoch 4 val_loss 0.69283 (24s)
+    epoch 5 val_loss 0.69434 (24s)
+    epoch 6 val_loss 0.69363 (23s)
+  TCN fold 3: train 123,960 test 31,389
+    epoch 1 val_loss 0.69325 (23s)
+    epoch 2 val_loss 0.69598 (23s)
+    epoch 3 val_loss 0.69287 (23s)
+    epoch 4 val_loss 0.69311 (23s)
+    epoch 5 val_loss 0.69278 (23s)
+    epoch 6 val_loss 0.69169 (24s)
+    epoch 7 val_loss 0.69307 (23s)
+    epoch 8 val_loss 0.69173 (23s)
+    epoch 9 val_loss 0.69453 (23s)
+  TCN fold 4: train 123,961 test 31,388
+    epoch 1 val_loss 0.69302 (23s)
+    epoch 2 val_loss 0.69510 (23s)
+    epoch 3 val_loss 0.69417 (23s)
+    epoch 4 val_loss 0.69483 (23s)
+  TCN fold 5: train 125,545 test 31,388
+    epoch 1 val_loss 0.69375 (24s)
+    epoch 2 val_loss 0.69290 (23s)
+    epoch 3 val_loss 0.69329 (23s)
+    epoch 4 val_loss 0.69293 (23s)
+    epoch 5 val_loss 0.69235 (23s)
+    epoch 6 val_loss 0.69297 (23s)
+    epoch 7 val_loss 0.69293 (23s)
+    epoch 8 val_loss 0.69357 (23s)
+B-TCN: AUC 0.5101 (778s)
+{"model": "A-basic", "positions": "P1", "auc": 0.5445, "sharpe_gross": 0.8145, "sharpe_gross_d2": 0.7239, "sharpe_net_maker": -9.2095, "sharpe_net_maker_d2": -9.3209, "sharpe_net_taker": -15.4174, "sharpe_net_taker_d2": -15.5414, "turnover_per_year": 11181.1283, "breakeven_bps": 0.2508, "breakeven_se_bps": 0.2279, "breakeven_minus_1se": 0.0229, "nw10_t_daily_gross": 1.3878, "exposure": 0.8989, "shift_null_p_gross": 0.145}
+{"model": "A-basic", "positions": "P2", "auc": 0.5445, "sharpe_gross": 1.0467, "sharpe_gross_d2": 1.5676, "sharpe_net_maker": -5.8014, "sharpe_net_maker_d2": -5.3288, "sharpe_net_taker": -10.0703, "sharpe_net_taker_d2": -9.6289, "turnover_per_year": 8438.8509, "breakeven_bps": 0.4695, "breakeven_se_bps": 0.3042, "breakeven_minus_1se": 0.1653, "nw10_t_daily_gross": 1.5213, "exposure": 0.5001, "shift_null_p_gross": 0.075}
+{"model": "A-flow", "positions": "P1", "auc": 0.5223, "sharpe_gross": -0.3006, "sharpe_gross_d2": -0.5371, "sharpe_net_maker": -8.858, "sharpe_net_maker_d2": -9.1124, "sharpe_net_taker": -14.1964, "sharpe_net_taker_d2": -14.4618, "turnover_per_year": 10189.0663, "breakeven_bps": -0.1082, "breakeven_se_bps": 0.2778, "breakeven_minus_1se": -0.386, "nw10_t_daily_gross": -0.4977, "exposure": 0.8885, "shift_null_p_gross": 0.935}
+{"model": "A-flow", "positions": "P2", "auc": 0.5223, "sharpe_gross": -0.2468, "sharpe_gross_d2": -0.2538, "sharpe_net_maker": -6.2506, "sharpe_net_maker_d2": -6.2871, "sharpe_net_taker": -9.9873, "sharpe_net_taker_d2": -10.0422, "turnover_per_year": 7680.8366, "breakeven_bps": -0.1264, "breakeven_se_bps": 0.4141, "breakeven_minus_1se": -0.5405, "nw10_t_daily_gross": -0.3784, "exposure": 0.4932, "shift_null_p_gross": 0.89}
+{"model": "A-both", "positions": "P1", "auc": 0.5369, "sharpe_gross": -0.0263, "sharpe_gross_d2": -0.1571, "sharpe_net_maker": -8.7131, "sharpe_net_maker_d2": -8.8352, "sharpe_net_taker": -14.1185, "sharpe_net_taker_d2": -14.2358, "turnover_per_year": 10892.5158, "breakeven_bps": -0.0093, "breakeven_se_bps": 0.2605, "breakeven_minus_1se": -0.2698, "nw10_t_daily_gross": -0.0524, "exposure": 0.902, "shift_null_p_gross": 0.78}
+{"model": "A-both", "positions": "P2", "auc": 0.5369, "sharpe_gross": 0.4349, "sharpe_gross_d2": 0.2907, "sharpe_net_maker": -6.1074, "sharpe_net_maker_d2": -6.2632, "sharpe_net_taker": -10.1793, "sharpe_net_taker_d2": -10.3418, "turnover_per_year": 8573.9426, "breakeven_bps": 0.2045, "breakeven_se_bps": 0.3467, "breakeven_minus_1se": -0.1422, "nw10_t_daily_gross": 0.7357, "exposure": 0.5388, "shift_null_p_gross": 0.5}
+{"model": "B-TCN", "positions": "P1", "auc": 0.5101, "sharpe_gross": 0.7251, "sharpe_gross_d2": 0.6556, "sharpe_net_maker": -6.4085, "sharpe_net_maker_d2": -6.504, "sharpe_net_taker": -10.8256, "sharpe_net_taker_d2": -10.9362, "turnover_per_year": 7247.2091, "breakeven_bps": 0.3144, "breakeven_se_bps": 0.3325, "breakeven_minus_1se": -0.018, "nw10_t_daily_gross": 1.2953, "exposure": 0.859, "shift_null_p_gross": 0.735}
+{"model": "B-TCN", "positions": "P2", "auc": 0.5101, "sharpe_gross": -0.3386, "sharpe_gross_d2": -0.3368, "sharpe_net_maker": -4.4845, "sharpe_net_maker_d2": -4.513, "sharpe_net_taker": -7.1065, "sharpe_net_taker_d2": -7.1534, "turnover_per_year": 5017.1542, "breakeven_bps": -0.25, "breakeven_se_bps": 0.5889, "breakeven_minus_1se": -0.8389, "nw10_t_daily_gross": -0.5329, "exposure": 0.3546, "shift_null_p_gross": 0.955}
+DECISION: KILL: best configuration A-basic/P2 breakeven 0.47 < 4.0 bps  (1991s)

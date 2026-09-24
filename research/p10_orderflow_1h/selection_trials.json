@@ -1,0 +1,322 @@
+[
+ {
+  "kind": "model",
+  "name": "p10 A-basic P1",
+  "params": {
+   "model": "A-basic",
+   "positions": {
+    "mode": "sign",
+    "threshold": 0.02,
+    "smooth": 12
+   },
+   "cv": "PurgedKFold(5, 0.01)",
+   "labels": "p01 triple_barrier H=12",
+   "weights": "average_uniqueness",
+   "sample": "pre-OOS common sample"
+  },
+  "auc": 0.5445495065325867,
+  "breakeven_bps": 0.25084463582672323,
+  "breakeven_se_bps": 0.22790441600367736,
+  "sharpe_gross": 0.8145153852277207,
+  "sharpe_net_maker": -9.209493809776948,
+  "turnover_per_year": 11181.128299037415,
+  "ts": "2026-09-24T18:21:34"
+ },
+ {
+  "kind": "model",
+  "name": "p10 A-basic P2",
+  "params": {
+   "model": "A-basic",
+   "positions": {
+    "theta_in": 0.05,
+    "theta_out": 0.0,
+    "min_hold": 24
+   },
+   "cv": "PurgedKFold(5, 0.01)",
+   "labels": "p01 triple_barrier H=12",
+   "weights": "average_uniqueness",
+   "sample": "pre-OOS common sample"
+  },
+  "auc": 0.5445495065325867,
+  "breakeven_bps": 0.46946004840769684,
+  "breakeven_se_bps": 0.30415443137818765,
+  "sharpe_gross": 1.0466672720189958,
+  "sharpe_net_maker": -5.801448993250204,
+  "turnover_per_year": 8438.850939099726,
+  "ts": "2026-09-24T18:21:36"
+ },
+ {
+  "kind": "model",
+  "name": "p10 A-flow P1",
+  "params": {
+   "model": "A-flow",
+   "positions": {
+    "mode": "sign",
+    "threshold": 0.02,
+    "smooth": 12
+   },
+   "cv": "PurgedKFold(5, 0.01)",
+   "labels": "p01 triple_barrier H=12",
+   "weights": "average_uniqueness",
+   "sample": "pre-OOS common sample"
+  },
+  "auc": 0.5222525298008782,
+  "breakeven_bps": -0.10823813385415648,
+  "breakeven_se_bps": 0.2777899983209475,
+  "sharpe_gross": -0.3005805066873422,
+  "sharpe_net_maker": -8.857951788133212,
+  "turnover_per_year": 10189.066275053065,
+  "ts": "2026-09-24T18:21:38"
+ },
+ {
+  "kind": "model",
+  "name": "p10 A-flow P2",
+  "params": {
+   "model": "A-flow",
+   "positions": {
+    "theta_in": 0.05,
+    "theta_out": 0.0,
+    "min_hold": 24
+   },
+   "cv": "PurgedKFold(5, 0.01)",
+   "labels": "p01 triple_barrier H=12",
+   "weights": "average_uniqueness",
+   "sample": "pre-OOS common sample"
+  },
+  "auc": 0.5222525298008782,
+  "breakeven_bps": -0.1264429746986857,
+  "breakeven_se_bps": 0.41409459151422695,
+  "sharpe_gross": -0.2467959575449337,
+  "sharpe_net_maker": -6.250553557710607,
+  "turnover_per_year": 7680.836610322665,
+  "ts": "2026-09-24T18:21:41"
+ },
+ {
+  "kind": "model",
+  "name": "p10 A-both P1",
+  "params": {
+   "model": "A-both",
+   "positions": {
+    "mode": "sign",
+    "threshold": 0.02,
+    "smooth": 12
+   },
+   "cv": "PurgedKFold(5, 0.01)",
+   "labels": "p01 triple_barrier H=12",
+   "weights": "average_uniqueness",
+   "sample": "pre-OOS common sample"
+  },
+  "auc": 0.5368729032591433,
+  "breakeven_bps": -0.009331439304737843,
+  "breakeven_se_bps": 0.260467263621874,
+  "sharpe_gross": -0.026285931064064266,
+  "sharpe_net_maker": -8.71309340548985,
+  "turnover_per_year": 10892.515802679063,
+  "ts": "2026-09-24T18:21:43"
+ },
+ {
+  "kind": "model",
+  "name": "p10 A-both P2",
+  "params": {
+   "model": "A-both",
+   "positions": {
+    "theta_in": 0.05,
+    "theta_out": 0.0,
+    "min_hold": 24
+   },
+   "cv": "PurgedKFold(5, 0.01)",
+   "labels": "p01 triple_barrier H=12",
+   "weights": "average_uniqueness",
+   "sample": "pre-OOS common sample"
+  },
+  "auc": 0.5368729032591433,
+  "breakeven_bps": 0.20450039953384241,
+  "breakeven_se_bps": 0.3466509042152624,
+  "sharpe_gross": 0.4348810369538085,
+  "sharpe_net_maker": -6.107390379548151,
+  "turnover_per_year": 8573.942601654053,
+  "ts": "2026-09-24T18:21:45"
+ },
+ {
+  "kind": "model",
+  "name": "p10 B-TCN P1",
+  "params": {
+   "model": "B-TCN",
+   "positions": {
+    "mode": "sign",
+    "threshold": 0.02,
+    "smooth": 12
+   },
+   "cv": "PurgedKFold(5, 0.01)",
+   "labels": "p01 triple_barrier H=12",
+   "weights": "average_uniqueness",
+   "sample": "pre-OOS common sample"
+  },
+  "auc": 0.5100605396112818,
+  "breakeven_bps": 0.31443396675234436,
+  "breakeven_se_bps": 0.3324562133970869,
+  "sharpe_gross": 0.7251482602277013,
+  "sharpe_net_maker": -6.408519271565024,
+  "turnover_per_year": 7247.2090515063055,
+  "ts": "2026-09-24T18:21:47"
+ },
+ {
+  "kind": "model",
+  "name": "p10 B-TCN P2",
+  "params": {
+   "model": "B-TCN",
+   "positions": {
+    "theta_in": 0.05,
+    "theta_out": 0.0,
+    "min_hold": 24
+   },
+   "cv": "PurgedKFold(5, 0.01)",
+   "labels": "p01 triple_barrier H=12",
+   "weights": "average_uniqueness",
+   "sample": "pre-OOS common sample"
+  },
+  "auc": 0.5100605396112818,
+  "breakeven_bps": -0.25001509093125873,
+  "breakeven_se_bps": 0.5888975945997212,
+  "sharpe_gross": -0.33864816926369884,
+  "sharpe_net_maker": -4.484520322189736,
+  "turnover_per_year": 5017.15424542044,
+  "ts": "2026-09-24T18:21:49"
+ },
+ {
+  "kind": "model",
+  "name": "p10 A-basic P1 (held across dropped bars)",
+  "params": {
+   "model": "A-basic",
+   "positions": "P1",
+   "fix": "positions held across dropped bars",
+   "refit": false
+  },
+  "auc": 0.5445495065325867,
+  "breakeven_bps": 0.6593997041980705,
+  "breakeven_se_bps": 0.5062133132469084,
+  "sharpe_gross": 0.9631540834392545,
+  "sharpe_net_maker": -3.5742571737188724,
+  "turnover_per_year": 5050.405974089291,
+  "ts": "2026-09-24T18:22:34"
+ },
+ {
+  "kind": "model",
+  "name": "p10 A-basic P2 (held across dropped bars)",
+  "params": {
+   "model": "A-basic",
+   "positions": "P2",
+   "fix": "positions held across dropped bars",
+   "refit": false
+  },
+  "auc": 0.5445495065325867,
+  "breakeven_bps": 1.5309846975093941,
+  "breakeven_se_bps": 0.8678177522777135,
+  "sharpe_gross": 1.195088425254957,
+  "sharpe_net_maker": -1.2277603300976057,
+  "turnover_per_year": 2965.136908194753,
+  "ts": "2026-09-24T18:22:36"
+ },
+ {
+  "kind": "model",
+  "name": "p10 A-flow P1 (held across dropped bars)",
+  "params": {
+   "model": "A-flow",
+   "positions": "P1",
+   "fix": "positions held across dropped bars",
+   "refit": false
+  },
+  "auc": 0.5222525298008782,
+  "breakeven_bps": -0.20991674182912268,
+  "breakeven_se_bps": 0.5953714935295693,
+  "sharpe_gross": -0.2719737857531261,
+  "sharpe_net_maker": -4.260714359116867,
+  "turnover_per_year": 4767.992128090943,
+  "ts": "2026-09-24T18:22:39"
+ },
+ {
+  "kind": "model",
+  "name": "p10 A-flow P2 (held across dropped bars)",
+  "params": {
+   "model": "A-flow",
+   "positions": "P2",
+   "fix": "positions held across dropped bars",
+   "refit": false
+  },
+  "auc": 0.5222525298008782,
+  "breakeven_bps": -0.34065941019897816,
+  "breakeven_se_bps": 1.23577113268898,
+  "sharpe_gross": -0.22245746350221376,
+  "sharpe_net_maker": -2.2433593157949225,
+  "turnover_per_year": 2577.3738027147388,
+  "ts": "2026-09-24T18:22:41"
+ },
+ {
+  "kind": "model",
+  "name": "p10 A-both P1 (held across dropped bars)",
+  "params": {
+   "model": "A-both",
+   "positions": "P1",
+   "fix": "positions held across dropped bars",
+   "refit": false
+  },
+  "auc": 0.5368729032591433,
+  "breakeven_bps": 0.05592344979126916,
+  "breakeven_se_bps": 0.6030082733875118,
+  "sharpe_gross": 0.06825440416246828,
+  "sharpe_net_maker": -3.6929356002516176,
+  "turnover_per_year": 4734.379043123079,
+  "ts": "2026-09-24T18:22:43"
+ },
+ {
+  "kind": "model",
+  "name": "p10 A-both P2 (held across dropped bars)",
+  "params": {
+   "model": "A-both",
+   "positions": "P2",
+   "fix": "positions held across dropped bars",
+   "refit": false
+  },
+  "auc": 0.5368729032591433,
+  "breakeven_bps": 0.8567510345820888,
+  "breakeven_se_bps": 1.067086850959266,
+  "sharpe_gross": 0.59376376368634,
+  "sharpe_net_maker": -1.5429114270524218,
+  "turnover_per_year": 2803.7774223659726,
+  "ts": "2026-09-24T18:22:45"
+ },
+ {
+  "kind": "model",
+  "name": "p10 B-TCN P1 (held across dropped bars)",
+  "params": {
+   "model": "B-TCN",
+   "positions": "P1",
+   "fix": "positions held across dropped bars",
+   "refit": false
+  },
+  "auc": 0.5100605396112818,
+  "breakeven_bps": 0.6831079648202057,
+  "breakeven_se_bps": 0.6665891100438854,
+  "sharpe_gross": 0.7876426372423523,
+  "sharpe_net_maker": -2.7823450503887694,
+  "turnover_per_year": 3633.090128602261,
+  "ts": "2026-09-24T18:22:47"
+ },
+ {
+  "kind": "model",
+  "name": "p10 B-TCN P2 (held across dropped bars)",
+  "params": {
+   "model": "B-TCN",
+   "positions": "P2",
+   "fix": "positions held across dropped bars",
+   "refit": false
+  },
+  "auc": 0.5100605396112818,
+  "breakeven_bps": -0.6567822269739813,
+  "breakeven_se_bps": 1.5885289683360728,
+  "sharpe_gross": -0.3292958793658475,
+  "sharpe_net_maker": -1.8689836941921534,
+  "turnover_per_year": 1862.5137550314223,
+  "ts": "2026-09-24T18:22:50"
+ }
+]
