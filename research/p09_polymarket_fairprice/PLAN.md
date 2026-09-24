@@ -239,3 +239,49 @@ Decisions:
   |TWAP_end/TWAP_start − 1|, and the number of rounds in each window.
   Failures at near-ties are expected. Systematic failures mean the
   reconstruction is wrong.
+
+## Amendment 2 (2026-09-24, owner's Step 1b; written before spot data is fetched or any Binance TWAP is computed)
+Step 1 gave 92.0% agreement (rebuilt on-chain vs Gamma, gate 99%). Step 1b
+rebuilds the same markets' settlement from the **Binance mid** instead.
+Dev data only, no new collection, holdout untouched.
+
+- **Markets:** the 11,958 of Step 1 (Gamma-resolved, complete Chainlink
+  hours). A market also needs the bookTicker hours for its windows. Markets
+  without them are counted and left out per series.
+- **Series** (1s bookTicker tables): futures, spot, and a 50/50 blend of
+  the two (average of log mids).
+  - **Futures** is bucketed on Binance event time `E`, so it needs no lag
+    correction.
+  - **Spot** has no payload clock and is bucketed on collector receive time.
+    It is shifted back by **133 ms**, the median spot receive lag (p08
+    SCHEMAS.md, spot `@trade`). A window [a, b] in exchange time therefore
+    uses receive buckets a…b weighted 0.867, 1, …, 1, 0.133.
+  - Missing seconds carry the last mid forward.
+- **Rule windows, matching each market's own rule:**
+  - `btc-usd` = point: the last mid before T, i.e. `mid_last` of bucket
+    T − 1.
+  - twap-30s / twap-60s = the mean of per-second `mid_twap` over [T − W, T]
+    at both start and end (candidate A).
+
+  A (trailing) is primary. B (point at both ends) and C (forward start
+  window) are reported alongside, as in Step 1. Up if end ≥ start.
+- **Report:** agreement vs Gamma per rule period and overall, and by the
+  Step-1 gap buckets, measured both on the Binance series' own gap and on
+  the on-chain gap. The on-chain numbers (87.3 / 93.2 / 94.0, overall 92.0)
+  are shown next to them.
+- **On-chain Chainlink vs Binance mapping.** At each Chainlink round time
+  u, the Binance mid at u − k is used, for k = −10 … +60 s:
+  - the residual log(CL) − log(Binance), after removing a rolling 1 h
+    median basis, with its std in bp per k. The k with the smallest std is
+    the lead/lag.
+  - At that k, the round-to-round returns of CL are regressed on Binance
+    returns over the same intervals: slope, R², residual std in bp.
+- **Decision rule (owner):**
+  - Binance agreement **≥ 99%**: p09 continues with Binance as the
+    fair-value input, and on-chain Chainlink is used only for
+    cross-checks.
+  - **~95–98%**: report and stop for a decision.
+  - (Below 95%: report and stop.)
+  - The series named here (futures, spot, blend) are the only ones
+    compared, and the best of them is reported as the best. That is a
+    disclosed choice among 3 × 3 = 9 variants.
