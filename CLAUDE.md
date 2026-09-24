@@ -5,6 +5,9 @@ to be able to say "there is nothing here". Owner is strong at ML and new to
 finance: explain market-specific reasoning (costs, microstructure, funding)
 when it comes up, and skip ML basics.
 
+**Current line: see docs/ROADMAP.md (forced flow on Hyperliquid). Anything not serving
+that thesis is parked, not started.**
+
 ## Commands
 - `pip install -e ".[dev]"`: install
 - `python tests/test_core.py` (or `pytest -q`): unit tests. Run after ANY change in `harness/`.
@@ -15,7 +18,9 @@ when it comes up, and skip ML basics.
 - `harness/`: library code (labels, weights, cv, backtest, metrics, nulls, features, data)
 - `research/pNN_<name>/`: one folder per experiment (script or notebook + short RESULTS.md)
 - `data/raw` = Binance archive zips, `data/collector` = slices synced from the GCS collector, `data/bars` = parquet caches. All gitignored.
-- `trials.json`: the trial log. Committed. Never delete or edit its entries.
+- `trials.json`: the trial log of the closed Binance line (p01–p12). `trials_hl.json`: the trial
+  log of the Hyperliquid line. Both committed. Never delete or edit their entries. "The trial log"
+  below means the current line's log (`trials_hl.json` now).
 
 ## Research script conventions (research/pNN_<name>/run.py)
 - Take a `--no-log` flag that skips `TrialLog.log`. Re-running an identical
@@ -38,6 +43,19 @@ when it comes up, and skip ML basics.
 6. **Costs are always on.** Default CostModel(fee_bps=5, slippage_bps=0.5) for taker. Report the breakeven cost too.
 7. Report effective n (sum of uniqueness), not the raw label count, and the annualised Sharpe standard error (~1/sqrt(years)).
 8. A result is claimed only after `validation_report` has been run on it. Paste its verdict block into RESULTS.md.
+9. **Features enter normalised.** Every feature is a rank or a z-score against a trailing window,
+   never a raw level. Raw levels let trees identify the regime (fold-id accuracy 0.998 in p11,
+   0.936 in p10) and predict base rates instead of direction.
+10. **Adversarial fold-id test.** For any new feature set, train a model to predict the CV fold id
+   from the features and report its accuracy in RESULTS.md (chance = 1/n_folds). High accuracy
+   means the features encode time, not signal.
+
+## Hyperliquid line bookkeeping
+- Own dev/holdout split: first 75% / last 25% of the collected calendar span, fixed the day
+  collection starts. The holdout is untouched until the ROADMAP's final stage.
+- Own trial log: `trials_hl.json`. Do not write HL trials to `trials.json`.
+- Costs measured for Hyperliquid separately (fee schedule, measured spread, fill assumption).
+  Never reuse the Binance cost table or `CostModel` defaults for HL results.
 
 ## Data notes
 - Binance archive timestamps: futures klines, premiumIndexKlines and funding are ms throughout;
@@ -55,8 +73,10 @@ when it comes up, and skip ML basics.
 - **1 h / 4 h BTC bar-direction prediction is closed permanently** (p01–p05, p10, p10b, p11).
   Price/flow features (p01–p05, p10), a TCN on 1-minute flow (p10), and external data
   (Deribit DVOL and option-trade flow, cross-venue funding and basis; p11) all failed their kill
-  or cost bar. p10b showed that at H=12 a 4 bps breakeven needs AUC ≈ 0.56–0.59, against a best of
-  0.54. Liquidations were NOT tested (no free history for 2022-08 → 2026-08).
+  or cost bar. p10b showed that a 4 bps breakeven needs AUC ≈ 0.56–0.59, against a best of
+  0.54; that requirement was measured at H=12, not H=48 (p11 reviewer correction).
+  Liquidations were never tested (no free history for 2022-08 → 2026-08), so the closure says
+  nothing about them.
   Do not reopen it under any framing (new features, new models, stacking, other horizons of the
   same bar-direction label), unless the owner explicitly and newly decides otherwise.
-  This does NOT cover the Polymarket settlement / fair-value / latency work (p09, p12).
+  The closure does NOT cover the Polymarket settlement / fair-value / latency work (p09, p12).
