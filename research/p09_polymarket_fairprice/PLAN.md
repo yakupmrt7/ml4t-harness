@@ -285,3 +285,53 @@ Dev data only, no new collection, holdout untouched.
   - The series named here (futures, spot, blend) are the only ones
     compared, and the best of them is reported as the best. That is a
     disclosed choice among 3 × 3 = 9 variants.
+
+## Amendment 3 (2026-09-24, owner's "go" for Steps 2–3; written before any Step-2 computation)
+- **Settlement approximation, disclosed up front in RESULTS.md.** The
+  markets settle on Chainlink Data Streams. We approximate that with a
+  Binance TWAP: 96.7% agreement with Gamma, and a ~0.75 bp residual of
+  non-Binance content.
+- **Outcomes = Gamma resolutions only**, never the rebuild. The one
+  unresolved market and the 24 without bookTicker coverage are out, so the
+  universe is the 11,934 of Step 1b, minus any without price_change
+  coverage (counted).
+- **Current price S_t = the Binance 50/50 blend** (mean of log mids;
+  futures on event time, spot on receive time − 133 ms), known at t. This
+  replaces on-chain Chainlink as the primary input. On-chain Chainlink is
+  used only for cross-checks.
+  - At decision second t, only 1 s buckets ≤ t − 1 are used. The
+    information is therefore complete by ~t + 0.13 s, and the decision time
+    is stamped t + 0.2 s.
+  - Start reference = the blend over the market's own rule window (point /
+    30 s / 60 s trailing), known once t ≥ T_start.
+  - In the final window, the known part is the blend TWAP-to-date.
+- **Model: unchanged and unfitted.** Driftless diffusion; σ = trailing
+  15 min realised vol of the Binance futures 1 s mid.
+  - For window length W: when τ > W, V = σ²(τ − 2W/3); when τ ≤ W, the
+    unknown part has V = σ²τ³/(3W²), with the mean blended from the known
+    part.
+  - W = 0 (point rule): V = σ²τ.
+  - **No lag shift, and no other fitted parameter.** Testing the 4 s shift
+    would need its own PLAN entry.
+- **Every Step-2 and Step-3 result is reported twice:**
+  - (i) all markets;
+  - (ii) excluding markets whose **finish** is within 1 bp of a tie (blend
+    rebuild, Step 1b).
+
+  (ii) conditions on the future, so it is a reporting cut, never a trading
+  input. If (i) and (ii) differ materially, (ii) is the honest one
+  (owner). Realised P&L on (ii) is biased by construction, because the
+  coin-flip finishes are removed, and that is stated next to it.
+- **Per-market uncertainty flag, ex ante:** the |gap| between S_t and the
+  start reference at decision time, in the Step-1b buckets (< 0.1, 0.1–0.3,
+  0.3–1, 1–3, 3–10, > 10 bp). Step 3 reports takeable edge per bucket, plus
+  "reliable" = current |gap| ≥ 3 bp, where Step 1b agreement was 100%.
+  This flag uses only information known at t.
+- **Everything else is as in PLAN.md Steps 2–3:** the grid h ∈ {1, 2, 3,
+  5} c × L ∈ {150 ms, 500 ms, 1 s}; the kill at h = 1 c, L = 500 ms; size
+  from `polymarket__book` snapshots ≤ 5 s old at the same touch price,
+  else 0; one fill per (market, token, Binance second); gas $0.02 per
+  position; fees 0. Holdout untouched.
+  - One adjustment to "one fill per (market, token, Chainlink round)":
+    the round no longer drives the signal, so a fill uses up that token's
+    touch for the market until the touch price changes.
