@@ -1,5 +1,18 @@
 # p09 Polymarket 5-minute BTC up/down: Step 1 / 1b (settlement reconstruction)
 
+> **Settlement approximation (read this first).** These markets settle on
+> **Chainlink Data Streams** (BTC/USD point / 30 s TWAP / 60 s TWAP,
+> depending on the period). The collector did not record that feed for the
+> dev period. Everything from Step 2 on approximates it with a **TWAP of the
+> Binance mid** (50/50 futures/spot blend, each market's own rule window).
+> That approximation reproduces Polymarket's actual resolutions on **96.7%**
+> of dev markets. The residual against Chainlink is **~0.75 bp** of
+> non-Binance content (Step 1b), and every miss is within 1.5 bp of a tie.
+> Outcomes in Steps 2–3 are **Gamma resolutions**, never the rebuild. Every
+> Step 2/3 number is reported twice: all markets, and excluding markets
+> whose finish is within 1 bp of a tie. Where the two differ materially, the
+> second is the honest one.
+
 **Status (after Step 1b): STOPPED for the owner's decision.** A TWAP of the
 Binance mid (50/50 futures/spot blend) reproduces Polymarket's resolution on
 **96.7%** of dev markets, against 92.0% from on-chain Chainlink. The
@@ -206,6 +219,39 @@ the residual std in bp:
 3. **Continue to Step 2 as a disclosed approximation.** Use Gamma outcomes,
    and on-chain Chainlink or Binance for the current price. Not
    recommended, for the reasons above.
+
+## Collector: the real settlement feed, recorded from 2026-09-24 07:12:35 UTC
+Added on `poly-collector-eu` (e2-small: 2 vCPU, 2 GB RAM). The existing
+`collector.service` used ~20% CPU and 109 MB, with 1.47 GB of memory free,
+so there was room for this.
+- **What:** Polymarket's live-data websocket (`wss://ws-live-data.polymarket.com`),
+  topic `crypto_prices_chainlink`, unfiltered `update` subscription. It
+  carries the Chainlink prices Polymarket's crypto up/down markets settle
+  on, once per second per symbol (btc/usd, eth/usd, sol/usd, xrp/usd,
+  doge/usd, …), with the Chainlink observation timestamp and a
+  full-precision value.
+  - Subscribing with a `{"symbol": …}` filter returned only a snapshot,
+    so the subscription is unfiltered.
+- **How (existing streams not disturbed):** a separate process and
+  systemd unit, `poly-rtds.service` (`Nice=5`, `MemoryMax=256M`,
+  `Restart=always`), running `scripts/rtds_collector.py`. A copy is in
+  `collector/rtds_collector.py` here.
+  - It reuses the collector's own `RawWriter` and `run_ws` (reconnect,
+    recv-time stamping), with an app-level PING every 5 s.
+  - It writes `data/raw/{date}/polymarket_rtds/crypto_prices_chainlink/{HH}.ndjson`,
+    which the existing cron compaction (`rglob *.ndjson`) and GCS push pick up
+    unchanged: `eu-raw_pq/{date}/polymarket_rtds__crypto_prices_chainlink__{HH}.parquet`.
+  - Its operational log is its own feed, `polymarket_rtds/_log`; it never
+    appends to `collector_log`.
+  - `collector.service` was not restarted: the same PID before and after.
+    The new process uses ~1% CPU and ~31 MB.
+- **Not added: Chainlink Data Streams directly.** It needs Chainlink-issued
+  API credentials (a commercial product), and none are available here.
+  Polymarket's rebroadcast is the practical substitute. That it matches
+  resolutions exactly still has to be verified, once enough days of it
+  have accumulated.
+- **When usable:** from 2026-09-24 07:12 UTC. The retention job pushes days
+  older than 2 days, so the first day on GCS is expected around 2026-09-26/27.
 
 ## Files
 - `PLAN.md` (with amendment 1)
