@@ -13,7 +13,21 @@
 > whose finish is within 1 bp of a tie. Where the two differ materially, the
 > second is the honest one.
 
-**Status (after Step 1b): STOPPED for the owner's decision.** A TWAP of the
+**Status (after Steps 2–3): the model-based edge is not real, so there is
+no takeable edge to report.** The pre-registered kill (median takeable edge
+≥ 1 c AND ≥ $50/day) is **passed mechanically, but invalidated by realised
+P&L.**
+- The model claims a median 5.2 c edge per filled contract. Trading it
+  **loses** 1.15 c per contract (t = −3.9, clustered by market) against
+  Gamma outcomes.
+- The Polymarket mid is better calibrated than the model (Brier 0.1424 vs
+  0.1485).
+
+PLAN.md says what to do in this case: "If realised P&L is negative while
+model edge is positive, the model is wrong, and that is reported as such."
+No trading rule is selected. The holdout is untouched.
+
+**Status after Step 1b (superseded): STOPPED for the owner's decision.** A TWAP of the
 Binance mid (50/50 futures/spot blend) reproduces Polymarket's resolution on
 **96.7%** of dev markets, against 92.0% from on-chain Chainlink. The
 owner's rule puts 95–98% in the "report and stop" band (PLAN.md,
@@ -220,6 +234,141 @@ the residual std in bp:
    and on-chain Chainlink or Binance for the current price. Not
    recommended, for the reasons above.
 
+## Steps 2–3: fair value vs the market, and what is takeable (PLAN.md, amendment 3)
+- **Universe:** 11,958 Gamma-resolved dev markets, all with complete
+  Binance, price_change and book hours; 11,916 produce at least one scored
+  second. That is 3.56 M market-seconds, ≈ 41.5 market-days.
+- **Model:** driftless diffusion on the Binance blend; start reference =
+  the Step-1b blend over the rule window; σ = trailing 15 min realised vol
+  of the 1 s futures mid; no fitted parameter; no lag shift.
+- **Timing:** decisions at t + 0.2 s, using 1 s buckets ≤ t − 1.
+- **Outcomes:** Gamma.
+- **The two cuts:** (i) all markets; (ii) excluding the 2,000 markets whose
+  finish is within 1 bp of a tie.
+
+### Which of the two cuts is honest here: (i), not (ii)
+The owner's rule says that if (i) and (ii) differ materially, (ii) is the
+honest one. That rule assumed near-tie markets carry wrong outcomes. In
+Steps 2–3 the outcomes are **Gamma resolutions, so every market's outcome
+is the true one.**
+- Dropping markets that *finish* near the tie conditions on the future.
+  It removes exactly the late reversals that punish an overconfident
+  model, so (ii) is biased **upward**.
+- The settlement approximation affects only the model's *input* (the start
+  reference, ±0.75 bp). The ex-ante flag below handles that without
+  looking ahead.
+- So (ii) is reported as asked, but **(i), and the ex-ante "reliable" cut,
+  are the honest numbers.** This is flagged for the owner, not silently
+  applied.
+
+### Step 2: calibration first
+| | Brier, model | Brier, Polymarket mid |
+|---|---:|---:|
+| (i) all | 0.1485 | **0.1424** |
+| (ii) excl. near-tie finish | 0.1273 | 0.1278 |
+
+Reliability of the model's P(up) against Gamma outcomes, in (i):
+
+| model P bin | 0–0.1 | 0.1–0.2 | 0.2–0.3 | 0.3–0.4 | 0.4–0.5 | 0.5–0.6 | 0.6–0.7 | 0.7–0.8 | 0.8–0.9 | 0.9–1 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| mean model P | 0.020 | 0.150 | 0.251 | 0.352 | 0.463 | 0.546 | 0.649 | 0.749 | 0.850 | 0.981 |
+| realised Up | 0.049 | 0.182 | 0.258 | 0.342 | 0.460 | 0.542 | 0.643 | 0.733 | 0.825 | 0.955 |
+| mean Polymarket mid | 0.066 | 0.194 | 0.276 | 0.361 | 0.465 | 0.550 | 0.644 | 0.733 | 0.813 | 0.935 |
+
+The model is well calibrated in the middle and **overconfident in the
+tails**. When it says 0.98, Up happens 95.5% of the time, and the mid
+(0.935) was closer. That is the classic failure of a Gaussian diffusion
+with a trailing-vol σ: fat tails, jumps and vol bursts inside 5 minutes.
+The market prices those, and the model does not.
+
+**Gap = model − mid, by time to expiry (i):**
+
+| time to expiry | 0–30 s | 30–60 | 60–120 | 120–180 | 180–240 | 240–300 |
+|---|---:|---:|---:|---:|---:|---:|
+| median \|gap\| (probability points) | 0.005 | 0.009 | 0.027 | 0.035 | 0.038 | 0.031 |
+| p90 \|gap\| | 0.135 | 0.174 | 0.152 | 0.130 | 0.117 | 0.101 |
+| share of seconds with \|gap\| > half-spread | 27% | 54% | 79% | 91% | 92% | 89% |
+
+- Median half-spread is 0.5 c: the book is one tick wide almost always.
+- **Quoted size at the touch when |gap| > half-spread:** known (fresh book
+  snapshot at the same price) in 82% of those 2.80 M seconds; median 178
+  contracts, p90 698.
+- **By on-chain Chainlink staleness** (0–2, 2–5, 5–15, 15–30, > 30 s since
+  the last round): the median |gap| is 0.0276–0.0279 in every bucket, and
+  the share beyond the half-spread is 78.6–79.0%. **No "just after a feed
+  update" effect.** That is expected once the model runs on Binance and not
+  the on-chain feed. It is also direct evidence that the book does not
+  wait for on-chain Chainlink.
+
+### Step 3: taking the touch when model − ask ≥ h
+- **Fills:** at the ask in the second the order arrives, only if that ask
+  is still ≤ the signal ask. Size = the fresh book size at that price,
+  else 0 (below 5 contracts = 0). One fill per touch price.
+- **Holding and cost:** held to Gamma resolution; gas $0.02 per position;
+  fees 0.
+- **Latency:** L = 150 ms and L = 500 ms give **identical** results. With
+  1 s tables, both arrivals land in the same second, so latency below
+  ~1 s is **not resolved** by this data.
+
+| h, L | fills/day | median model edge at fill | realised P&L / contract | t (by market) | realised $/day after gas | notional $/day |
+|---|---:|---:|---:|---:|---:|---:|
+| **1 c, 0.5 s (kill config)** | 14,109 | **5.2 c** | **−1.15 c** | **−3.92** | −45,019 | 2.05 M |
+| 1 c, 1.0 s | 12,542 | 6.2 c | −1.30 c | −4.52 | −45,932 | 1.74 M |
+| 2 c, 0.5 s | 11,525 | 6.2 c | −1.24 c | −3.65 | −37,626 | 1.54 M |
+| 3 c, 0.5 s | 9,341 | 7.3 c | −1.36 c | −3.51 | −32,508 | 1.18 M |
+| 5 c, 0.5 s | 6,136 | 9.9 c | −1.57 c | −3.19 | −23,569 | 0.71 M |
+| *(ii)* 1 c, 0.5 s | 13,269 | 4.8 c | −0.31 c | −0.99 | −11,912 | 2.08 M |
+| *(ii)* 5 c, 0.5 s | 5,140 | 9.0 c | +0.20 c | +0.37 | +2,669 | 0.67 M |
+
+(The full 12-row grid, with (ii) for every row, is in `step23.json` and
+`selection_trials.json`, marked `measurement`.)
+
+- **The bigger the claimed edge, the more it loses:** realised P&L falls
+  from −1.15 c to −1.57 c as h rises from 1 c to 5 c. The signal is anti-selected.
+  When the model disagrees most with the book, the book is right.
+- **By ex-ante gap at decision** (kill config, (i)):
+
+| \|current gap\| | < 0.1 bp | 0.1–0.3 | 0.3–1 | 1–3 | 3–10 | > 10 bp |
+|---|---:|---:|---:|---:|---:|---:|
+| fills/day | 1,037 | 906 | 2,412 | 4,390 | 4,512 | 852 |
+| median model edge | 7.8 c | 7.8 c | 6.6 c | 5.4 c | 4.4 c | 3.7 c |
+| realised P&L / contract | −3.32 c | −1.73 c | −2.29 c | −1.09 c | −0.55 c | +0.25 c |
+| t | −3.86 | −2.26 | −4.24 | −2.53 | −1.25 | +0.38 |
+
+- **"Reliable" (ex-ante |gap| ≥ 3 bp):** 5,363 fills/day, median model
+  edge 4.3 c, realised **−0.39 c/contract, t = −0.97**, −$6.6k/day. In
+  (ii): +0.56 c, t = 1.44. Where our settlement approximation is
+  trustworthy, the edge is ~0, not 4 c.
+- **The notional ($0.6–2 M/day) is not takeable capacity.** It re-counts
+  replenished touch liquidity every time the price ticks, over 288 markets
+  a day. It only says size is not the binding constraint: the model is.
+
+### Kill criterion, as pre-registered (h = 1 c, L = 500 ms)
+| | median takeable (model) edge | takeable size $/day | kill fires? | realised P&L / contract |
+|---|---:|---:|---|---:|
+| (i) all | 5.2 c (≥ 1 c) | 2.05 M (≥ $50) | **no, mechanically** | **−1.15 c, t −3.9** |
+| (ii) excl. near-tie finish | 4.8 c | 2.08 M | no, mechanically | −0.31 c, t −1.0 |
+
+The kill was written on *model* edge, with realised P&L as the check on
+the model. The check fails: significantly negative in (i), zero in (ii),
+zero in the ex-ante reliable cut. **Verdict: there is no takeable edge from
+this fair-value model.** What the kill "passes" is the model's own
+miscalibration.
+
+### What we learned
+1. The Polymarket 5-minute BTC book is **better calibrated than a
+   textbook diffusion on Binance**, especially in the tails. It prices the
+   jump and vol-burst risk that a Gaussian model with trailing σ misses.
+2. The hypothesised lag (book slow to react to the settlement feed) does
+   **not show up at 1 s resolution** against the on-chain feed. The gap is
+   flat across Chainlink staleness buckets. Any latency edge would sit
+   below 1 s, which this data (1 s tables, ~127 ms collector lag) cannot
+   resolve.
+3. Next steps that would make sense: a sub-second (event-level) test of
+   book reaction to Binance moves, and/or a fat-tailed fair value. Each
+   needs its own PLAN. The holdout (09-06 → 09-20) is still untouched and
+   is the only clean data left for this line.
+
 ## Collector: the real settlement feed, recorded from 2026-09-24 07:12:35 UTC
 Added on `poly-collector-eu` (e2-small: 2 vCPU, 2 GB RAM). The existing
 `collector.service` used ~20% CPU and 109 MB, with 1.47 GB of memory free,
@@ -260,6 +409,8 @@ so there was room for this.
 - `step1_settlement.py`
 - `step1.json`, `step1.log`, `step1_disagreements.csv`
 - `step1b_binance.py`, `step1b.json`, `step1b.log`, `step1b_disagreements.csv`
+- `step23_fairvalue.py`, `step23.json`, `step23.log`, `step23_counts.json`, `selection_trials.json` (12 measurement rows)
+- Local, gitignored: `step2_seconds.parquet`, `step3_trades.parquet`, `step23_markets.parquet`
 - Local, gitignored:
   - `data/collector/p09/resolutions.parquet` and `gamma.jsonl` (raw API rows)
   - `step1_settlement.parquet`

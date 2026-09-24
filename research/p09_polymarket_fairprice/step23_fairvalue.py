@@ -225,7 +225,7 @@ def summarize(m, sec, tr, counts):
         o = {"n_seconds": len(s), "n_markets": int(s["slug"].nunique()),
              "calibration": {}, "brier_model": float(((s["p"] - s["outcome"]) ** 2).mean()),
              "brier_mid": float(((s["mid"] - s["outcome"]) ** 2).mean())}
-        cb = pd.cut(s["p"], np.linspace(0, 1, 11), include_lowest=True)
+        cb = pd.cut(s["p"], np.linspace(0, 1, 11), include_lowest=True).rename("p_bin")
         o["calibration"] = s.groupby(cb, observed=True).agg(n=("outcome", "size"), p=("p", "mean"), realised=("outcome", "mean"),
                                                             mid=("mid", "mean")).round(4).reset_index().astype(str).to_dict("records")
         agg = dict(n=("gap", "size"), gap_mean=("gap", "mean"), gap_abs_median=("gap", lambda x: x.abs().median()),
@@ -278,7 +278,13 @@ def summarize(m, sec, tr, counts):
 
 
 if __name__ == "__main__":
-    m, sec, tr, counts = main()
+    import sys
+    if "--summarize-only" in sys.argv:                  # re-summarise the saved tables, no re-simulation
+        m, sec, tr = (pd.read_parquet(D / f) for f in ("step23_markets.parquet", "step2_seconds.parquet", "step3_trades.parquet"))
+        counts = json.loads((HERE / "step23_counts.json").read_text())
+    else:
+        m, sec, tr, counts = main()
+        (HERE / "step23_counts.json").write_text(json.dumps(counts))
     out = summarize(m, sec, tr, counts)
     (HERE / "step23.json").write_text(json.dumps(out, indent=1, default=str))
     print(json.dumps({k: out[k] for k in ("counts", "dev_days_equiv", "kill_i_all", "kill_ii_excl_near_tie_finish")},

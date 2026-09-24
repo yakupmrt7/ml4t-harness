@@ -1,0 +1,206 @@
+[
+ {
+  "kind": "measurement",
+  "name": "p09 step3 taker h=0.01,L=0.15",
+  "params": {
+   "config": "h=0.01,L=0.15",
+   "model": "driftless diffusion on Binance 50/50 blend, sigma 15m realised, no fitted params",
+   "outcomes": "Gamma"
+  },
+  "median_edge_at_fill": 0.05207707989931626,
+  "realised_pnl_per_contract": -0.011496001190175914,
+  "realised_t_by_market": -3.9225940811457183,
+  "realised_pnl_per_contract_excl_near_tie": -0.0031198445858042715,
+  "realised_t_excl_near_tie": -0.9940938061731187,
+  "fills": 585810,
+  "period": "dev 2026-07-25..09-05",
+  "ts": "2026-09-24T10:36:52"
+ },
+ {
+  "kind": "measurement",
+  "name": "p09 step3 taker h=0.01,L=0.5",
+  "params": {
+   "config": "h=0.01,L=0.5",
+   "model": "driftless diffusion on Binance 50/50 blend, sigma 15m realised, no fitted params",
+   "outcomes": "Gamma"
+  },
+  "median_edge_at_fill": 0.05207707989931626,
+  "realised_pnl_per_contract": -0.011496001190175914,
+  "realised_t_by_market": -3.9225940811457183,
+  "realised_pnl_per_contract_excl_near_tie": -0.0031198445858042715,
+  "realised_t_excl_near_tie": -0.9940938061731187,
+  "fills": 585810,
+  "period": "dev 2026-07-25..09-05",
+  "ts": "2026-09-24T10:36:52"
+ },
+ {
+  "kind": "measurement",
+  "name": "p09 step3 taker h=0.01,L=1.0",
+  "params": {
+   "config": "h=0.01,L=1.0",
+   "model": "driftless diffusion on Binance 50/50 blend, sigma 15m realised, no fitted params",
+   "outcomes": "Gamma"
+  },
+  "median_edge_at_fill": 0.06213481600747006,
+  "realised_pnl_per_contract": -0.01298690369607575,
+  "realised_t_by_market": -4.523155317342559,
+  "realised_pnl_per_contract_excl_near_tie": -0.00552755245677692,
+  "realised_t_excl_near_tie": -1.7667481419973996,
+  "fills": 520753,
+  "period": "dev 2026-07-25..09-05",
+  "ts": "2026-09-24T10:36:52"
+ },
+ {
+  "kind": "measurement",
+  "name": "p09 step3 taker h=0.02,L=0.15",
+  "params": {
+   "config": "h=0.02,L=0.15",
+   "model": "driftless diffusion on Binance 50/50 blend, sigma 15m realised, no fitted params",
+   "outcomes": "Gamma"
+  },
+  "median_edge_at_fill": 0.06210873106510398,
+  "realised_pnl_per_contract": -0.012369248671564682,
+  "realised_t_by_market": -3.652328197188393,
+  "realised_pnl_per_contract_excl_near_tie": -0.0020177773890267476,
+  "realised_t_excl_near_tie": -0.5507011024646403,
+  "fills": 478524,
+  "period": "dev 2026-07-25..09-05",
+  "ts": "2026-09-24T10:36:52"
+ },
+ {
+  "kind": "measurement",
+  "name": "p09 step3 taker h=0.02,L=0.5",
+  "params": {
+   "config": "h=0.02,L=0.5",
+   "model": "driftless diffusion on Binance 50/50 blend, sigma 15m realised, no fitted params",
+   "outcomes": "Gamma"
+  },
+  "median_edge_at_fill": 0.06210873106510398,
+  "realised_pnl_per_contract": -0.012369248671564682,
+  "realised_t_by_market": -3.652328197188393,
+  "realised_pnl_per_contract_excl_near_tie": -0.0020177773890267476,
+  "realised_t_excl_near_tie": -0.5507011024646403,
+  "fills": 478524,
+  "period": "dev 2026-07-25..09-05",
+  "ts": "2026-09-24T10:36:52"
+ },
+ {
+  "kind": "measurement",
+  "name": "p09 step3 taker h=0.02,L=1.0",
+  "params": {
+   "config": "h=0.02,L=1.0",
+   "model": "driftless diffusion on Binance 50/50 blend, sigma 15m realised, no fitted params",
+   "outcomes": "Gamma"
+  },
+  "median_edge_at_fill": 0.07264915454308307,
+  "realised_pnl_per_contract": -0.013900132417031476,
+  "realised_t_by_market": -4.2110560171635685,
+  "realised_pnl_per_contract_excl_near_tie": -0.004922276827650715,
+  "realised_t_excl_near_tie": -1.345570034273767,
+  "fills": 425845,
+  "period": "dev 2026-07-25..09-05",
+  "ts": "2026-09-24T10:36:52"
+ },
+ {
+  "kind": "measurement",
+  "name": "p09 step3 taker h=0.03,L=0.15",
+  "params": {
+   "config": "h=0.03,L=0.15",
+   "model": "driftless diffusion on Binance 50/50 blend, sigma 15m realised, no fitted params",
+   "outcomes": "Gamma"
+  },
+  "median_edge_at_fill": 0.07318135335754102,
+  "realised_pnl_per_contract": -0.013565435009776096,
+  "realised_t_by_market": -3.514362871191961,
+  "realised_pnl_per_contract_excl_near_tie": -0.0009149634946502444,
+  "realised_t_excl_near_tie": -0.21707124895119273,
+  "fills": 387850,
+  "period": "dev 2026-07-25..09-05",
+  "ts": "2026-09-24T10:36:52"
+ },
+ {
+  "kind": "measurement",
+  "name": "p09 step3 taker h=0.03,L=0.5",
+  "params": {
+   "config": "h=0.03,L=0.5",
+   "model": "driftless diffusion on Binance 50/50 blend, sigma 15m realised, no fitted params",
+   "outcomes": "Gamma"
+  },
+  "median_edge_at_fill": 0.07318135335754102,
+  "realised_pnl_per_contract": -0.013565435009776096,
+  "realised_t_by_market": -3.514362871191961,
+  "realised_pnl_per_contract_excl_near_tie": -0.0009149634946502444,
+  "realised_t_excl_near_tie": -0.21707124895119273,
+  "fills": 387850,
+  "period": "dev 2026-07-25..09-05",
+  "ts": "2026-09-24T10:36:52"
+ },
+ {
+  "kind": "measurement",
+  "name": "p09 step3 taker h=0.03,L=1.0",
+  "params": {
+   "config": "h=0.03,L=1.0",
+   "model": "driftless diffusion on Binance 50/50 blend, sigma 15m realised, no fitted params",
+   "outcomes": "Gamma"
+  },
+  "median_edge_at_fill": 0.08435191138714426,
+  "realised_pnl_per_contract": -0.014406739112765547,
+  "realised_t_by_market": -3.8747797321165818,
+  "realised_pnl_per_contract_excl_near_tie": -0.003537905386882188,
+  "realised_t_excl_near_tie": -0.8448613982068248,
+  "fills": 345519,
+  "period": "dev 2026-07-25..09-05",
+  "ts": "2026-09-24T10:36:52"
+ },
+ {
+  "kind": "measurement",
+  "name": "p09 step3 taker h=0.05,L=0.15",
+  "params": {
+   "config": "h=0.05,L=0.15",
+   "model": "driftless diffusion on Binance 50/50 blend, sigma 15m realised, no fitted params",
+   "outcomes": "Gamma"
+  },
+  "median_edge_at_fill": 0.09846196468786772,
+  "realised_pnl_per_contract": -0.015668359346327262,
+  "realised_t_by_market": -3.1864661861977632,
+  "realised_pnl_per_contract_excl_near_tie": 0.002048488965472429,
+  "realised_t_excl_near_tie": 0.3709973151473099,
+  "fills": 254785,
+  "period": "dev 2026-07-25..09-05",
+  "ts": "2026-09-24T10:36:52"
+ },
+ {
+  "kind": "measurement",
+  "name": "p09 step3 taker h=0.05,L=0.5",
+  "params": {
+   "config": "h=0.05,L=0.5",
+   "model": "driftless diffusion on Binance 50/50 blend, sigma 15m realised, no fitted params",
+   "outcomes": "Gamma"
+  },
+  "median_edge_at_fill": 0.09846196468786772,
+  "realised_pnl_per_contract": -0.015668359346327262,
+  "realised_t_by_market": -3.1864661861977632,
+  "realised_pnl_per_contract_excl_near_tie": 0.002048488965472429,
+  "realised_t_excl_near_tie": 0.3709973151473099,
+  "fills": 254785,
+  "period": "dev 2026-07-25..09-05",
+  "ts": "2026-09-24T10:36:52"
+ },
+ {
+  "kind": "measurement",
+  "name": "p09 step3 taker h=0.05,L=1.0",
+  "params": {
+   "config": "h=0.05,L=1.0",
+   "model": "driftless diffusion on Binance 50/50 blend, sigma 15m realised, no fitted params",
+   "outcomes": "Gamma"
+  },
+  "median_edge_at_fill": 0.110565146105289,
+  "realised_pnl_per_contract": -0.016013151192039117,
+  "realised_t_by_market": -3.447144317986747,
+  "realised_pnl_per_contract_excl_near_tie": 0.0003198360068355075,
+  "realised_t_excl_near_tie": 0.058583199905026244,
+  "fills": 227400,
+  "period": "dev 2026-07-25..09-05",
+  "ts": "2026-09-24T10:36:52"
+ }
+]

@@ -1,0 +1,19 @@
+{
+ "counts": {
+  "gamma_resolved": 11958,
+  "binance_and_pm_covered": 11958,
+  "book_covered": 11958,
+  "near_tie_finish_markets": 2000
+ },
+ "dev_days_equiv": 41.520833333333336,
+ "kill_i_all": {
+  "median_edge_at_fill": 0.05207707989931626,
+  "notional_usd_per_day": 2049650.2272780326,
+  "killed": false
+ },
+ "kill_ii_excl_near_tie_finish": {
+  "median_edge_at_fill": 0.047849052881097115,
+  "notional_usd_per_day": 2081437.3250263592,
+  "killed": false
+ }
+}
