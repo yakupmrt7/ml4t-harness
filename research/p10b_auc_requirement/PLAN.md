@@ -57,3 +57,30 @@ AUC ≥ 0.58 (+0.035 over A-basic).
 - 0 OOS trials; `trials.json` untouched.
 - One `measurement` row per (target AUC, seed) in
   `research/p10b_auc_requirement/selection_trials.json`.
+
+## Amendment 1 (2026-09-24, owner; written AFTER the first run's numbers were seen)
+The owner's two additions arrived after p10b had already run and been
+committed (c28c9b6; seed 0 needs AUC 0.590 for 4 bps → KILL). They are
+added as **reporting only**. The kill rule, the deciding curve
+(direction-only, seed 0, plain breakeven) and the decision are unchanged.
+1. **Row zero (sanity check), k = 0, two implementations:**
+   - (a) p10's `reevaluate.py` rule: hysteresis on the prediction series,
+     then held across dropped bars. It must reproduce p10's A-basic/P2
+     row **exactly**: AUC 0.5445, breakeven 1.53 (1.5288…), turnover
+     2,965/yr. Compared at full precision against
+     `research/p10_orderflow_1h/selection.json` → `results_held`.
+   - (b) the p02-exact rule this curve uses (hysteresis on the full bar
+     grid). It must reproduce the first run's base, breakeven 1.864.
+   - (a) and (b) differ only in how P2 treats bars without a prediction;
+     p10's REVIEW specified (b).
+   - If (a) or (b) does not match exactly: **STOP**, because the synthetic
+     machinery is wrong.
+2. **Magnitude arm (reported only):** the same construction with s =
+   sign(label) · |ret| / std(|ret|) + ε, where `ret` is the label's
+   realised return to its barrier hit. It is the same 11 target AUCs × 3
+   seeds, and its required-AUC table is reported beside the direction-only
+   one. A real feature most likely sits between the two.
+
+The direction-only rows are recomputed by the same deterministic code and
+must match the committed `results.json` exactly. If anything differs,
+stop and find out why.
