@@ -50,3 +50,11 @@ when it comes up, and skip ML basics.
   by the bar closing AFTER T). Metrics rows summarise the 5 min ENDING at T; funding rows are settled
   rates with a few ms of stamp jitter. Top-trader long/short ratios are empty until 2022-12-14.
 - Collector (GCS, europe-west3): Polymarket CLOB, Binance spot/futures websockets and Chainlink, since 2026-07-25. The schema is not documented here yet, so ask or inspect a file before writing loaders.
+
+## Closed research lines (do not reopen)
+- **1 h / 4 h BTC bar-direction prediction is closed permanently** (p01–p05, p10, p10b, p11).
+  Price/flow features (p01–p05, p10), a TCN on 1-minute flow (p10), and external data
+  (Deribit implied vol and options flow, cross-venue funding and basis; p11) all failed their
+  pre-registered kills. p10b showed a 4 bps breakeven needs AUC ≈ 0.56–0.59, against a best of 0.54.
+  Do not reopen it under any framing (new features, new models, stacking, other horizons of the
+  same bar-direction label), unless the owner explicitly and newly decides otherwise.
