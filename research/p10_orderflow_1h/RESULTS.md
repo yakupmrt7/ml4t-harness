@@ -7,6 +7,8 @@ with p02's hysteresis**, not an order-flow one.
 - Adding the 44 trade-level flow features **lowers** AUC (0.5445 → 0.5369)
   and breakeven.
 - The TCN on the raw 1-minute flow is at AUC 0.510, below the 0.52 floor.
+  It **failed to fit its own inputs**; this says nothing either way about
+  sequence models.
 
 No OOS run and `trials.json` untouched (3 trials). The 8 configurations,
 plus 8 corrected rows, are logged in `selection_trials.json`.
@@ -38,7 +40,7 @@ plus 8 corrected rows, are logged in `selection_trials.json`.
 - **TCN:** as fixed in PLAN.md. 4 residual blocks, 48 channels,
   dilations 1/4/16/64, 240 × 12 input, 51 k parameters. Trained on the
   laptop GPU (MPS), 25 s per epoch. Early stopping ended the folds after
-  4–9 epochs: validation loss never moved away from ln 2 ≈ 0.693.
+  4–9 epochs.
 
 ## Pre-OOS results
 Labels have t0 and t1 before 2024-04-07 09:15. `PurgedKFold(5, 0.01)`,
@@ -78,24 +80,47 @@ rule, and the table above uses it. Both sets of rows are in
 (`results`). The corrected turnover now matches p02's.
 
 ## Reading
-1. **Order flow did not add information at a 1 h horizon, at least in
-   this form.**
-   - On its own the flow set is barely above chance (AUC 0.522), and its
-     gross Sharpe is negative under both position rules.
-   - Mixed with the basic features it *dilutes* them (0.5445 → 0.5369).
-   - A plausible cause, not tested: several flow features are levels
-     with strong drift over 2022–2024 (trade count, sizes, run lengths,
-     λ). A tree model splits on regime rather than direction, and
-     PurgedKFold trains partly on other regimes. A scale-free or
-     rank-transformed flow set would be the natural next step. It would
-     need its own PLAN.
-2. **The TCN learned nothing.** Validation loss stayed at ln 2 in every
-   fold. The fixed architecture had no search, so this is one shot, not a
-   verdict on sequence models. But the raw 1-minute flow does not carry
-   enough 1 h directional signal for a small TCN to find in 125 k labels.
-3. **The only real signal is still p01's.** A-basic/P2 shows AUC 0.5445,
-   gross SR 1.20, shift-null p 0.050, and it survives delay 2 (1.53).
-   That matches p02's pre-OOS numbers (0.545, breakeven 1.01–1.35).
+1. **Order flow did not add information at a 1 h horizon, in this form.**
+   Checked by the reviewer, on pre-OOS data only:
+   - **The flow features mostly encode the regime.** A LightGBM asked
+     which CV fold a row comes from gets **0.936** accuracy from the flow
+     features vs 0.416 from the basic ones (chance 0.20).
+     - The fold explains 0.61–0.76 of the rank variance of the size and
+       run-length features. The median across flow features is 0.08, vs
+       0.0004 for the basic ones.
+     - In fold 1, the flow models predict P(up) 0.556 on average against a
+       realised 0.505: they shift the base rate by regime.
+   - **A-flow and A-both are worse than a constant forecast** in log-loss
+     (0.6969 and 0.6954 vs 0.6930). They are miscalibrated, not just
+     diluted.
+   - **The flow's directional part was already in p01.** `imb_5` and p01's
+     `taker_imb_1` have the same IC, because the klines already record
+     taker-buy volume.
+   - Scale-free or rank-transformed flow features would be the only
+     variant worth considering. It would need its own PLAN (see "Next").
+2. **The TCN failed to fit its own inputs.**
+   - Its 240-minute window contains p01's `ret_48` exactly. That one
+     feature, sign-flipped and unfitted, has AUC 0.527. The TCN reaches
+     0.510, with log-loss 0.6943, worse than a constant.
+   - The best inner-validation loss beats a constant by only ~0.0005,
+     inside the noise.
+   - The inputs were not clipped: a range channel reaches z = 411, others
+     62–78. That gives saturated predictions from 0.03 to 0.996.
+   - So this is a failed fit of one fixed architecture. **It is not
+     evidence about sequence models or about the 1-minute flow.**
+3. **The only real signal is still p01's, and it is weak.** A-basic/P2
+   shows AUC 0.5445, gross SR 1.20 and survives delay 2 (1.53). That
+   matches p02's pre-OOS numbers (0.545, breakeven 1.01–1.35). But:
+   - its shift-null p of 0.050 is the best of 16 rows, so it is not
+     significant after selection;
+   - it is on average +0.09 long, and **18% of its gross is that net-long
+     exposure** in a market that rose 123%;
+   - the long leg makes +79% and the short leg −6.8%;
+   - fold 1 (Sep–Dec 2022) loses (breakeven −1.95 bps);
+   - the reversal signal decays across folds: A-basic AUC 0.541 → 0.524;
+   - other ways of computing breakeven: 1.86 bps holding positions
+     exactly as p02 does (min_hold counted in bars), 1.26 bps with the
+     net-long part removed.
    Its breakeven is **≈ 2× short of maker cost** with the flow data
    included or not. Costs, not features, remain the binding constraint
    at a 1 h horizon on BTC.
@@ -104,6 +129,16 @@ rule, and the table above uses it. Both sets of rows are in
    ≥ 2.6× what any configuration reached even at +1 s.e.
 
 ## Limitations
+- **Funding is not in the pre-OOS backtests.** The best configuration is
+  net long, and longs mostly paid funding in 2023–24, so including it
+  would lower breakeven further.
+- **Off-kline prints:** the aggTrades archive contains a few trades
+  outside the kline's high–low range (e.g. 2022-09-06 17:13, a print at
+  28,368 vs a kline range of 19,068–19,372). 22 pre-OOS bars are more than
+  0.1% outside. The volume-only validation cannot catch these. They touch
+  a handful of price-based flow features.
+- **VPIN bucket completion** is stamped up to one trade early (negligible,
+  and it can only help the model).
 - **Common sample excludes ~7% of labels.** `vpin_5` is NaN whenever no
   $10M bucket completes within 5 minutes. That is the pre-registered
   definition, and in quiet months it reaches 20% of labels (2022-12). All
@@ -116,9 +151,35 @@ rule, and the table above uses it. Both sets of rows are in
   - Importing PyTorch before LightGBM segfaults LightGBM on macOS
     (OpenMP clash), so `selection.py` imports lightgbm first.
   - A first `nohup` launch inside a tool call was silently killed, which
-    lost ~5.5 h.
+    lost ~5.5 h. **That run produced no numbers.** It died before the
+    first model fit, so nothing from it was seen or used.
   - The minute ending 00:00 was first assigned to the wrong day, found
     and fixed before any evaluation.
+
+## Review
+REVIEW.md: **ACCEPT WITH FIXES.** The kill is valid, and still holds at
++2 s.e. (3.27 < 3.38 bps maker). The reviewer recomputed 10 features by
+hand at 6 random bar closes (all ≤ 2e-13) and found no causality,
+labelling or alignment bug. Its four wording fixes are applied above:
+1. the TCN is a failed fit;
+2. validation loss near ln 2 is no longer read as "learned nothing";
+3. the best configuration's P&L makeup is disclosed;
+4. the drift evidence is included.
+
+A separate bug is also fixed: `selection.py` now appends to
+`selection_trials.json` instead of overwriting it.
+
+## Next (reviewer)
+The 1 h / 4 h bar-direction line has failed its kill or cost bar in p02,
+p03, p04, p05 and p10. Before closing it for good, one zero-OOS-trial
+calculation:
+- Build synthetic predictions with pre-OOS AUC 0.55 → 0.65, keeping P2 and
+  the costs fixed, and read off breakeven against AUC.
+- Kill, fixed in advance: if AUC ≥ 0.58 is needed for 4 bps, abandon the
+  line for good (no flow v2, no TCN retune, no stack).
+- A rough extrapolation says about 0.61 is needed, and no feature
+  addition in p01–p10 has raised AUC at all.
+- Then move on to p11 (the RTDS settlement check).
 
 ## Files
 - `PLAN.md` (+ amendments 1–2)

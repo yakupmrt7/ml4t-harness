@@ -147,5 +147,7 @@ if __name__ == "__main__":
     out = {"info": info, "results": results, "best": best, "decision": decision}
     (OUT / "selection.json").write_text(json.dumps(out, indent=1, default=str))
     if not a.no_log:
-        (OUT / "selection_trials.json").write_text(json.dumps(rows, indent=1, default=str))
+        path = OUT / "selection_trials.json"
+        prev = json.loads(path.read_text()) if path.exists() else []
+        path.write_text(json.dumps(prev + rows, indent=1, default=str))
     log(f"DECISION: {decision}  ({time.time() - t_start:.0f}s)")
