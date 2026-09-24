@@ -214,3 +214,23 @@ If 1 or 2 fails on any day of 2023-06, stop and report. A second, smaller
 deviation: the reducer uses the **daily** aggTrades zips, which have the
 same rows as the monthly ones and a sha256 CHECKSUM each. That keeps the
 work unit at one day (resumable). CRC32C applies to the GCS uploads.
+
+## Amendment 2 (2026-09-24, owner accepted; after the 2023-06 validation, before any feature/label/model evaluation)
+The 2023-06 validation (`validate_2023-06.json`) failed amendment 1's
+criterion on 18/30 days. The reducer reproduces the raw aggTrades exactly
+on all 30 days. The failures are archive-vs-kline differences:
+- **Trade count:** 13 days, up to 5.7e-4 relative. aggTrade trade-id ranges
+  include ids the klines do not count. No feature uses `n_trades`.
+- **Volume:** 6 days, ≤ 1.05e-6 relative (0.35 BTC of 333,105 on 06-08),
+  from a few trades that are in the klines but not in the aggTrades archive.
+- **Boundary spill:** one bar on 06-08, 2.56 BTC, from an aggTrade stamped
+  > 1 s from its trades.
+
+The owner accepted the data ("accept"). The criterion on record becomes:
+- volume and taker-buy totals ≤ 1e-5 relative (met on every day; worst
+  1.05e-6);
+- trade count is not validated, because it is not used;
+- boundary spills are unrestricted.
+
+`n_trades` stays in the table but is excluded from all features and
+channels (it already was). Nothing else changes.
