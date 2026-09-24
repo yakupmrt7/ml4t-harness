@@ -18,6 +18,7 @@ from harness.costs import TableCostModel, load_cost_table
 from harness.metrics import periods_per_year, sharpe
 from harness.pipeline import oos_auc
 
+import selection as S10
 from common import OOS_START, load_bars, p01_labels
 
 HERE = Path(__file__).parent
@@ -74,9 +75,37 @@ if __name__ == "__main__":
     sgn = np.sign(labels["label"].to_numpy())
     out = {"n_labels": len(labels), "base_auc": oos_auc(base, labels), "base": evaluate(base, close, maker), "curves": {}}
     print(json.dumps({k: out[k] for k in ("n_labels", "base_auc")}), json.dumps(out["base"]), flush=True)
+
+    # ---- row zero (amendment 1): k = 0 through the synthetic path, two P2 implementations, exact
+    p0 = pd.Series(1 / (1 + np.exp(-(lb + 0.0 * sgn))), base.index)
+    ref = json.loads(Path("research/p10_orderflow_1h/selection.json").read_text())["results_held"]["A-basic/P2"]
+    orig = S10.positions
+    S10.positions = lambda p, rule: (lambda t: t.reindex(close.loc[t.index[0]:t.index[-1]].index).ffill())(orig(p, rule))
+    table = load_cost_table()
+    ra = S10.evaluate(p0, close, {"maker": maker, "taker": TableCostModel(table, "BTCUSDT", "taker_all_in_bps")}, "P2")
+    S10.positions = orig
+    rb = evaluate(p0, close, maker)
+    auc0 = oos_auc(p0, labels)
+    row0 = {"a_p10_rule": {"auc": auc0, "breakeven_bps": ra["breakeven_bps"], "turnover_per_year": ra["turnover_per_year"],
+                           "ref_auc": ref["auc"], "ref_breakeven_bps": ref["breakeven_bps"], "ref_turnover_per_year": ref["turnover_per_year"]},
+            "b_p02_exact": {"auc": auc0, "breakeven_bps": rb["breakeven_bps"], "turnover_per_year": rb["turnover_per_year"],
+                            "ref_breakeven_bps": 1.864324984464265}}
+    ok_a = all(abs(row0["a_p10_rule"][k] - row0["a_p10_rule"]["ref_" + k]) <= 1e-9 * max(1, abs(row0["a_p10_rule"]["ref_" + k]))
+               for k in ("auc", "breakeven_bps", "turnover_per_year"))
+    ok_b = abs(rb["breakeven_bps"] - 1.864324984464265) <= 1e-9
+    row0["pass"] = bool(ok_a and ok_b)
+    out["row_zero"] = row0
+    print("ROW ZERO", json.dumps(row0), flush=True)
+    if not row0["pass"]:
+        (HERE / "results_rowzero_FAIL.json").write_text(json.dumps(row0, indent=1))
+        raise SystemExit("STOP: row zero does not reproduce p10 -> synthetic machinery wrong")
+
     rows = []
-    for seed in SEEDS:
-        s = sgn + np.random.default_rng(seed).standard_normal(len(sgn))
+    absr = labels["ret"].abs().to_numpy()
+    arms = {"direction": sgn, "magnitude": sgn * absr / absr.std()}
+    for arm, sig in arms.items():
+      for seed in SEEDS:
+        s = sig + np.random.default_rng(seed).standard_normal(len(sgn))
         curve = []
         for target in TARGETS:
             lo, hi = 0.0, 2.0
@@ -89,15 +118,15 @@ if __name__ == "__main__":
             p = pd.Series(1 / (1 + np.exp(-(lb + k * s))), base.index)
             r = {"target_auc": target, "auc": auc, "k": k, **evaluate(p, close, maker)}
             curve.append(r)
-            print(seed, json.dumps({kk: round(v, 4) for kk, v in r.items()}), flush=True)
-            rows.append({"kind": "measurement", "name": f"p10b synthetic AUC {target:.2f} seed {seed}", "params": {
+            print(arm, seed, json.dumps({kk: round(v, 4) for kk, v in r.items()}), flush=True)
+            rows.append({"kind": "measurement", "name": f"p10b synthetic AUC {target:.2f} seed {seed}" + ("" if arm == "direction" else " magnitude-arm"), "params": {
                 "target_auc": target, "seed": seed, "k": k, "positions": "P2 p02-exact", "costs": "p05 maker table"},
                 "auc": auc, "breakeven_bps": r["breakeven_bps"], "breakeven_demeaned_bps": r["breakeven_demeaned_bps"],
                 "ts": time.strftime("%Y-%m-%dT%H:%M:%S")})
         req = {f"{name}_{kind}": required([c["auc"] for c in curve], [c[col] for c in curve], lvl)
                for name, lvl in LEVELS.items() for kind, col in (("plain", "breakeven_bps"), ("demeaned", "breakeven_demeaned_bps"))}
-        out["curves"][f"seed{seed}"] = {"points": curve, "required_auc": req}
-        print("REQUIRED seed", seed, json.dumps(req), flush=True)
+        (out["curves"] if arm == "direction" else out.setdefault("curves_magnitude", {}))[f"seed{seed}"] = {"points": curve, "required_auc": req}
+        print("REQUIRED", arm, "seed", seed, json.dumps(req), flush=True)
     r0 = out["curves"]["seed0"]["required_auc"]["gate_4.0_plain"]
     num = r0 if isinstance(r0, float) else (1.0 if r0.startswith(">") else 0.0)
     out["decision"] = ("KILL: AUC needed for 4 bps >= 0.58 -> 1h/4h BTC bar-direction line closed for good" if num >= 0.58 else

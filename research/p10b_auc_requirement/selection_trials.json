@@ -12,7 +12,7 @@
   "auc": 0.5500395662207266,
   "breakeven_bps": 1.8338687491777534,
   "breakeven_demeaned_bps": 1.5632937038088446,
-  "ts": "2026-09-24T19:42:40"
+  "ts": "2026-09-24T19:47:35"
  },
  {
   "kind": "measurement",
@@ -27,7 +27,7 @@
   "auc": 0.5596059969622129,
   "breakeven_bps": 2.2857138588107677,
   "breakeven_demeaned_bps": 2.0280164770754276,
-  "ts": "2026-09-24T19:42:40"
+  "ts": "2026-09-24T19:47:35"
  },
  {
   "kind": "measurement",
@@ -42,7 +42,7 @@
   "auc": 0.570452869641033,
   "breakeven_bps": 2.9545748006456987,
   "breakeven_demeaned_bps": 2.7027329423166004,
-  "ts": "2026-09-24T19:42:41"
+  "ts": "2026-09-24T19:47:36"
  },
  {
   "kind": "measurement",
@@ -57,7 +57,7 @@
   "auc": 0.5798588736398301,
   "breakeven_bps": 3.7878572875099565,
   "breakeven_demeaned_bps": 3.555460902836673,
-  "ts": "2026-09-24T19:42:42"
+  "ts": "2026-09-24T19:47:37"
  },
  {
   "kind": "measurement",
@@ -72,7 +72,7 @@
   "auc": 0.5904924562227208,
   "breakeven_bps": 4.008329110915766,
   "breakeven_demeaned_bps": 3.7938963961672507,
-  "ts": "2026-09-24T19:42:42"
+  "ts": "2026-09-24T19:47:37"
  },
  {
   "kind": "measurement",
@@ -87,7 +87,7 @@
   "auc": 0.5996829764182565,
   "breakeven_bps": 4.647051586736114,
   "breakeven_demeaned_bps": 4.431886420754669,
-  "ts": "2026-09-24T19:42:43"
+  "ts": "2026-09-24T19:47:38"
  },
  {
   "kind": "measurement",
@@ -102,7 +102,7 @@
   "auc": 0.6100378319508882,
   "breakeven_bps": 4.779759191287413,
   "breakeven_demeaned_bps": 4.583150332889445,
-  "ts": "2026-09-24T19:42:44"
+  "ts": "2026-09-24T19:47:39"
  },
  {
   "kind": "measurement",
@@ -117,7 +117,7 @@
   "auc": 0.6202194125806868,
   "breakeven_bps": 5.108074827075816,
   "breakeven_demeaned_bps": 4.9253090238508594,
-  "ts": "2026-09-24T19:42:44"
+  "ts": "2026-09-24T19:47:39"
  },
  {
   "kind": "measurement",
@@ -132,7 +132,7 @@
   "auc": 0.6302141917198901,
   "breakeven_bps": 5.226359716845051,
   "breakeven_demeaned_bps": 5.0541575153492735,
-  "ts": "2026-09-24T19:42:45"
+  "ts": "2026-09-24T19:47:40"
  },
  {
   "kind": "measurement",
@@ -147,7 +147,7 @@
   "auc": 0.6400076941857067,
   "breakeven_bps": 5.560808008909784,
   "breakeven_demeaned_bps": 5.39026452371012,
-  "ts": "2026-09-24T19:42:46"
+  "ts": "2026-09-24T19:47:41"
  },
  {
   "kind": "measurement",
@@ -162,7 +162,7 @@
   "auc": 0.6495915904940059,
   "breakeven_bps": 6.403973644554552,
   "breakeven_demeaned_bps": 6.228278914122363,
-  "ts": "2026-09-24T19:42:46"
+  "ts": "2026-09-24T19:47:42"
  },
  {
   "kind": "measurement",
@@ -177,7 +177,7 @@
   "auc": 0.5500384333393172,
   "breakeven_bps": 1.7699295251711507,
   "breakeven_demeaned_bps": 1.4970493105173828,
-  "ts": "2026-09-24T19:42:47"
+  "ts": "2026-09-24T19:47:42"
  },
  {
   "kind": "measurement",
@@ -192,7 +192,7 @@
   "auc": 0.5596007848944626,
   "breakeven_bps": 2.5881613111075454,
   "breakeven_demeaned_bps": 2.3244547864679412,
-  "ts": "2026-09-24T19:42:48"
+  "ts": "2026-09-24T19:47:43"
  },
  {
   "kind": "measurement",
@@ -207,7 +207,7 @@
   "auc": 0.5704464353951192,
   "breakeven_bps": 3.777080927774658,
   "breakeven_demeaned_bps": 3.527276856736111,
-  "ts": "2026-09-24T19:42:48"
+  "ts": "2026-09-24T19:47:44"
  },
  {
   "kind": "measurement",
@@ -222,7 +222,7 @@
   "auc": 0.579853451261145,
   "breakeven_bps": 3.643171773389222,
   "breakeven_demeaned_bps": 3.400071312335314,
-  "ts": "2026-09-24T19:42:49"
+  "ts": "2026-09-24T19:47:44"
  },
  {
   "kind": "measurement",
@@ -237,7 +237,7 @@
   "auc": 0.5904862558724948,
   "breakeven_bps": 3.968719114733924,
   "breakeven_demeaned_bps": 3.7467830598035246,
-  "ts": "2026-09-24T19:42:50"
+  "ts": "2026-09-24T19:47:45"
  },
  {
   "kind": "measurement",
@@ -252,7 +252,7 @@
   "auc": 0.5996734959981813,
   "breakeven_bps": 4.658378515547424,
   "breakeven_demeaned_bps": 4.44234279936493,
-  "ts": "2026-09-24T19:42:50"
+  "ts": "2026-09-24T19:47:45"
  },
  {
   "kind": "measurement",
@@ -267,7 +267,7 @@
   "auc": 0.6100260716171426,
   "breakeven_bps": 5.3052495757466005,
   "breakeven_demeaned_bps": 5.104643003969612,
-  "ts": "2026-09-24T19:42:51"
+  "ts": "2026-09-24T19:47:46"
  },
  {
   "kind": "measurement",
@@ -282,7 +282,7 @@
   "auc": 0.6202087059161112,
   "breakeven_bps": 6.052906373726612,
   "breakeven_demeaned_bps": 5.875099601189816,
-  "ts": "2026-09-24T19:42:52"
+  "ts": "2026-09-24T19:47:47"
  },
  {
   "kind": "measurement",
@@ -297,7 +297,7 @@
   "auc": 0.6302040050584539,
   "breakeven_bps": 6.682800583245524,
   "breakeven_demeaned_bps": 6.518544195730735,
-  "ts": "2026-09-24T19:42:52"
+  "ts": "2026-09-24T19:47:48"
  },
  {
   "kind": "measurement",
@@ -312,7 +312,7 @@
   "auc": 0.639998032407014,
   "breakeven_bps": 7.030541781239888,
   "breakeven_demeaned_bps": 6.874749710781291,
-  "ts": "2026-09-24T19:42:53"
+  "ts": "2026-09-24T19:47:49"
  },
  {
   "kind": "measurement",
@@ -327,7 +327,7 @@
   "auc": 0.6495812445948239,
   "breakeven_bps": 6.658414700243194,
   "breakeven_demeaned_bps": 6.520600278211177,
-  "ts": "2026-09-24T19:42:54"
+  "ts": "2026-09-24T19:47:49"
  },
  {
   "kind": "measurement",
@@ -342,7 +342,7 @@
   "auc": 0.5500462657544478,
   "breakeven_bps": 1.9766872139540879,
   "breakeven_demeaned_bps": 1.7058464810201304,
-  "ts": "2026-09-24T19:42:54"
+  "ts": "2026-09-24T19:47:50"
  },
  {
   "kind": "measurement",
@@ -357,7 +357,7 @@
   "auc": 0.5596232784052992,
   "breakeven_bps": 2.675265171245883,
   "breakeven_demeaned_bps": 2.4208829579567315,
-  "ts": "2026-09-24T19:42:55"
+  "ts": "2026-09-24T19:47:51"
  },
  {
   "kind": "measurement",
@@ -372,7 +372,7 @@
   "auc": 0.570487178950448,
   "breakeven_bps": 3.77719054827166,
   "breakeven_demeaned_bps": 3.5291297463754563,
-  "ts": "2026-09-24T19:42:56"
+  "ts": "2026-09-24T19:47:51"
  },
  {
   "kind": "measurement",
@@ -387,7 +387,7 @@
   "auc": 0.579906004596874,
   "breakeven_bps": 4.385877532485002,
   "breakeven_demeaned_bps": 4.141584180899956,
-  "ts": "2026-09-24T19:42:56"
+  "ts": "2026-09-24T19:47:52"
  },
  {
   "kind": "measurement",
@@ -402,7 +402,7 @@
   "auc": 0.5898928093244685,
   "breakeven_bps": 4.512262020169831,
   "breakeven_demeaned_bps": 4.290277150857571,
-  "ts": "2026-09-24T19:42:57"
+  "ts": "2026-09-24T19:47:53"
  },
  {
   "kind": "measurement",
@@ -417,7 +417,7 @@
   "auc": 0.5997528105464579,
   "breakeven_bps": 5.12321461719781,
   "breakeven_demeaned_bps": 4.902842033567013,
-  "ts": "2026-09-24T19:42:58"
+  "ts": "2026-09-24T19:47:53"
  },
  {
   "kind": "measurement",
@@ -432,7 +432,7 @@
   "auc": 0.6101186225793933,
   "breakeven_bps": 5.391745679713463,
   "breakeven_demeaned_bps": 5.179483830937085,
-  "ts": "2026-09-24T19:42:59"
+  "ts": "2026-09-24T19:47:54"
  },
  {
   "kind": "measurement",
@@ -447,7 +447,7 @@
   "auc": 0.6203106637790692,
   "breakeven_bps": 5.3909868751050745,
   "breakeven_demeaned_bps": 5.192903752236133,
-  "ts": "2026-09-24T19:43:00"
+  "ts": "2026-09-24T19:47:55"
  },
  {
   "kind": "measurement",
@@ -462,7 +462,7 @@
   "auc": 0.6303145214216266,
   "breakeven_bps": 5.8615295309942494,
   "breakeven_demeaned_bps": 5.681870746479948,
-  "ts": "2026-09-24T19:43:01"
+  "ts": "2026-09-24T19:47:56"
  },
  {
   "kind": "measurement",
@@ -477,7 +477,7 @@
   "auc": 0.6401171882718288,
   "breakeven_bps": 6.481554418545012,
   "breakeven_demeaned_bps": 6.318321950642515,
-  "ts": "2026-09-24T19:43:02"
+  "ts": "2026-09-24T19:47:56"
  },
  {
   "kind": "measurement",
@@ -492,6 +492,501 @@
   "auc": 0.6497079822257742,
   "breakeven_bps": 6.513160532637703,
   "breakeven_demeaned_bps": 6.35613280309153,
-  "ts": "2026-09-24T19:43:02"
+  "ts": "2026-09-24T19:47:57"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.55 seed 0 magnitude-arm",
+  "params": {
+   "target_auc": 0.55,
+   "seed": 0,
+   "k": 0.002197265625,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.5499933301830674,
+  "breakeven_bps": 2.2971129430170603,
+  "breakeven_demeaned_bps": 2.0289315631391096,
+  "ts": "2026-09-24T19:47:58"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.56 seed 0 magnitude-arm",
+  "params": {
+   "target_auc": 0.56,
+   "seed": 0,
+   "k": 0.00634765625,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.5602370556609894,
+  "breakeven_bps": 3.6123593183167424,
+  "breakeven_demeaned_bps": 3.358630565376693,
+  "ts": "2026-09-24T19:47:58"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.57 seed 0 magnitude-arm",
+  "params": {
+   "target_auc": 0.57,
+   "seed": 0,
+   "k": 0.01025390625,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.5698011158908232,
+  "breakeven_bps": 4.624229862889911,
+  "breakeven_demeaned_bps": 4.390616435289433,
+  "ts": "2026-09-24T19:47:59"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.58 seed 0 magnitude-arm",
+  "params": {
+   "target_auc": 0.58,
+   "seed": 0,
+   "k": 0.0146484375,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.5804325290017487,
+  "breakeven_bps": 6.089520554269677,
+  "breakeven_demeaned_bps": 5.865342622090232,
+  "ts": "2026-09-24T19:48:00"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.59 seed 0 magnitude-arm",
+  "params": {
+   "target_auc": 0.59,
+   "seed": 0,
+   "k": 0.0185546875,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.589742106819404,
+  "breakeven_bps": 7.130251106007874,
+  "breakeven_demeaned_bps": 6.928117016957495,
+  "ts": "2026-09-24T19:48:00"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.60 seed 0 magnitude-arm",
+  "params": {
+   "target_auc": 0.6,
+   "seed": 0,
+   "k": 0.02294921875,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.6000433229790966,
+  "breakeven_bps": 7.550948238067448,
+  "breakeven_demeaned_bps": 7.358536299254213,
+  "ts": "2026-09-24T19:48:01"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.61 seed 0 magnitude-arm",
+  "params": {
+   "target_auc": 0.61,
+   "seed": 0,
+   "k": 0.02734375,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.6101308121556427,
+  "breakeven_bps": 8.615296854241162,
+  "breakeven_demeaned_bps": 8.428692499054376,
+  "ts": "2026-09-24T19:48:02"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.62 seed 0 magnitude-arm",
+  "params": {
+   "target_auc": 0.62,
+   "seed": 0,
+   "k": 0.03173828125,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.6199796968263156,
+  "breakeven_bps": 9.213361949336257,
+  "breakeven_demeaned_bps": 9.044913086922579,
+  "ts": "2026-09-24T19:48:02"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.63 seed 0 magnitude-arm",
+  "params": {
+   "target_auc": 0.63,
+   "seed": 0,
+   "k": 0.0361328125,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.6295672770730267,
+  "breakeven_bps": 10.311497448683813,
+  "breakeven_demeaned_bps": 10.1471916344662,
+  "ts": "2026-09-24T19:48:03"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.64 seed 0 magnitude-arm",
+  "params": {
+   "target_auc": 0.64,
+   "seed": 0,
+   "k": 0.041015625,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.6398926184831536,
+  "breakeven_bps": 11.478206390436943,
+  "breakeven_demeaned_bps": 11.326310534168801,
+  "ts": "2026-09-24T19:48:04"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.65 seed 0 magnitude-arm",
+  "params": {
+   "target_auc": 0.65,
+   "seed": 0,
+   "k": 0.0458984375,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.6498564627218031,
+  "breakeven_bps": 12.648435574353057,
+  "breakeven_demeaned_bps": 12.512848188135916,
+  "ts": "2026-09-24T19:48:04"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.55 seed 1 magnitude-arm",
+  "params": {
+   "target_auc": 0.55,
+   "seed": 1,
+   "k": 0.002197265625,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.5499915920681011,
+  "breakeven_bps": 2.144880223043557,
+  "breakeven_demeaned_bps": 1.8687063342968833,
+  "ts": "2026-09-24T19:48:05"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.56 seed 1 magnitude-arm",
+  "params": {
+   "target_auc": 0.56,
+   "seed": 1,
+   "k": 0.00634765625,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.5602338045434574,
+  "breakeven_bps": 3.7867593209274846,
+  "breakeven_demeaned_bps": 3.523629456704167,
+  "ts": "2026-09-24T19:48:06"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.57 seed 1 magnitude-arm",
+  "params": {
+   "target_auc": 0.57,
+   "seed": 1,
+   "k": 0.01025390625,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.5697958039538431,
+  "breakeven_bps": 4.465326874914042,
+  "breakeven_demeaned_bps": 4.226419040643321,
+  "ts": "2026-09-24T19:48:06"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.58 seed 1 magnitude-arm",
+  "params": {
+   "target_auc": 0.58,
+   "seed": 1,
+   "k": 0.0146484375,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.5804245118122776,
+  "breakeven_bps": 6.251072433323242,
+  "breakeven_demeaned_bps": 6.031673076553725,
+  "ts": "2026-09-24T19:48:07"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.59 seed 1 magnitude-arm",
+  "params": {
+   "target_auc": 0.59,
+   "seed": 1,
+   "k": 0.0185546875,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.5897363319706522,
+  "breakeven_bps": 7.401598908085458,
+  "breakeven_demeaned_bps": 7.192043828423239,
+  "ts": "2026-09-24T19:48:08"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.60 seed 1 magnitude-arm",
+  "params": {
+   "target_auc": 0.6,
+   "seed": 1,
+   "k": 0.02294921875,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.6000371027851474,
+  "breakeven_bps": 8.527108145769445,
+  "breakeven_demeaned_bps": 8.35277856402004,
+  "ts": "2026-09-24T19:48:08"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.61 seed 1 magnitude-arm",
+  "params": {
+   "target_auc": 0.61,
+   "seed": 1,
+   "k": 0.02734375,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.6101268793574236,
+  "breakeven_bps": 9.078735860642185,
+  "breakeven_demeaned_bps": 8.907573981345601,
+  "ts": "2026-09-24T19:48:09"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.62 seed 1 magnitude-arm",
+  "params": {
+   "target_auc": 0.62,
+   "seed": 1,
+   "k": 0.03173828125,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.6199800987430366,
+  "breakeven_bps": 9.550899189005566,
+  "breakeven_demeaned_bps": 9.383180793412759,
+  "ts": "2026-09-24T19:48:10"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.63 seed 1 magnitude-arm",
+  "params": {
+   "target_auc": 0.63,
+   "seed": 1,
+   "k": 0.0361328125,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.6295750377579777,
+  "breakeven_bps": 10.529073522193018,
+  "breakeven_demeaned_bps": 10.36312163233022,
+  "ts": "2026-09-24T19:48:10"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.64 seed 1 magnitude-arm",
+  "params": {
+   "target_auc": 0.64,
+   "seed": 1,
+   "k": 0.041015625,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.6399158937065607,
+  "breakeven_bps": 11.320165217240092,
+  "breakeven_demeaned_bps": 11.148752298875419,
+  "ts": "2026-09-24T19:48:11"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.65 seed 1 magnitude-arm",
+  "params": {
+   "target_auc": 0.65,
+   "seed": 1,
+   "k": 0.0458984375,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.6498937269567835,
+  "breakeven_bps": 11.974390425579465,
+  "breakeven_demeaned_bps": 11.8167660977386,
+  "ts": "2026-09-24T19:48:12"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.55 seed 2 magnitude-arm",
+  "params": {
+   "target_auc": 0.55,
+   "seed": 2,
+   "k": 0.002197265625,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.5500004017052715,
+  "breakeven_bps": 1.9856579205147358,
+  "breakeven_demeaned_bps": 1.7157603510335608,
+  "ts": "2026-09-24T19:48:12"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.56 seed 2 magnitude-arm",
+  "params": {
+   "target_auc": 0.56,
+   "seed": 2,
+   "k": 0.00634765625,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.5602584294653475,
+  "breakeven_bps": 4.20451474535472,
+  "breakeven_demeaned_bps": 3.9409228903720117,
+  "ts": "2026-09-24T19:48:13"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.57 seed 2 magnitude-arm",
+  "params": {
+   "target_auc": 0.57,
+   "seed": 2,
+   "k": 0.01025390625,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.5698360601993799,
+  "breakeven_bps": 4.780584828184309,
+  "breakeven_demeaned_bps": 4.52993790235869,
+  "ts": "2026-09-24T19:48:14"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.58 seed 2 magnitude-arm",
+  "params": {
+   "target_auc": 0.58,
+   "seed": 2,
+   "k": 0.0146484375,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.5804816200957434,
+  "breakeven_bps": 5.839483883940478,
+  "breakeven_demeaned_bps": 5.612165703643627,
+  "ts": "2026-09-24T19:48:14"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.59 seed 2 magnitude-arm",
+  "params": {
+   "target_auc": 0.59,
+   "seed": 2,
+   "k": 0.0185546875,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.5898072856426786,
+  "breakeven_bps": 6.790537080326662,
+  "breakeven_demeaned_bps": 6.563947532095682,
+  "ts": "2026-09-24T19:48:15"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.60 seed 2 magnitude-arm",
+  "params": {
+   "target_auc": 0.6,
+   "seed": 2,
+   "k": 0.02294921875,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.6001226508649578,
+  "breakeven_bps": 7.690045651686939,
+  "breakeven_demeaned_bps": 7.475289547270286,
+  "ts": "2026-09-24T19:48:16"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.61 seed 2 magnitude-arm",
+  "params": {
+   "target_auc": 0.61,
+   "seed": 2,
+   "k": 0.02734375,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.610225905879569,
+  "breakeven_bps": 8.830080848600742,
+  "breakeven_demeaned_bps": 8.634695687571945,
+  "ts": "2026-09-24T19:48:16"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.62 seed 2 magnitude-arm",
+  "params": {
+   "target_auc": 0.62,
+   "seed": 2,
+   "k": 0.03173828125,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.6200931453435681,
+  "breakeven_bps": 10.054528281432225,
+  "breakeven_demeaned_bps": 9.87499066155055,
+  "ts": "2026-09-24T19:48:17"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.63 seed 2 magnitude-arm",
+  "params": {
+   "target_auc": 0.63,
+   "seed": 2,
+   "k": 0.0361328125,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.629699067696635,
+  "breakeven_bps": 10.610579127832027,
+  "breakeven_demeaned_bps": 10.43720120342414,
+  "ts": "2026-09-24T19:48:18"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.64 seed 2 magnitude-arm",
+  "params": {
+   "target_auc": 0.64,
+   "seed": 2,
+   "k": 0.041015625,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.6400455290090553,
+  "breakeven_bps": 10.760305828594406,
+  "breakeven_demeaned_bps": 10.597456318184413,
+  "ts": "2026-09-24T19:48:18"
+ },
+ {
+  "kind": "measurement",
+  "name": "p10b synthetic AUC 0.65 seed 2 magnitude-arm",
+  "params": {
+   "target_auc": 0.65,
+   "seed": 2,
+   "k": 0.0458984375,
+   "positions": "P2 p02-exact",
+   "costs": "p05 maker table"
+  },
+  "auc": 0.650027517079482,
+  "breakeven_bps": 12.525992402942416,
+  "breakeven_demeaned_bps": 12.38144355860539,
+  "ts": "2026-09-24T19:48:19"
  }
 ]

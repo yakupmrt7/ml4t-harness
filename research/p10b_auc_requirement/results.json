@@ -444,6 +444,457 @@
    }
   }
  },
+ "row_zero": {
+  "a_p10_rule": {
+   "auc": 0.5445495065325867,
+   "breakeven_bps": 1.5309846975093941,
+   "turnover_per_year": 2965.136908194753,
+   "ref_auc": 0.5445495065325867,
+   "ref_breakeven_bps": 1.5309846975093941,
+   "ref_turnover_per_year": 2965.136908194753
+  },
+  "b_p02_exact": {
+   "auc": 0.5445495065325867,
+   "breakeven_bps": 1.864324984464265,
+   "turnover_per_year": 3050.1946216548845,
+   "ref_breakeven_bps": 1.864324984464265
+  },
+  "pass": true
+ },
+ "curves_magnitude": {
+  "seed0": {
+   "points": [
+    {
+     "target_auc": 0.55,
+     "auc": 0.5499933301830674,
+     "k": 0.002197265625,
+     "turnover_per_year": 3048.9437729275296,
+     "breakeven_bps": 2.2971129430170603,
+     "breakeven_se_bps": 0.8377936167979402,
+     "breakeven_demeaned_bps": 2.0289315631391096,
+     "sharpe_gross": 1.8376405086439977,
+     "sharpe_net_maker": -0.6483090434859001,
+     "mean_position": 0.09130582128863865
+    },
+    {
+     "target_auc": 0.56,
+     "auc": 0.5602370556609894,
+     "k": 0.00634765625,
+     "turnover_per_year": 3061.452260201079,
+     "breakeven_bps": 3.6123593183167424,
+     "breakeven_se_bps": 0.810015868554958,
+     "breakeven_demeaned_bps": 3.358630565376693,
+     "sharpe_gross": 2.8515139132563765,
+     "sharpe_net_maker": 0.3988258687507294,
+     "mean_position": 0.08673963839160964
+    },
+    {
+     "target_auc": 0.57,
+     "auc": 0.5698011158908232,
+     "k": 0.01025390625,
+     "turnover_per_year": 3103.9811169311447,
+     "breakeven_bps": 4.624229862889911,
+     "breakeven_se_bps": 0.8233159511443409,
+     "breakeven_demeaned_bps": 4.390616435289433,
+     "sharpe_gross": 3.6901288758749033,
+     "sharpe_net_maker": 1.209449857943424,
+     "mean_position": 0.08097245426385165
+    },
+    {
+     "target_auc": 0.58,
+     "auc": 0.5804325290017487,
+     "k": 0.0146484375,
+     "turnover_per_year": 3146.509973661211,
+     "breakeven_bps": 6.089520554269677,
+     "breakeven_se_bps": 0.8513787817515872,
+     "breakeven_demeaned_bps": 5.865342622090232,
+     "sharpe_gross": 4.951253880274245,
+     "sharpe_net_maker": 2.4223332556921386,
+     "mean_position": 0.07876665497375039
+    },
+    {
+     "target_auc": 0.59,
+     "auc": 0.589742106819404,
+     "k": 0.0185546875,
+     "turnover_per_year": 3192.7913765733415,
+     "breakeven_bps": 7.130251106007874,
+     "breakeven_se_bps": 0.8282919386894899,
+     "breakeven_demeaned_bps": 6.928117016957495,
+     "sharpe_gross": 5.873884638822862,
+     "sharpe_net_maker": 3.3138936368063874,
+     "mean_position": 0.07206601939438621
+    },
+    {
+     "target_auc": 0.6,
+     "auc": 0.6000433229790966,
+     "k": 0.02294921875,
+     "turnover_per_year": 3238.4473551217948,
+     "breakeven_bps": 7.550948238067448,
+     "breakeven_se_bps": 0.8821409919078115,
+     "breakeven_demeaned_bps": 7.358536299254213,
+     "sharpe_gross": 6.366402938364903,
+     "sharpe_net_maker": 3.7436117824101673,
+     "mean_position": 0.06958077922386782
+    },
+    {
+     "target_auc": 0.61,
+     "auc": 0.6101308121556427,
+     "k": 0.02734375,
+     "turnover_per_year": 3297.8626696711517,
+     "breakeven_bps": 8.615296854241162,
+     "breakeven_se_bps": 0.8841278271255044,
+     "breakeven_demeaned_bps": 8.428692499054376,
+     "sharpe_gross": 7.439938487306217,
+     "sharpe_net_maker": 4.7520574718704855,
+     "mean_position": 0.06871867438002771
+    },
+    {
+     "target_auc": 0.62,
+     "auc": 0.6199796968263156,
+     "k": 0.03173828125,
+     "turnover_per_year": 3370.411895857735,
+     "breakeven_bps": 9.213361949336257,
+     "breakeven_se_bps": 0.8964169653620964,
+     "breakeven_demeaned_bps": 9.044913086922579,
+     "sharpe_gross": 8.02595186741022,
+     "sharpe_net_maker": 5.311391761366314,
+     "mean_position": 0.06339740655080771
+    },
+    {
+     "target_auc": 0.63,
+     "auc": 0.6295672770730267,
+     "k": 0.0361328125,
+     "turnover_per_year": 3421.696693679285,
+     "breakeven_bps": 10.311497448683813,
+     "breakeven_se_bps": 0.9072556945906782,
+     "breakeven_demeaned_bps": 10.1471916344662,
+     "sharpe_gross": 9.049053855663457,
+     "sharpe_net_maker": 6.314824274941226,
+     "mean_position": 0.06277906928350169
+    },
+    {
+     "target_auc": 0.64,
+     "auc": 0.6398926184831536,
+     "k": 0.041015625,
+     "turnover_per_year": 3504.2527096847075,
+     "breakeven_bps": 11.478206390436943,
+     "breakeven_se_bps": 0.8673276251150154,
+     "breakeven_demeaned_bps": 11.326310534168801,
+     "sharpe_gross": 10.262740255164418,
+     "sharpe_net_maker": 7.475671643361489,
+     "mean_position": 0.05943766981979036
+    },
+    {
+     "target_auc": 0.65,
+     "auc": 0.6498564627218031,
+     "k": 0.0458984375,
+     "turnover_per_year": 3560.5409024156775,
+     "breakeven_bps": 12.648435574353057,
+     "breakeven_se_bps": 0.9267210497717672,
+     "breakeven_demeaned_bps": 12.512848188135916,
+     "sharpe_gross": 11.388406289145747,
+     "sharpe_net_maker": 8.581095007056362,
+     "mean_position": 0.053908307717919296
+    }
+   ],
+   "required_auc": {
+    "bare_maker_3.4_plain": 0.5585831065603734,
+    "bare_maker_3.4_demeaned": 0.5606204521550179,
+    "gate_4.0_plain": 0.5639009816908911,
+    "gate_4.0_demeaned": 0.5661810284237467,
+    "taker_5.5_plain": 0.5761552640285296,
+    "taker_5.5_demeaned": 0.5777987462851781
+   }
+  },
+  "seed1": {
+   "points": [
+    {
+     "target_auc": 0.55,
+     "auc": 0.5499915920681011,
+     "k": 0.002197265625,
+     "turnover_per_year": 3067.7065038378532,
+     "breakeven_bps": 2.144880223043557,
+     "breakeven_se_bps": 0.830609271580392,
+     "breakeven_demeaned_bps": 1.8687063342968833,
+     "sharpe_gross": 1.7352851777492915,
+     "sharpe_net_maker": -0.7777685272509393,
+     "mean_position": 0.09460560189781976
+    },
+    {
+     "target_auc": 0.56,
+     "auc": 0.5602338045434574,
+     "k": 0.00634765625,
+     "turnover_per_year": 3085.2183860208215,
+     "breakeven_bps": 3.7867593209274846,
+     "breakeven_se_bps": 0.8357187777438854,
+     "breakeven_demeaned_bps": 3.523629456704167,
+     "sharpe_gross": 3.1026263324173193,
+     "sharpe_net_maker": 0.5558290807056887,
+     "mean_position": 0.0906518107174496
+    },
+    {
+     "target_auc": 0.57,
+     "auc": 0.5697958039538431,
+     "k": 0.01025390625,
+     "turnover_per_year": 3118.9913016594032,
+     "breakeven_bps": 4.465326874914042,
+     "breakeven_se_bps": 0.8266216002250506,
+     "breakeven_demeaned_bps": 4.226419040643321,
+     "sharpe_gross": 3.5832038355263798,
+     "sharpe_net_maker": 1.0875610093015513,
+     "mean_position": 0.08320798130718876
+    },
+    {
+     "target_auc": 0.58,
+     "auc": 0.5804245118122776,
+     "k": 0.0146484375,
+     "turnover_per_year": 3174.0286456630183,
+     "breakeven_bps": 6.251072433323242,
+     "breakeven_se_bps": 0.8447240819426284,
+     "breakeven_demeaned_bps": 6.031673076553725,
+     "sharpe_gross": 5.132131667585701,
+     "sharpe_net_maker": 2.580805967912126,
+     "mean_position": 0.07776185691437812
+    },
+    {
+     "target_auc": 0.59,
+     "auc": 0.5897363319706522,
+     "k": 0.0185546875,
+     "turnover_per_year": 3209.052410028955,
+     "breakeven_bps": 7.401598908085458,
+     "breakeven_se_bps": 0.8909284540640064,
+     "breakeven_demeaned_bps": 7.192043828423239,
+     "sharpe_gross": 6.15506010416546,
+     "sharpe_net_maker": 3.5688095189232474,
+     "mean_position": 0.07509230467379736
+    },
+    {
+     "target_auc": 0.6,
+     "auc": 0.6000371027851474,
+     "k": 0.02294921875,
+     "turnover_per_year": 3275.347392578764,
+     "breakeven_bps": 8.527108145769445,
+     "breakeven_se_bps": 0.9151958740343248,
+     "breakeven_demeaned_bps": 8.35277856402004,
+     "sharpe_gross": 7.261778089603359,
+     "sharpe_net_maker": 4.612599364918255,
+     "mean_position": 0.06376008514028526
+    },
+    {
+     "target_auc": 0.61,
+     "auc": 0.6101268793574236,
+     "k": 0.02734375,
+     "turnover_per_year": 3326.632190400314,
+     "breakeven_bps": 9.078735860642185,
+     "breakeven_se_bps": 0.8608474860995917,
+     "breakeven_demeaned_bps": 8.907573981345601,
+     "sharpe_gross": 7.95843105158762,
+     "sharpe_net_maker": 5.23277030956482,
+     "mean_position": 0.06358171862087007
+    },
+    {
+     "target_auc": 0.62,
+     "auc": 0.6199800987430366,
+     "k": 0.03173828125,
+     "turnover_per_year": 3365.4085009483156,
+     "breakeven_bps": 9.550899189005566,
+     "breakeven_se_bps": 0.866592799679094,
+     "breakeven_demeaned_bps": 9.383180793412759,
+     "sharpe_gross": 8.533271188506985,
+     "sharpe_net_maker": 5.755542782328866,
+     "mean_position": 0.06302878241068297
+    },
+    {
+     "target_auc": 0.63,
+     "auc": 0.6295750377579777,
+     "k": 0.0361328125,
+     "turnover_per_year": 3406.6865089510266,
+     "breakeven_bps": 10.529073522193018,
+     "breakeven_se_bps": 0.8996384745768594,
+     "breakeven_demeaned_bps": 10.36312163233022,
+     "sharpe_gross": 9.591095700546568,
+     "sharpe_net_maker": 6.756933764844933,
+     "mean_position": 0.06312985677168491
+    },
+    {
+     "target_auc": 0.64,
+     "auc": 0.6399158937065607,
+     "k": 0.041015625,
+     "turnover_per_year": 3480.486583864965,
+     "breakeven_bps": 11.320165217240092,
+     "breakeven_se_bps": 0.9835827849282932,
+     "breakeven_demeaned_bps": 11.148752298875419,
+     "sharpe_gross": 10.2139478419219,
+     "sharpe_net_maker": 7.4055766880542295,
+     "mean_position": 0.06661989500157557
+    },
+    {
+     "target_auc": 0.65,
+     "auc": 0.6498937269567835,
+     "k": 0.0458984375,
+     "turnover_per_year": 3538.0256253232897,
+     "breakeven_bps": 11.974390425579465,
+     "breakeven_se_bps": 0.9175622113540355,
+     "breakeven_demeaned_bps": 11.8167660977386,
+     "sharpe_gross": 10.948467727055418,
+     "sharpe_net_maker": 8.104325694970527,
+     "mean_position": 0.06227369747849197
+    }
+   ],
+   "required_auc": {
+    "bare_maker_3.4_plain": 0.5578211596983715,
+    "bare_maker_3.4_demeaned": 0.5594686698090203,
+    "gate_4.0_plain": 0.5632386744868884,
+    "gate_4.0_demeaned": 0.5667151966389246,
+    "taker_5.5_plain": 0.5759541495948138,
+    "taker_5.5_demeaned": 0.5772942056645144
+   }
+  },
+  "seed2": {
+   "points": [
+    {
+     "target_auc": 0.55,
+     "auc": 0.5500004017052715,
+     "k": 0.002197265625,
+     "turnover_per_year": 3058.950562746369,
+     "breakeven_bps": 1.9856579205147358,
+     "breakeven_se_bps": 0.8732106022770988,
+     "breakeven_demeaned_bps": 1.7157603510335608,
+     "sharpe_gross": 1.5899725523719979,
+     "sharpe_net_maker": -0.8984843524979838,
+     "mean_position": 0.09219170833506746
+    },
+    {
+     "target_auc": 0.56,
+     "auc": 0.5602584294653475,
+     "k": 0.00634765625,
+     "turnover_per_year": 3080.214991111402,
+     "breakeven_bps": 4.20451474535472,
+     "breakeven_se_bps": 0.8404541591944722,
+     "breakeven_demeaned_bps": 3.9409228903720117,
+     "sharpe_gross": 3.383393412021533,
+     "sharpe_net_maker": 0.8815945605706186,
+     "mean_position": 0.09066370181874395
+    },
+    {
+     "target_auc": 0.57,
+     "auc": 0.5698360601993799,
+     "k": 0.01025390625,
+     "turnover_per_year": 3115.2387554773386,
+     "breakeven_bps": 4.780584828184309,
+     "breakeven_se_bps": 0.8302943673527651,
+     "breakeven_demeaned_bps": 4.52993790235869,
+     "sharpe_gross": 3.7987452135665314,
+     "sharpe_net_maker": 1.3297240556563676,
+     "mean_position": 0.0871915002407948
+    },
+    {
+     "target_auc": 0.58,
+     "auc": 0.5804816200957434,
+     "k": 0.0146484375,
+     "turnover_per_year": 3162.7710071168244,
+     "breakeven_bps": 5.839483883940478,
+     "breakeven_se_bps": 0.8417712050173106,
+     "breakeven_demeaned_bps": 5.612165703643627,
+     "sharpe_gross": 4.73875016189326,
+     "sharpe_net_maker": 2.2161286811515724,
+     "mean_position": 0.08028277038877955
+    },
+    {
+     "target_auc": 0.59,
+     "auc": 0.5898072856426786,
+     "k": 0.0185546875,
+     "turnover_per_year": 3210.30325875631,
+     "breakeven_bps": 6.790537080326662,
+     "breakeven_se_bps": 0.8446615139401062,
+     "breakeven_demeaned_bps": 6.563947532095682,
+     "sharpe_gross": 5.621140378273812,
+     "sharpe_net_maker": 3.0469889299837436,
+     "mean_position": 0.0812281129416801
+    },
+    {
+     "target_auc": 0.6,
+     "auc": 0.6001226508649578,
+     "k": 0.02294921875,
+     "turnover_per_year": 3279.0999387608285,
+     "breakeven_bps": 7.690045651686939,
+     "breakeven_se_bps": 0.8423693798805344,
+     "breakeven_demeaned_bps": 7.475289547270286,
+     "sharpe_gross": 6.4923912389448,
+     "sharpe_net_maker": 3.8645719691720606,
+     "mean_position": 0.07863585285951258
+    },
+    {
+     "target_auc": 0.61,
+     "auc": 0.610225905879569,
+     "k": 0.02734375,
+     "turnover_per_year": 3344.76949694696,
+     "breakeven_bps": 8.830080848600742,
+     "breakeven_se_bps": 0.873384387442939,
+     "breakeven_demeaned_bps": 8.634695687571945,
+     "sharpe_gross": 7.548086970338644,
+     "sharpe_net_maker": 4.8880216451705865,
+     "mean_position": 0.0729756886434037
+    },
+    {
+     "target_auc": 0.62,
+     "auc": 0.6200931453435681,
+     "k": 0.03173828125,
+     "turnover_per_year": 3382.294958767606,
+     "breakeven_bps": 10.054528281432225,
+     "breakeven_se_bps": 0.8874895334103686,
+     "breakeven_demeaned_bps": 9.87499066155055,
+     "sharpe_gross": 8.754673672624483,
+     "sharpe_net_maker": 6.044064537431685,
+     "mean_position": 0.06780900513101021
+    },
+    {
+     "target_auc": 0.63,
+     "auc": 0.629699067696635,
+     "k": 0.0361328125,
+     "turnover_per_year": 3438.583151498576,
+     "breakeven_bps": 10.610579127832027,
+     "breakeven_se_bps": 0.919722659355473,
+     "breakeven_demeaned_bps": 10.43720120342414,
+     "sharpe_gross": 9.370312110718514,
+     "sharpe_net_maker": 6.621215529583938,
+     "mean_position": 0.06657233059639818
+    },
+    {
+     "target_auc": 0.64,
+     "auc": 0.6400455290090553,
+     "k": 0.041015625,
+     "turnover_per_year": 3503.6272853210303,
+     "breakeven_bps": 10.760305828594406,
+     "breakeven_se_bps": 0.8605314846355218,
+     "breakeven_demeaned_bps": 10.597456318184413,
+     "sharpe_gross": 9.918174157794395,
+     "sharpe_net_maker": 7.048228648151344,
+     "mean_position": 0.06371252073510789
+    },
+    {
+     "target_auc": 0.65,
+     "auc": 0.650027517079482,
+     "k": 0.0458984375,
+     "turnover_per_year": 3581.8053307807104,
+     "breakeven_bps": 12.525992402942416,
+     "breakeven_se_bps": 0.8593585127676876,
+     "breakeven_demeaned_bps": 12.38144355860539,
+     "sharpe_gross": 11.843574854045608,
+     "sharpe_net_maker": 8.895560199999016,
+     "mean_position": 0.05781453449311208
+    }
+   ],
+   "required_auc": {
+    "bare_maker_3.4_plain": 0.5565390661883437,
+    "bare_maker_3.4_demeaned": 0.5577647680238125,
+    "gate_4.0_plain": 0.5593129345096985,
+    "gate_4.0_demeaned": 0.5612190480053443,
+    "taker_5.5_plain": 0.5770686450810876,
+    "taker_5.5_demeaned": 0.5793782787150856
+   }
+  }
+ },
  "decision": "KILL: AUC needed for 4 bps >= 0.58 -> 1h/4h BTC bar-direction line closed for good",
  "required_auc_for_4bps_seed0": 0.5900907346448944
 }

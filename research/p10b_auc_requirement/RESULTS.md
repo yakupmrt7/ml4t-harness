@@ -11,7 +11,22 @@ closed.**
 - **Where the best real model stands:** AUC 0.5445. No feature added in
   p01–p10 has raised AUC, and p03's and p10's both lowered it.
 
-**Requirement, as a range across the three noise seeds:**
+**Row zero (sanity check, PLAN amendment 1): PASS, exact.** At k = 0 the
+synthetic pipeline reproduces:
+- **p10's A-basic/P2 row, under p10's hold rule:** AUC 0.5445495…,
+  breakeven 1.5309846975…, turnover 2,965.1369…/yr. Identical to
+  `research/p10_orderflow_1h/selection.json` → `results_held` at full
+  precision.
+- **This curve's base, under the p02-exact hold rule:** breakeven
+  1.864324984464265, turnover 3,050/yr.
+- The two differ only in how P2 treats the ~7% of bars without a
+  prediction.
+
+The direction-only curves, recomputed after the amendment, are
+bit-identical to the first run.
+
+**Requirement, as a range across the three noise seeds** (direction-only
+arm, which decides the kill):
 
 | breakeven target | AUC needed (plain) | AUC needed (de-meaned, no net-long drift) |
 |---|---:|---:|
@@ -19,7 +34,35 @@ closed.**
 | **4.0 bps**, the p10 gate | **0.574 – 0.591** | 0.578 – 0.594 |
 | **5.5 bps**, taker | **0.613 – 0.638** | 0.615 – 0.641 |
 
-- **Distance from today:** the best real model is at 0.5445, so even
+**Magnitude arm, reported only** (PLAN amendment 1): a signal stronger on
+bigger moves, s = sign(label) · |ret| / std(|ret|) + ε.
+
+| breakeven target | AUC needed (plain) | AUC needed (de-meaned) |
+|---|---:|---:|
+| 3.4 bps | **0.557 – 0.559** | 0.558 – 0.561 |
+| 4.0 bps | **0.559 – 0.564** | 0.561 – 0.567 |
+| 5.5 bps | **0.576 – 0.577** | 0.577 – 0.579 |
+
+**Required AUC as a range, bracketed by the two arms.** A real feature
+most likely sits between direction-only and magnitude-weighted:
+
+| breakeven target | AUC needed | vs the best real model (0.5445) |
+|---|---:|---:|
+| 3.4 bps (bare maker) | **0.557 – 0.575** | +0.012 to +0.030 |
+| **4.0 bps (gate)** | **0.559 – 0.591** | **+0.015 to +0.047** |
+| 5.5 bps (taker) | **0.576 – 0.638** | +0.031 to +0.093 |
+
+- **An honest reading of the band:** if a real feature behaved like the
+  magnitude arm, the 4 bps requirement (0.559–0.564) would fall in the
+  plan's **0.56–0.58 "abandon unless the owner funds v2"** band, not the
+  "closed for good" one. The pre-registered decision uses the
+  direction-only curve, which gives 0.590 → closed. Either way the
+  outcome is **abandon**; only the wording (closed vs owner's call)
+  depends on the arm.
+- **Even the optimistic arm needs +0.015 AUC** over the best real model.
+  No feature added in p01–p10 has raised AUC at all.
+
+- **Distance from today (direction-only):** the best real model is at 0.5445, so even
   breaking even at bare maker cost needs **+0.023 to +0.030 AUC**. That is
   roughly 1.5× the edge p01 has over a coin flip (0.0445), on top of it.
 - **p10's gate asked for more than breakeven:** breakeven − 1 s.e. ≥ 4 bps.
@@ -68,6 +111,25 @@ closed.**
   More seeds would narrow it but could not move it from ~0.57–0.59 to
   below 0.56.
 
+## The magnitude-arm curve (breakeven bps, with de-meaned in parentheses)
+| AUC | seed 0 | seed 1 | seed 2 |
+|---:|---:|---:|---:|
+| 0.55 | 2.30 (2.03) | 2.14 (1.87) | 1.99 (1.72) |
+| 0.56 | 3.61 (3.36) | 3.79 (3.52) | 4.20 (3.94) |
+| 0.57 | 4.62 (4.39) | 4.47 (4.23) | 4.78 (4.53) |
+| 0.58 | 6.09 (5.87) | 6.25 (6.03) | 5.84 (5.61) |
+| 0.59 | 7.13 (6.93) | 7.40 (7.19) | 6.79 (6.56) |
+| 0.60 | 7.55 (7.36) | 8.53 (8.35) | 7.69 (7.48) |
+| 0.61 | 8.62 (8.43) | 9.08 (8.91) | 8.83 (8.63) |
+| 0.62 | 9.21 (9.04) | 9.55 (9.38) | 10.05 (9.87) |
+| 0.63 | 10.31 (10.15) | 10.53 (10.36) | 10.61 (10.44) |
+| 0.64 | 11.48 (11.33) | 11.32 (11.15) | 10.76 (10.60) |
+| 0.65 | 12.65 (12.51) | 11.97 (11.82) | 12.53 (12.38) |
+
+Breakeven rises about **+1 bp per +0.01 AUC** here, twice the
+direction-only slope. Skill concentrated on big moves is worth about
+twice as much per unit of AUC.
+
 ## Caveat
 A label-derived signal predicts barrier **direction**, not the size of
 the move. A real feature with the same AUC could be worth more (if it
@@ -82,7 +144,11 @@ RTDS settlement check, once ≥ 7 days of the new collector feed exist
 (from 2026-09-24).
 
 ## Bookkeeping
-- 33 `measurement` rows in `selection_trials.json`.
+- 66 `measurement` rows in `selection_trials.json`: 33 direction, 33
+  magnitude arm.
+- PLAN amendment 1 (row zero + magnitude arm) was written **after** the
+  first run's numbers were seen, and is disclosed as such. It is
+  reporting only; the kill rule and deciding curve are unchanged.
 - `trials.json` untouched (3).
 - Files: `PLAN.md` (committed before any computation), `run.py`,
   `run.log`, `results.json`.
