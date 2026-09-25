@@ -9,3 +9,4 @@ __pycache__/
 research/*/preds*.parquet
 research/p12_hl_survey/coverage_*.json
 research/p12_hl_survey/addrs_*.json
+data/hl/*
