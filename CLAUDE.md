@@ -18,7 +18,7 @@ that thesis is parked, not started.**
 - `harness/`: library code (labels, weights, cv, backtest, metrics, nulls, features, data)
 - `research/pNN_<name>/`: one folder per experiment (script or notebook + short RESULTS.md)
 - `data/raw` = Binance archive zips, `data/collector` = slices synced from the GCS collector, `data/bars` = parquet caches. All gitignored.
-- `trials.json`: the trial log of the closed Binance line (p01–p12). `trials_hl.json`: the trial
+- `trials.json`: the trial log of the closed Binance line (p01–p11). `trials_hl.json`: the trial
   log of the Hyperliquid line. Both committed. Never delete or edit their entries. "The trial log"
   below means the current line's log (`trials_hl.json` now).
 

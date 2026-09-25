@@ -1,0 +1,31 @@
+--- universe
+live perps 178  24h vol $8.03B  OI $12.90B
+top10 by vol
+  BTC      vol $    3790M  OI $    3335M  maxLev 40  share 47.2%
+  ETH      vol $    1009M  OI $    2858M  maxLev 25  share 12.6%
+  HYPE     vol $     728M  OI $    1949M  maxLev 10  share 9.1%
+  ZEC      vol $     546M  OI $     841M  maxLev 10  share 6.8%
+  SOL      vol $     298M  OI $     694M  maxLev 20  share 3.7%
+  NEAR     vol $     274M  OI $     351M  maxLev 10  share 3.4%
+  XRP      vol $     185M  OI $     304M  maxLev 20  share 2.3%
+  ONDO     vol $     162M  OI $      87M  maxLev 10  share 2.0%
+  XPL      vol $      87M  OI $     100M  maxLev 10  share 1.1%
+  ENA      vol $      79M  OI $     109M  maxLev 10  share 1.0%
+top10 by OI
+  BTC      vol $    3790M  OI $    3335M  maxLev 40  share 25.8%
+  ETH      vol $    1009M  OI $    2858M  maxLev 25  share 22.1%
+  HYPE     vol $     728M  OI $    1949M  maxLev 10  share 15.1%
+  ZEC      vol $     546M  OI $     841M  maxLev 10  share 6.5%
+  SOL      vol $     298M  OI $     694M  maxLev 20  share 5.4%
+  NEAR     vol $     274M  OI $     351M  maxLev 10  share 2.7%
+  XRP      vol $     185M  OI $     304M  maxLev 20  share 2.4%
+  LIT      vol $      66M  OI $     216M  maxLev  5  share 1.7%
+  PUMP     vol $      59M  OI $     144M  maxLev 10  share 1.1%
+  DOGE     vol $      27M  OI $     118M  maxLev 10  share 0.9%
+--- l2cadence
+l2Book BTC: 13 snapshots; gap s median 5.39 p10 5.09 p90 5.46
+--- tailci
+BTC tail coverage 5.2%  bootstrap 95% 2.7%-8.5%  (HLP excluded from scaling)
+ETH tail coverage 2.0%  bootstrap 95% 0.7%-3.7%  (HLP excluded from scaling)
+HYPE tail coverage 4.7%  bootstrap 95% 2.4%-7.4%  (HLP excluded from scaling)
+SOL tail coverage 1.8%  bootstrap 95% 0.5%-3.8%  (HLP excluded from scaling)

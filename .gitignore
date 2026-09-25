@@ -7,3 +7,5 @@ __pycache__/
 .venv/
 .ipynb_checkpoints/
 research/*/preds*.parquet
+research/p12_hl_survey/coverage_*.json
+research/p12_hl_survey/addrs_*.json
