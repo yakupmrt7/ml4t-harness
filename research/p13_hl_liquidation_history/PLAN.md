@@ -76,3 +76,37 @@ to p12's numbers.
 
 ## Expected cost
 0 trials. S3 egress as priced in step 0 (approval needed above ~$20). Laptop compute.
+
+## Step 2 addendum (fixed 2026-09-26, after step 1's counts, before any book or price-path data is read)
+- **Unit:** one window per (cluster, coin): 60 s clusters across the six coins (step 1), and within
+  a cluster each coin that had market liquidations. t0 = that coin's first liquidation time in the
+  cluster. Push direction s = sign of (liquidated buy notional − liquidated sell notional): s = −1
+  when longs were liquidated (forced selling). d = −s is the reversion direction.
+  Liquidated notional of the window = that coin's market-liquidation notional in the cluster.
+- **Dev only:** windows with t0 in [2025-07-27 08:00, 2026-06-11 02:00) and t0 + 300 s < dev end.
+- **Independence:** medians are over windows; confidence intervals by bootstrap over **clusters**
+  (a multi-coin cluster is one draw). Reported n: windows, clusters, and effective number of days.
+- **Book statistics per snapshot** (20 levels/side, from `market_data` l2Book, exchange `time`):
+  best bid/ask, spread (bps), depth notional within 10 and 50 bps of mid per side, and the cost of
+  taking $10k and $50k per side (VWAP vs mid, bps; NaN if 20 levels do not cover it).
+- **Reversion (unchanged from above):** entry at the last book mid at or before t0 + 2 s;
+  reversion(h) = d × (mid(t0+2s+h) / mid(t0+2s) − 1), h ∈ {60, 120, 300} s (+5 s reported). Also in vol
+  units: divided by σ(1 s last-trade log returns over [t0 − 30 min, t0 − 60 s]) × √h, from the tick tape.
+- **Cost (kill):** round trip at the $10k clip = (VWAP to buy $10k − VWAP to sell $10k) / mid on the
+  book at t0 + 2 s, + 2 × 4.5 bps. The $50k clip and an exit-time-book variant are reported, not used.
+- **Kill 2 test:** per horizon, median reversion vs median cost, for all windows and for the top
+  decile of window liquidated notional. Killed if median reversion < median cost at all three
+  horizons in both sets. The median of per-window net (reversion − cost) is reported alongside.
+- **Size deciles** by window liquidated notional; **move before the event** = s × (mid(t0)/mid(t0−60 s) − 1)
+  vs the post-event path; **book depletion** = depth within 50 bps on the absorbing side (bids when
+  s = −1) vs its median over [t0 − 60 s, t0 − 5 s]; **refill time** = first time after t0 that depth
+  is back to ≥ 90% of that level (censored at 300 s); **spread** path over the window.
+- **Cross-venue:** HL book mid vs Binance spot 1 s close (BTC, ETH, SOL, XRP, ZEC; none for HYPE);
+  dislocation = log(HL mid / Binance) minus its median over [t0 − 60 s, t0 − 5 s], in bps; size and
+  time back within 2 bps. Binance spot approximates the 5-venue perp median that drives HL's mark.
+- **Downsample check (owner, 2026-09-26):** repeat the reversion and cost with dev's 0.5 s books
+  coarsened to 5 s (the live cadence today): observed mid at time τ = last snapshot at or before τ
+  on a 5 s grid with a random phase per window. If the effect exists only at 0.5 s, it is not
+  tradeable now; say so.
+- **Book cadence filter:** windows whose book gap exceeds 2 s anywhere in [t0 − 60 s, t0 + 302 s] are
+  reported separately (dev starts with ~5 s books in 2025-07/08).
