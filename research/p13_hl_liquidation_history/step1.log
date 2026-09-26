@@ -1,0 +1,27 @@
+span 2025-07-27 08:00:00+00:00 -> 2026-09-25 08:00:00+00:00 (14.0 months); 1395165 market-liquidation events (orders); excluded: 23628 backstop events ($3.69B, no book trade), 0 ADL rows; market events $35.3B
+
+coin   events   /week       first   ntl p50       p90        p99         max long-liq  clu60 in casc  top5d
+BTC    709368   11684  2025-07-27       830    27,096    319,902  97,057,547      63%  15651     99%     8%
+ETH    240166    3956  2025-07-27       805    35,116    591,514  96,244,535      70%  11529     98%    12%
+SOL    208582    3435  2025-07-27       514    15,340    176,856  28,967,293      72%  11472     98%    11%
+HYPE    99232    1634  2025-07-27       540    27,358    204,211  11,009,529      75%  10763     95%    12%
+ZEC     69224    1140  2025-10-02       378    14,371    163,282  17,186,508      55%   7261     96%    15%
+XRP     68593    1130  2025-07-27       480    11,575    132,459  22,543,644      78%   8468     96%    14%
+
+independent events (clusters across all six coins):
+  gap  clusters  /month median month min month    dev holdout
+  10s     67894    4862         4259      3052  53662   14232
+  60s     31541    2259         2048      1595  24927    6614
+ 300s     14738    1056         1023       824  11615    3123
+clusters per calendar month (60 s gap): 2025-07: 367, 2025-08: 2446, 2025-09: 1949, 2025-10: 2782, 2025-11: 3449, 2025-12: 2027, 2026-01: 1993, 2026-02: 2814, 2026-03: 2064, 2026-04: 1595, 2026-05: 2048, 2026-06: 2695, 2026-07: 1680, 2026-08: 1877, 2026-09: 1755
+
+cluster shape (60 s): events/cluster p50 6, p90 94, max 19513; multi-coin 40%; duration p50 15s p90 122s
+time concentration: clusters on 426 days; top-10 days hold 6%; effective number of days 339
+
+clusters (60 s) by total market-liquidated notional:
+    >= $  clusters  /month    dev holdout  days
+ 100,000     11248     806   9071    2177   422
+1,000,000      3854     276   3190     664   397
+10,000,000       652      47    569      83   232
+
+KILL 1 (power): 2259 independent events/month (60 s) vs threshold 200 -> passes
