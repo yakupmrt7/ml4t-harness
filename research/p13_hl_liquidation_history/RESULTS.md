@@ -135,9 +135,11 @@ spot approximates the 5-venue perp median that drives HL's mark; the gap to the 
 - Created for p13: IAM role + instance profile `p13-hl-archive-read` (read-only on
   `hl-mainnet-node-data` and `hyperliquid-archive`), attached to `arbscan-tokyo`; `~/p13` on the box
   (venv, `books/` 1.6 GB, step 2 outputs); `lz4` and `python3-venv` via apt; SSH rule on `arbscan-sg`
-  now allows only 46.196.164.48/32. **Teardown: pending the owner's decision on the instance** (the
-role, instance profile and `~/p13` are to be removed; `arbscan-tokyo` itself hosts the owner's arbscan
-work, so it is stopped or kept only on explicit instruction). This section is updated when done.
+  now allows only 46.196.164.48/32. **Teardown (2026-09-26, after the review):** IAM instance profile
+disassociated from `arbscan-tokyo`; role policy, role and instance profile `p13-hl-archive-read`
+deleted (`get-role` → NoSuchEntity); `~/p13` deleted on the box (disk back to 14 GB used). Left in
+place: the apt packages `lz4`, `python3-venv` (harmless, no cost) and the instance itself, which hosts
+the owner's arbscan work and bills while running (~$2.5/day). Its state is the owner's call, not p13's.
 
 ## Validation-report note
 CLAUDE.md rule 8 (`validation_report`) applies to strategy results with a return series; this is an
