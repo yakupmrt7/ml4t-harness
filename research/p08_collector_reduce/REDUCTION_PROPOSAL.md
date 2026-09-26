@@ -1,7 +1,7 @@
 # p08 step 2: proposed reduction job (NOT run — for approval)
 
 Goal: turn 261 GB of raw JSON-in-parquet into ~2.5 GB of 1-second and
-1-minute feature tables under `gs://poly-backup-54cb99b7/features/`, so
+1-minute feature tables under `gs://YOUR-GCS-BUCKET/features/`, so
 research runs on a laptop. Read-only on `eu-raw_pq/`; the job writes only
 under `features/`.
 

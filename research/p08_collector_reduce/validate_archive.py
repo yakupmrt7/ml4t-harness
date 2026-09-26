@@ -27,7 +27,7 @@ import numpy as np
 import pandas as pd
 import pyarrow.dataset as ds
 
-BUCKET = "poly-backup-54cb99b7"
+BUCKET = "YOUR-GCS-BUCKET"
 STREAM = "binance_fut__btcusdt@trade"
 ARCHIVE = "https://data.binance.vision/data/futures/um/daily/aggTrades/BTCUSDT/BTCUSDT-aggTrades-{date}.zip"
 COLS = ["agg_trade_id", "price", "quantity", "first_trade_id", "last_trade_id", "transact_time", "is_buyer_maker"]

@@ -1,6 +1,6 @@
-/Users/yakupmert/Desktop/ml4t-harness/research/p10_orderflow_1h/selection.py:96: Pandas4Warning: Starting with pandas version 4.0 all arguments of all will be keyword-only.
+~/Desktop/ml4t-harness/research/p10_orderflow_1h/selection.py:96: Pandas4Warning: Starting with pandas version 4.0 all arguments of all will be keyword-only.
   common = Xb.notna().all(1) & Xf.notna().all(1) & pd.Series(end >= 0, index=labels.index)
-/Users/yakupmert/Desktop/ml4t-harness/research/p10_orderflow_1h/selection.py:98: Pandas4Warning: Starting with pandas version 4.0 all arguments of all will be keyword-only.
+~/Desktop/ml4t-harness/research/p10_orderflow_1h/selection.py:98: Pandas4Warning: Starting with pandas version 4.0 all arguments of all will be keyword-only.
   "dropped_basic_nan": int((~Xb.notna().all(1)).sum()), "dropped_flow_nan": int((~Xf.notna().all(1)).sum()),
 {"labels_pre_oos": 168291, "common_sample": 156943, "dropped_basic_nan": 44, "dropped_flow_nan": 11318, "dropped_tcn_window": 98, "first": "2022-09-01 00:00:00+00:00", "last": "2024-04-07 00:00:00+00:00", "n_flow_features": 44, "effective_n": 16181.006656092628}
 lookahead suspects: []

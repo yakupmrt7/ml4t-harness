@@ -18,7 +18,7 @@ and the candidates are named here.
   period. `selection_trials.json` gets one row per pre-registered Step-3
   configuration (all reported), marked `measurement`.
 
-## Data (gs://poly-backup-54cb99b7/features/v1/, from p08, code version p08-v4)
+## Data (gs://YOUR-GCS-BUCKET/features/v1/, from p08, code version p08-v4)
 Local copies go to `data/collector/p09/` (gitignored). Only these are used:
 `1s/chainlink__btc`, `1s/polymarket__price_change`, `1s/polymarket__book`,
 `1s/polymarket__last_trade_price` (trade aggregates, junk prints already

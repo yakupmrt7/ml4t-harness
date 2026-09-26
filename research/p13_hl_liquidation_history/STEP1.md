@@ -1,7 +1,7 @@
 # p13 step 1 — the liquidation event set (no price outcomes read)
 
 Source: `node_fills_by_block`, full fixed span 2025-07-27 08:00 → 2026-09-25 08:00 UTC (14.0 months),
-reduced on arbscan-tokyo by `extract.py` (426/426 days `ok`, `extract_run.log`), analysed by
+reduced on tokyo-vm by `extract.py` (426/426 days `ok`, `extract_run.log`), analysed by
 `events.py` (`step1.log`, `step1.json`). Outputs in `data/hl/p13_fills/` (gitignored).
 
 ## Validation (ROADMAP §8.6, `validate.py`)

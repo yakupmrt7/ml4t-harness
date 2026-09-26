@@ -1,5 +1,5 @@
 """p10 flow reduction: Binance USD-M BTCUSDT aggTrades (one UTC day per unit) -> 1-minute
-order-flow aggregates, written to gs://poly-backup-54cb99b7/features/flow_v1/.
+order-flow aggregates, written to gs://YOUR-GCS-BUCKET/features/flow_v1/.
 
 Unit = one UTC day: daily zip from data.binance.vision, sha256-checked against its .CHECKSUM
 (the same rows as the monthly zips, at a resumable granularity). Output parquet + manifest
@@ -36,7 +36,7 @@ import pandas as pd
 
 CODE_VERSION = "flow_v1.0"
 SRC = "https://data.binance.vision/data/futures/um/daily/aggTrades/BTCUSDT/BTCUSDT-aggTrades-{d}.zip"
-OUT = "gs://poly-backup-54cb99b7/features/flow_v1"
+OUT = "gs://YOUR-GCS-BUCKET/features/flow_v1"
 BIG_USD = 100_000.0
 VPIN_USD = 10_000_000.0
 COLS = ["agg_trade_id", "price", "quantity", "first_trade_id", "last_trade_id", "transact_time", "is_buyer_maker"]

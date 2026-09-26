@@ -24,7 +24,7 @@ larger than estimated because the Polymarket tables carry a row per
 (second, asset) rather than one per second.
 
 ## What now exists
-`gs://poly-backup-54cb99b7/features/v1/`
+`gs://YOUR-GCS-BUCKET/features/v1/`
 
 | kind | path | content |
 |---|---|---|
@@ -37,7 +37,7 @@ larger than estimated because the Polymarket tables carry a row per
 Read it with any parquet reader, e.g.
 
 ```bash
-python -c "import pyarrow.dataset as ds; print(ds.dataset('gs://poly-backup-54cb99b7/features/v1/1s/binance_fut__btcusdt@bookTicker', format='parquet').to_table().num_rows)"
+python -c "import pyarrow.dataset as ds; print(ds.dataset('gs://YOUR-GCS-BUCKET/features/v1/1s/binance_fut__btcusdt@bookTicker', format='parquet').to_table().num_rows)"
 ```
 
 Every table carries `bucket_start` (UTC), `n_msgs`, and `time_source`

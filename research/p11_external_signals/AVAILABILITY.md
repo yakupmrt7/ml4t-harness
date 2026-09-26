@@ -2,7 +2,7 @@
 
 Surveyed 2026-09-24 with a handful of API calls per source. No study-period
 data was downloaded. From the laptop, `www.deribit.com` times out (blocked,
-like Polymarket), so Deribit's main API was probed from `poly-collector-eu`.
+like Polymarket), so Deribit's main API was probed from `collector-vm`.
 `history.deribit.com`, Bybit, OKX, Hyperliquid and data.binance.vision are
 reachable from the laptop.
 
@@ -66,7 +66,7 @@ The owner's requested families, mapped to what survived:
   trades are stored as daily parquet in `data/collector/p11/deribit_opt/`,
   probably a few hundred MB.
 - **DVOL hourly + Deribit hourly funding:** ~40 calls in total, run
-  from `poly-collector-eu` (www is blocked here), minutes.
+  from `collector-vm` (www is blocked here), minutes.
 - **Bybit funding and 5 m candles:** ~4,500 kline calls (1,000 bars each)
   + ~30 funding calls. Minutes.
 - **OKX 5 m candles:** history-candles returns 100 per call, so ~4,200

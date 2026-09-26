@@ -23,7 +23,7 @@
 - Two variants that PLAN registered as "reported alongside" or "reported, not used" are missing from RESULTS: maker-exit and exit-time-book cost. Add one line for them.
 - **Distribution.** ROADMAP §4 asks for the distribution, not just the median. rev300 quantiles p5/p25/p50/p75/p95 are −64 / −15 / +2.1 / +18.6 / +58 bps. Put this in RESULTS: the median is positive but the mean is 0. That is the payoff shape of selling insurance (market jargon: short gamma, i.e. many small gains and a few large losses). Fading forced flow on HL earns small amounts often and gives it back in the cascades that keep going.
 - PLAN says the window must satisfy t0 + 300 s < dev end, while the code uses t0 + 302 s. This is immaterial, but note it.
-- The teardown section promised in RESULTS is missing. The IAM role `p13-hl-archive-read` is still attached to arbscan-tokyo, and `~/p13` is still on the box. Detach or delete them and append the section.
+- The teardown section promised in RESULTS is missing. The IAM role `p13-hl-archive-read` is still attached to tokyo-vm, and `~/p13` is still on the box. Detach or delete them and append the section.
 - `trials_hl.json` does not exist in the repo root. That is fine because no trial was run, but PLAN refers to it as if it existed.
 
 ## What the evidence supports

@@ -47,7 +47,7 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 
 CODE_VERSION = "p08-v4"   # v4: drop zero-price/zero-qty prints from trade aggregates
-BUCKET = "poly-backup-54cb99b7"
+BUCKET = "YOUR-GCS-BUCKET"
 RAW_PREFIX = "eu-raw_pq"
 OUT_PREFIX = "features/v1"
 

@@ -39,7 +39,7 @@ configuration has breakeven < 4 bps or pooled AUC < 0.52.
   count too.
 - **Work unit = one UTC day.** Resumable, with a manifest per unit (input
   checksum, rows, output rows, runtime). Outputs are verified with CRC32C
-  on upload to `gs://poly-backup-54cb99b7/features/flow_v1/`. Machine,
+  on upload to `gs://YOUR-GCS-BUCKET/features/flow_v1/`. Machine,
   cost and runtime are proposed separately, and nothing launches before
   the owner's "go".
 - **Output per UTC minute** (label = minute END, i.e. close time):

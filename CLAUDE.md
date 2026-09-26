@@ -1,4 +1,4 @@
-# ml4t-harness
+# quant-research-harness
 
 ML trading research on crypto (BTC first) with a validation harness that has
 to be able to say "there is nothing here". Owner is strong at ML and new to

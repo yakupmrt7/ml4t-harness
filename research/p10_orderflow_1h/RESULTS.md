@@ -18,7 +18,7 @@ plus 8 corrected rows, are logged in `selection_trials.json`.
   aggTrades, 2022-08-01 → 2026-08-31.
   - 1,492 daily zips, 25.9 GB zipped, each sha256-checked. The reduction
     ran on a throwaway `e2-standard-8` (≈ 1 h, ≈ $0.30; VM deleted).
-  - Output: `gs://poly-backup-54cb99b7/features/flow_v1/`, 1-minute
+  - Output: `gs://YOUR-GCS-BUCKET/features/flow_v1/`, 1-minute
     parquet plus a manifest per day, 201 MB. Code: `vm/reduce_flow.py`;
     run log: `vm/run.log`.
 - **Validation** (2023-06, `validate_2023-06.json`; PLAN amendments 1–2):
@@ -193,6 +193,6 @@ calculation:
 
 Reproduce (repo root):
 1. `python research/p10_orderflow_1h/vm/reduce_flow.py --start 2022-08-01 --end 2026-08-31` (on a VM)
-2. `gcloud storage rsync -r gs://poly-backup-54cb99b7/features/flow_v1/1m data/collector/flow_v1/1m`
+2. `gcloud storage rsync -r gs://YOUR-GCS-BUCKET/features/flow_v1/1m data/collector/flow_v1/1m`
 3. `PYTHONPATH=.:research/p10_orderflow_1h python research/p10_orderflow_1h/selection.py` (~35 min)
 4. `PYTHONPATH=.:research/p10_orderflow_1h python research/p10_orderflow_1h/reevaluate.py`

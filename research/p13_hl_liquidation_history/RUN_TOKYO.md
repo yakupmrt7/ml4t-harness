@@ -1,4 +1,4 @@
-# Running extract.py on the Tokyo box (arbscan-tokyo, ap-northeast-1)
+# Running extract.py on the Tokyo box (tokyo-vm, ap-northeast-1)
 
 Why there: the fill archive (`hl-mainnet-node-data`, 290 GB) sits in ap-northeast-1. Same-region S3
 reads have no transfer charge, so the full span costs ~10,200 GET requests (< $0.01) instead of ~$33
@@ -6,7 +6,7 @@ of internet egress. Only the outputs (~4–5 GB: ticks ~3.6 GB, addresses ~0.6 G
 of MB) leave AWS, ≈ $0.5 at $0.114/GB.
 
 Measured on the laptop: one hourly file (29 MB lz4, 139 MB JSON, 320k fills) in 0.9 s with orjson.
-On the box's 2 vCPUs at `nice 19` beside arbscan, expect ~2–3 s/hour → **~6–8 h for the full
+On the box's 2 vCPUs at `nice 19` beside vm, expect ~2–3 s/hour → **~6–8 h for the full
 span** with one process (network is not the bottleneck in-region).
 
 ## Prerequisites on the box
@@ -14,7 +14,7 @@ span** with one process (network is not the bottleneck in-region).
 2. S3 read credentials. The instance has **no IAM role**. Either
    - (preferred) attach a role allowing `s3:GetObject`/`s3:ListBucket` on
      `arn:aws:s3:::hl-mainnet-node-data` and `.../*`, or
-   - export the laptop's `yakup-cli` keys in the session only (`export AWS_ACCESS_KEY_ID=… `),
+   - export the laptop's `<iam-user>` keys in the session only (`export AWS_ACCESS_KEY_ID=… `),
      not written to disk on the box.
 3. Disk: outputs ≤ 5 GB; the box has a 40 GB gp3 volume. Nothing is decompressed to disk.
 

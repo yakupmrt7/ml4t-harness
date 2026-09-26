@@ -9,7 +9,7 @@ import subprocess
 from datetime import date, timedelta
 from pathlib import Path
 
-SRC = "gs://poly-backup-54cb99b7/features/v1"
+SRC = "gs://YOUR-GCS-BUCKET/features/v1"
 DST = Path("data/collector/p09")
 DEV_START, DEV_END, HOLDOUT_START = date(2026, 7, 25), date(2026, 9, 5), date(2026, 9, 6)
 STREAMS = {

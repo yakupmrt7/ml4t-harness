@@ -63,7 +63,7 @@ Next step: the owner's decision (see "Options").
   - 11,963 markets are resolved (Up 5,941, Down 6,022).
   - 1 is unresolved (prices 0.995/0.005) and was skipped.
   - None are void.
-  - The fetch ran on `poly-collector-eu`, because Polymarket is not
+  - The fetch ran on `collector-vm`, because Polymarket is not
     reachable from the owner's machine. It made ~2 requests/s at the lowest
     CPU priority, then its working folder was deleted.
 - **Rebuilt settlement:** a step function of the collector's Chainlink
@@ -448,7 +448,7 @@ three blocking wording fixes are applied above:
 The holdout was not read.
 
 ## Collector: the real settlement feed, recorded from 2026-09-24 07:12:35 UTC
-Added on `poly-collector-eu` (e2-small: 2 vCPU, 2 GB RAM). The existing
+Added on `collector-vm` (e2-small: 2 vCPU, 2 GB RAM). The existing
 `collector.service` used ~20% CPU and 109 MB, with 1.47 GB of memory free,
 so there was room for this.
 - **What:** Polymarket's live-data websocket (`wss://ws-live-data.polymarket.com`),
@@ -489,7 +489,7 @@ so there was room for this.
 - `step1b_binance.py`, `step1b.json`, `step1b.log`, `step1b_disagreements.csv`
 - `step23_fairvalue.py`, `step23.json`, `step23.log`, `step23_counts.json`, `selection_trials.json` (12 measurement rows)
 - `REVIEW.md` (research-reviewer, ACCEPT WITH FIXES)
-- `collector/rtds_collector.py` (copy of the script now running on `poly-collector-eu`)
+- `collector/rtds_collector.py` (copy of the script now running on `collector-vm`)
 - Local, gitignored: `raw_sample/ltp_*.parquet` (fee check)
 - Local, gitignored: `step2_seconds.parquet`, `step3_trades.parquet`, `step23_markets.parquet`
 - Local, gitignored:

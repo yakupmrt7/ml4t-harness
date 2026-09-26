@@ -11,7 +11,7 @@ import subprocess
 import pyarrow.compute as pc
 import pyarrow.dataset as ds
 
-B = "poly-backup-54cb99b7"
+B = "YOUR-GCS-BUCKET"
 
 for s in ("binance_fut__btcusdt@trade", "binance_spot__btcusdt@trade"):
     d = ds.dataset(f"gs://{B}/features/v1/1s/{s}", format="parquet")

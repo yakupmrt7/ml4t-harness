@@ -1,10 +1,10 @@
-# p08 step 1: collector raw schemas (gs://poly-backup-54cb99b7/eu-raw_pq)
+# p08 step 1: collector raw schemas (gs://YOUR-GCS-BUCKET/eu-raw_pq)
 
 Inspected 2026-09-23 from **one hour file per stream**, `2026-09-10` hour 12
 UTC (~250 MB downloaded to /tmp, well under the 1 GB cap). The bucket was
 touched **read-only**: `ls`, `du`, `objects describe` and `cp` to /tmp.
 
-Bucket: `poly-backup-54cb99b7`, location **US multi-region**, standard class.
+Bucket: `YOUR-GCS-BUCKET`, location **US multi-region**, standard class.
 Other top-level prefixes exist and are out of scope here: `us-raw_pq/`,
 `fairprice/`, `research/`.
 

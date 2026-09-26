@@ -24,7 +24,7 @@ b0eee85). Step 0: `STEP0.md`. Step 1: `STEP1.md`. Step 2 code: `windows.py`, `bo
   gap > 60 s across all six coins; a multi-coin cluster is one bootstrap draw), spread over an
   **effective 221 equally-weighted days**. Confidence intervals below resample clusters.
 - Books: `hyperliquid-archive` l2Book (20 levels, ~0.5 s in dev) for the 18,119 coin-hours touched by
-  any window, reduced on arbscan-tokyo. Vol: 1 s last-trade returns from our tick tape. External
+  any window, reduced on tokyo-vm. Vol: 1 s last-trade returns from our tick tape. External
   reference: Binance spot 1 s closes (no HYPE).
 
 ## Kill 2 (pre-registered): median reversion vs median round-trip cost, $10k clip, taker both ways
@@ -133,13 +133,13 @@ spot approximates the 5-venue perp median that drives HL's mark; the gap to the 
 - AWS spend for p13: fill-archive reads same-region (~10k GET, < $0.01); book archive cross-region
   18,119 files ≈ 22 GB ≈ $0.45; box → laptop egress ≈ 8.3 GB fills + small step 2 outputs ≈ $1.
 - Created for p13: IAM role + instance profile `p13-hl-archive-read` (read-only on
-  `hl-mainnet-node-data` and `hyperliquid-archive`), attached to `arbscan-tokyo`; `~/p13` on the box
-  (venv, `books/` 1.6 GB, step 2 outputs); `lz4` and `python3-venv` via apt; SSH rule on `arbscan-sg`
-  now allows only 46.196.164.48/32. **Teardown (2026-09-26, after the review):** IAM instance profile
-disassociated from `arbscan-tokyo`; role policy, role and instance profile `p13-hl-archive-read`
+  `hl-mainnet-node-data` and `hyperliquid-archive`), attached to `tokyo-vm`; `~/p13` on the box
+  (venv, `books/` 1.6 GB, step 2 outputs); `lz4` and `python3-venv` via apt; SSH rule on `vm-sg`
+  now allows only <owner-ip>/32. **Teardown (2026-09-26, after the review):** IAM instance profile
+disassociated from `tokyo-vm`; role policy, role and instance profile `p13-hl-archive-read`
 deleted (`get-role` → NoSuchEntity); `~/p13` deleted on the box (disk back to 14 GB used). Left in
 place: the apt packages `lz4`, `python3-venv` (harmless, no cost) and the instance itself, which hosts
-the owner's arbscan work and bills while running (~$2.5/day). Its state is the owner's call, not p13's.
+the owner's vm work and bills while running (~$2.5/day). Its state is the owner's call, not p13's.
 
 ## Validation-report note
 CLAUDE.md rule 8 (`validation_report`) applies to strategy results with a return series; this is an
