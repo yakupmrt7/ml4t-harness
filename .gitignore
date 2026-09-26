@@ -11,3 +11,5 @@ research/p12_hl_survey/coverage_*.json
 research/p12_hl_survey/addrs_*.json
 data/hl/*
 research/p13_hl_liquidation_history/events.parquet
+research/p13_hl_liquidation_history/*.parquet
+research/p13_hl_liquidation_history/mids1s.npz
