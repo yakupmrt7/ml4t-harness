@@ -29,7 +29,9 @@ def in_scope_markets(dev_only=True):
         inv = inv.merge(pd.read_parquet(rules), on="id", how="left")
     s = split()
     if dev_only and s is not None:
-        inv = inv[(inv.end_date >= s["dev_start"]) & (inv.end_date < s["dev_end"])]
+        # the parsed fixing time decides (end_date is sometimes wrong, amendment 1); no T -> not in scope
+        assert "T_utc" in inv, "rules.parquet missing: cannot apply the split"
+        inv = inv[inv.T_utc.notna() & (inv.T_utc >= s["dev_start"]) & (inv.T_utc < s["dev_end"])]
     return inv
 
 
@@ -53,3 +55,22 @@ def load_fills(market_ids=None, dev_only=True, columns=None):
     if "timestamp" in fills:
         fills["time"] = pd.to_datetime(fills.timestamp, unit="s", utc=True)
     return fills
+
+
+def load_trades(dev_only=True):
+    """Polymarket data-API taker trades (fetch_trades.py; PLAN amendment 1), YES-equivalent.
+    dev_only (default): only markets whose fixing time is in the dev span; asserts a fixed split.
+    Columns added: time (UTC), p_yes (YES-equivalent price), taker_sells_yes (bool)."""
+    import numpy as np
+    t = pd.read_parquet(DIR / "trades.parquet")
+    if dev_only:
+        s = split()
+        assert s is not None, "split not fixed"
+        dev = in_scope_markets(dev_only=True)
+        dev = dev[dev.T_utc.notna() & (dev.T_utc >= s["dev_start"]) & (dev.T_utc < s["dev_end"])]
+        t = t[t.market_id.isin(set(dev.id))]
+        assert t.market_id.isin(set(dev.id)).all()
+    t["time"] = pd.to_datetime(t.timestamp, unit="s", utc=True)
+    t["p_yes"] = np.where(t.outcomeIndex == 0, t.price, 1 - t.price)
+    t["taker_sells_yes"] = ((t.side == "SELL") & (t.outcomeIndex == 0)) | ((t.side == "BUY") & (t.outcomeIndex == 1))
+    return t.sort_values("time", kind="stable").reset_index(drop=True)

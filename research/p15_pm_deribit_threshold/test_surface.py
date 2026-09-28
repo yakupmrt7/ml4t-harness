@@ -105,3 +105,41 @@ if __name__ == "__main__":
         if name.startswith("test_"):
             fn()
             print("ok", name)
+
+
+def test_vectorised_iv_matches_scalar():
+    rng = np.random.default_rng(1)
+    k = rng.uniform(-0.3, 0.3, 200)
+    s_true = rng.uniform(0.01, 0.4, 200)
+    is_call = k >= 0
+    v = np.array([S.fwd_price("C" if c else "P", kk, ss) for c, kk, ss in zip(is_call, k, s_true)])
+    keep = v > 1e-6                                           # economically meaningful prices only
+    is_call, k, v, s_true = is_call[keep], k[keep], v[keep], s_true[keep]
+    got = S.implied_total_sd_vec(is_call, k, v)
+    ok = np.isfinite(got)
+    assert ok.all(), (~ok).sum()
+    assert np.max(np.abs(got[ok] - s_true[ok])) < 1e-6
+
+
+if __name__ == "__main__":
+    test_vectorised_iv_matches_scalar()
+    print("ok test_vectorised_iv_matches_scalar")
+
+
+def test_k_inside_requires_both_smiles():
+    t = pd.Timestamp("2025-06-02 12:00", tz="UTC")
+    e1, e2 = pd.Timestamp("2025-06-04 08:00", tz="UTC"), pd.Timestamp("2025-06-06 08:00", tz="UTC")
+    tr = synthetic_trades(t, [e1, e2], {e1: 1.0, e2: 1.0}, lambda k: 0.5)
+    # drop the far-OTM strikes of the first expiry only: its range shrinks, the second's does not
+    tr = tr[~((tr.expiry == e1) & (tr.K > 105_000))]
+    sm = S.smiles_at(tr, t)
+    T = pd.Timestamp("2025-06-05 16:00", tz="UTC")
+    _, d = S.prob_above(sm, t, T, 112_000.0, 100_000.0)
+    assert not d["k_inside_fit"]
+    _, d = S.prob_above(sm, t, T, 101_000.0, 100_000.0)
+    assert d["k_inside_fit"]
+
+
+if __name__ == "__main__":
+    test_k_inside_requires_both_smiles()
+    print("ok test_k_inside_requires_both_smiles")

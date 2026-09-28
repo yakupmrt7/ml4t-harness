@@ -54,6 +54,25 @@ def implied_total_sd(cp, k, value):
         return np.nan
 
 
+def implied_total_sd_vec(is_call, k, value, iters=60):
+    """Vectorised bisection for sigma*sqrt(tau) in [1e-5, 5]; NaN outside no-arbitrage bounds.
+    Same conventions as implied_total_sd (price monotone increasing in s)."""
+    is_call, k, value = np.asarray(is_call, bool), np.asarray(k, float), np.asarray(value, float)
+    ek = np.exp(k)
+    intrinsic = np.where(is_call, np.maximum(1 - ek, 0), np.maximum(ek - 1, 0))
+    upper = np.where(is_call, 1.0, ek)
+    ok = (value > intrinsic + 1e-10) & (value < upper - 1e-10)
+    lo, hi = np.full(k.shape, 1e-5), np.full(k.shape, 5.0)
+    for _ in range(iters):
+        mid = 0.5 * (lo + hi)
+        d1 = -k / mid + 0.5 * mid
+        d2 = d1 - mid
+        pr = np.where(is_call, norm.cdf(d1) - ek * norm.cdf(d2), ek * norm.cdf(-d2) - norm.cdf(-d1))
+        up = pr > value
+        hi, lo = np.where(up, mid, hi), np.where(up, lo, mid)
+    return np.where(ok, 0.5 * (lo + hi), np.nan)
+
+
 def forward_ratio(tr: pd.DataFrame) -> float:
     """Median of F/index over call/put mark pairs at the same strike within PAIR_SECONDS.
     tr: one expiry's trades with columns t, K, cp, mark_price, index_price."""
@@ -95,18 +114,16 @@ def fit_smile(tr: pd.DataFrame, t: pd.Timestamp):
         return None
     F = fr * tr.index_price.to_numpy()
     k = np.log(tr.K.to_numpy() / F)
-    otm = np.where(tr.cp.to_numpy() == "C", k >= 0, k < 0)
-    rows = []
-    for cp, kk, v, keep in zip(tr.cp.to_numpy(), k, tr.mark_price.to_numpy(), otm):
-        if keep:
-            s = implied_total_sd(cp, kk, v)
-            if np.isfinite(s):
-                rows.append((kk, s * s, s))
-    if not rows:
+    is_call = tr.cp.to_numpy() == "C"
+    otm = np.where(is_call, k >= 0, k < 0)
+    s = implied_total_sd_vec(is_call[otm], k[otm], tr.mark_price.to_numpy()[otm])
+    good = np.isfinite(s)
+    if not good.any():
         return None
-    a = np.array(rows)
-    kk, w, s = a[:, 0], a[:, 1], a[:, 2]
-    if len(np.unique(np.round(kk, 6))) < MIN_STRIKES:
+    kk, s = k[otm][good], s[good]
+    w = s * s
+    n_strikes = len(np.unique(tr.K.to_numpy()[otm][good]))     # distinct STRIKES (k varies per trade with F)
+    if n_strikes < MIN_STRIKES:
         return None
     vega = norm.pdf(-kk / s + 0.5 * s)                         # forward-unit vega shape, as a weight
     X = np.column_stack([np.ones_like(kk), kk, kk * kk])
@@ -114,7 +131,7 @@ def fit_smile(tr: pd.DataFrame, t: pd.Timestamp):
     grid = np.linspace(kk.min(), kk.max(), 50)
     if np.any(coef[0] + coef[1] * grid + coef[2] * grid ** 2 <= 0):
         return None
-    return Smile(expiry, tau, fr, coef, (float(kk.min()), float(kk.max())), int(len(np.unique(np.round(kk, 6)))))
+    return Smile(expiry, tau, fr, coef, (float(kk.min()), float(kk.max())), int(n_strikes))
 
 
 def smiles_at(trades: pd.DataFrame, t: pd.Timestamp, window=pd.Timedelta(minutes=60)):
@@ -153,7 +170,7 @@ def prob_above(smiles, t: pd.Timestamp, T: pd.Timestamp, K_index_terms: float, i
     up, dn = call_usd(K * (1 + bump)), call_usd(K * (1 - bump))
     p = -(up - dn) / (2 * K * bump)
     k0 = np.log(K / F)
-    inside = min(s1.k_range[0], s2.k_range[0]) <= k0 <= max(s1.k_range[1], s2.k_range[1])
+    inside = max(s1.k_range[0], s2.k_range[0]) <= k0 <= min(s1.k_range[1], s2.k_range[1])   # inside BOTH
     return float(np.clip(p, 0, 1)) if np.isfinite(p) else np.nan, {
         "F": F, "tau1_d": s1.tau * 365, "tau2_d": s2.tau * 365, "k": k0, "k_inside_fit": inside,
         "atm_vol": float(np.sqrt((s1.w(0) + (s2.w(0) - s1.w(0)) * wt) / max(tau, 1e-9)))}

@@ -70,27 +70,46 @@ def pull(cid, side=""):
     return rows
 
 
-def fetch(path, out):
+def one_market(mid, cid):
+    rows, mode, truncated = pull(cid), "all", False
+    if len(rows) >= CAP:
+        buy, sell = pull(cid, "&side=BUY"), pull(cid, "&side=SELL")
+        rows, mode = buy + sell, "by_side"
+        truncated = len(buy) >= CAP or len(sell) >= CAP
+    return {"market_id": mid, "conditionId": cid, "n": len(rows), "mode": mode, "truncated": truncated,
+            "trades": rows}
+
+
+def fetch(path, out, workers=6):
+    """workers threads, each ~3 req/s at most (pull sleeps 1/3 s between pages): <= ~18 req/s total."""
+    from concurrent.futures import ThreadPoolExecutor, as_completed
     todo = [l.split() for l in open(path) if l.strip()]
     done = set()
     if Path(out).exists():
-        with gzip.open(out, "rt") as f:
-            done = {json.loads(l)["market_id"] for l in f if l.strip()}
+        try:
+            with gzip.open(out, "rt") as f:
+                done = {json.loads(l)["market_id"] for l in f if l.strip()}
+        except (EOFError, json.JSONDecodeError):      # killed mid-write: keep complete lines only
+            good = []
+            with gzip.open(out, "rt") as f:
+                try:
+                    for l in f:
+                        good.append(json.loads(l))
+                except (EOFError, json.JSONDecodeError):
+                    pass
+            with gzip.open(out, "wt") as f:
+                for r in good:
+                    f.write(json.dumps(r) + "\n")
+            done = {r["market_id"] for r in good}
     todo = [t for t in todo if t[0] not in done]
-    print(f"{len(done)} done, {len(todo)} to fetch", flush=True)
-    with gzip.open(out, "at") as f:
-        for i, (mid, cid) in enumerate(todo):
-            rows, mode, truncated = pull(cid), "all", False
-            if len(rows) >= CAP:
-                buy, sell = pull(cid, "&side=BUY"), pull(cid, "&side=SELL")
-                rows, mode = buy + sell, "by_side"
-                truncated = len(buy) >= CAP or len(sell) >= CAP
-            f.write(json.dumps({"market_id": mid, "conditionId": cid, "n": len(rows), "mode": mode,
-                                "truncated": truncated, "trades": rows}) + "\n")
-            f.flush()
+    print(f"{len(done)} done, {len(todo)} to fetch, {workers} workers", flush=True)
+    with gzip.open(out, "at") as f, ThreadPoolExecutor(workers) as ex:
+        futs = [ex.submit(one_market, mid, cid) for mid, cid in todo]
+        for i, fu in enumerate(as_completed(futs)):
+            f.write(json.dumps(fu.result()) + "\n")
             if i % 200 == 0:
+                f.flush()
                 print(f"{i}/{len(todo)} {time.strftime('%H:%M:%S')}", flush=True)
-            time.sleep(1 / 3)
     print("done", flush=True)
 
 

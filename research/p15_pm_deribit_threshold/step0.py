@@ -250,5 +250,79 @@ def cmd_split():
     print(json.dumps(s, indent=1))
 
 
+
+# ---------------------------------------------------------------- 0d gate for the data-API source (amendment 1)
+RPCS = ["https://polygon.drpc.org", "https://1rpc.io/matic", "https://polygon-bor-rpc.publicnode.com"]
+
+
+def _rpc(method, params):
+    import urllib.request
+    for u in RPCS:
+        try:
+            body = json.dumps({"jsonrpc": "2.0", "id": 1, "method": method, "params": params}).encode()
+            req = urllib.request.Request(u, body, {"Content-Type": "application/json", "User-Agent": "p15"})
+            r = json.loads(urllib.request.urlopen(req, timeout=30).read())
+            if r.get("result") is not None:
+                return r["result"]
+        except Exception:
+            pass
+    return None
+
+
+def cmd_apigate():
+    """(i) share volume within 1% of Polymarket's volume counter on >= 95% of markets closed before
+    2026-07-15; (ii) 50 random trades: timestamp == block time. Counts/volumes/timestamps only."""
+    t = pd.read_parquet(DIR / "trades.parquet", columns=["market_id", "size", "timestamp", "transactionHash"])
+    meta = pd.read_parquet(DIR / "trades_meta.parquet")
+    inv = pd.read_parquet(DIR / "inventory.parquet")[["id", "volume", "end_date"]].astype({"id": str})
+    r = pd.read_parquet(DIR / "rules.parquet")[["id", "T_utc"]]
+    v = t.groupby("market_id")["size"].sum().rename("api_shares")
+    x = inv.merge(r, on="id").set_index("id").join(v).join(meta.set_index("market_id")[["truncated", "mode"]])
+    x = x[x.T_utc.notna() & (x.T_utc < pd.Timestamp("2026-07-15", tz="UTC"))]
+    x["api_shares"] = x.api_shares.fillna(0)
+    x["ratio"] = x.api_shares / x.volume.replace(0, np.nan)
+    ok = (x.ratio - 1).abs() <= 0.01
+    both0 = (x.api_shares == 0) & (x.volume == 0)
+    share = float((ok | both0).mean())
+    print(f"(i) markets {len(x)}: share volume within 1% of counter: {share:.4%} "
+          f"(truncated {int(x.truncated.sum())}, by_side {int((x['mode'] == 'by_side').sum())})")
+    print("    ratio quantiles:", x.ratio.quantile([0.01, 0.05, 0.5, 0.95, 0.99]).round(4).to_dict())
+    bad = x[~(ok | both0)]
+    print("    failing markets by truncation:", bad.truncated.value_counts().to_dict())
+    rng = np.random.default_rng(0)
+    samp = t.iloc[rng.choice(len(t), 50, replace=False)]
+    diffs = []
+    for row in samp.itertuples():
+        tx = _rpc("eth_getTransactionByHash", [row.transactionHash])
+        blk = _rpc("eth_getBlockByNumber", [tx["blockNumber"], False]) if tx else None
+        diffs.append(int(row.timestamp) - int(blk["timestamp"], 16) if blk else None)
+    got = [d for d in diffs if d is not None]
+    print(f"(ii) timestamp - block time over {len(got)}/50 resolved: all zero = {all(d == 0 for d in got)}; "
+          f"nonzero {[d for d in got if d != 0]}")
+    res = {"i_markets": int(len(x)), "i_share_within_1pct": share, "i_pass": share >= 0.95,
+           "ii_resolved": len(got), "ii_all_zero": all(d == 0 for d in got) and len(got) >= 45,
+           "truncated_markets": int(meta.truncated.sum()), "by_side_markets": int((meta["mode"] == "by_side").sum())}
+    (HERE / "step0_apigate.json").write_text(json.dumps(res, indent=1))
+    print(json.dumps(res, indent=1))
+
+
+# ---------------------------------------------------------------- 0e power (dev only, counts only)
+def cmd_power():
+    from common import load_trades
+    mk = in_scope_markets(dev_only=True)
+    mk = mk[mk.yes_gamma.notna()].set_index("id")
+    t = load_trades(dev_only=True)
+    t = t.join(mk[["T_utc"]], on="market_id")
+    first_hour = t.groupby("market_id").time.transform("min").dt.ceil("h")
+    usable = t.taker_sells_yes & (t.time > first_hour + pd.Timedelta(seconds=60)) & (t.time <= t.T_utc)
+    dates = mk.loc[t[usable].market_id.unique(), "T_utc"].dt.tz_convert(ET).dt.date
+    res = {"dev_markets": int(len(mk)), "dev_markets_with_trades": int(t.market_id.nunique()),
+           "dev_markets_with_usable_taker_sell": int(t[usable].market_id.nunique()),
+           "dev_clusters_fixing_dates": int(dates.nunique()), "kill_B_threshold": 100,
+           "kill_B": bool(dates.nunique() < 100)}
+    (HERE / "step0_power.json").write_text(json.dumps(res, indent=1))
+    print(json.dumps(res, indent=1))
+
+
 if __name__ == "__main__":
-    {"rules": cmd_rules, "basis": cmd_basis, "split": cmd_split}[sys.argv[1]]()
+    {"rules": cmd_rules, "basis": cmd_basis, "split": cmd_split, "apigate": cmd_apigate, "power": cmd_power}[sys.argv[1]]()
