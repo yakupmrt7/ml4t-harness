@@ -5,8 +5,9 @@ to be able to say "there is nothing here". Owner is strong at ML and new to
 finance: explain market-specific reasoning (costs, microstructure, funding)
 when it comes up, and skip ML basics.
 
-**Current line: see docs/ROADMAP.md (forced flow on Hyperliquid). Anything not serving
-that thesis is parked, not started.**
+**Current line (owner, 2026-09-28): NEWPLAN.md idea #1, Polymarket BTC threshold markets vs
+Deribit option-implied probability (p15+). The HL forced-flow line (docs/ROADMAP.md) was killed
+at p13; p14 (HL carry) is being finished. Other NEWPLAN.md ideas are parked, not started.**
 
 ## Commands
 - `pip install -e ".[dev]"`: install
@@ -19,8 +20,9 @@ that thesis is parked, not started.**
 - `research/pNN_<name>/`: one folder per experiment (script or notebook + short RESULTS.md)
 - `data/raw` = Binance archive zips, `data/collector` = slices synced from the GCS collector, `data/bars` = parquet caches. All gitignored.
 - `trials.json`: the trial log of the closed Binance line (p01–p11). `trials_hl.json`: the trial
-  log of the Hyperliquid line. Both committed. Never delete or edit their entries. "The trial log"
-  below means the current line's log (`trials_hl.json` now).
+  log of the Hyperliquid line. `trials_pm.json`: the trial log of the Polymarket-vs-Deribit line
+  (p15+). All committed. Never delete or edit their entries. "The trial log" below means the
+  current line's log (`trials_pm.json` now; p14 still writes to `trials_hl.json`).
 
 ## Research script conventions (research/pNN_<name>/run.py)
 - Take a `--no-log` flag that skips `TrialLog.log`. Re-running an identical
