@@ -1,0 +1,13 @@
+{
+ "dev_start": "2023-04-12 00:00:00+00:00",
+ "dev_end": "2025-09-29 00:00:00+00:00",
+ "holdout_start": "2025-09-29 00:00:00+00:00",
+ "holdout_end": "2026-07-27 00:00:00+00:00",
+ "rule": "fixing times with parsed Binance rule + Gamma 1-0 outcome, inside Deribit trades on disk (2022-08-01..2026-08-31); dev = first 75% of the calendar span (PLAN 0f, amendment 1)",
+ "n_markets_dev": 4907,
+ "n_markets_holdout": 6354,
+ "n_fixing_dates_dev": 201,
+ "n_fixing_dates_holdout": 298,
+ "n_markets_outside_deribit": 0,
+ "fixed_on": "2026-09-28 20:18:47+00:00"
+}

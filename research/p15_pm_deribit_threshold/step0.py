@@ -227,18 +227,24 @@ def cmd_basis():
 
 # ---------------------------------------------------------------- 0f: split
 def cmd_split():
+    """PLAN 0f + amendment 1: common span of fixing times with a parsed Binance rule and a Gamma 1-0
+    outcome, inside Deribit coverage on disk; dev = first 75% of that calendar span. Fixing dates only."""
     assert not SPLIT.exists(), "split.json already fixed; never rewritten"
     r = in_scope_markets(dev_only=False)
     r = r[r.T_utc.notna() & r.yes_gamma.notna()]
-    fills_last = pd.Timestamp("2026-07-20 23:59:59", tz="UTC")                   # fill dataset end (0d)
     der_days = sorted(p.stem[4:] for p in DERIBIT.glob("opt_*.parquet"))
-    der_first, der_last = pd.Timestamp(der_days[0], tz="UTC"), pd.Timestamp(der_days[-1], tz="UTC") + pd.Timedelta(days=1)
-    T = r.T_utc[(r.T_utc >= der_first) & (r.T_utc < min(fills_last, der_last))]
+    der_first = pd.Timestamp(der_days[0], tz="UTC")
+    der_last = pd.Timestamp(der_days[-1], tz="UTC") + pd.Timedelta(days=1)
+    T = r.T_utc[(r.T_utc >= der_first) & (r.T_utc < der_last)]
     start, end = T.min().floor("D"), T.max().floor("D") + pd.Timedelta(days=1)
     cut = (start + 0.75 * (end - start)).floor("D")
     s = {"dev_start": str(start), "dev_end": str(cut), "holdout_start": str(cut), "holdout_end": str(end),
-         "rule": "common span of fixing dates (Deribit trades on disk x fills dataset), first 75% of calendar span = dev",
+         "rule": "fixing times with parsed Binance rule + Gamma 1-0 outcome, inside Deribit trades on disk "
+                 "(2022-08-01..2026-08-31); dev = first 75% of the calendar span (PLAN 0f, amendment 1)",
          "n_markets_dev": int(((T >= start) & (T < cut)).sum()), "n_markets_holdout": int((T >= cut).sum()),
+         "n_fixing_dates_dev": int(T[T < cut].dt.tz_convert(ET).dt.date.nunique()),
+         "n_fixing_dates_holdout": int(T[T >= cut].dt.tz_convert(ET).dt.date.nunique()),
+         "n_markets_outside_deribit": int(len(r) - len(T)),
          "fixed_on": str(pd.Timestamp.now(tz="UTC").floor("s"))}
     SPLIT.write_text(json.dumps(s, indent=1))
     print(json.dumps(s, indent=1))
