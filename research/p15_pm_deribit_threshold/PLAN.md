@@ -154,3 +154,76 @@ markets, logged as one trial in `trials_pm.json`. Pass = mean P&L > +1.0 ¢ per 
   and date clustering are used for that reason; PSR uses skew and kurtosis.
 - **Survivorship:** none expected (every resolved market is included), but markets voided or disputed
   on UMA are reported, not dropped silently.
+
+---
+
+## Amendment 1 — 2026-09-28, after step 0a–0d, before the split (0f) and before any Polymarket price or gap is read
+
+**What has been read so far:** market metadata (question, strikes, dates, volume), Gamma rule texts and
+resolved outcomes, Binance 1m closes at fixing times, Deribit `index_price` near fixing times, and fill
+**counts, share volumes and timestamps** for validation. No Polymarket price level has been looked at,
+and no Deribit option price or IV.
+
+### 0a Inventory (inventory.py, fetch_gamma.py)
+- Families from metadata: **strike** ("above $K on date", 5,836 markets, 437 fixing dates, share volume
+  1.23 B), **range** (price buckets incl. "less than / greater than", 5,481 markets), and
+  **hourly_above** (40,547 one-hour markets created ~1.3 h before an hourly fixing, median volume $100).
+- **hourly_above is out of scope, structurally:** a fixing 1.3 h ahead is never bracketed by two
+  Deribit expiries (the step-1 no-extrapolation rule), and these are p09-type short-horizon markets.
+- Out of scope by source: 6 Coinbase-settled (2023), 3 CoinMarketCap (2021), 36 with no Binance rule
+  text (2021–22 legacy); 11 markets of one event with an **ambiguous "12AM ET" fixing** (title vs
+  end_date disagree; decided from metadata, not outcomes). **In scope: 11,261 markets.**
+- **The fixing time comes from each market's rule text, never from `end_date`** (end_date is 12:00 UTC
+  for 12:00-ET fixings in older markets, and was overwritten months later for some). 49 phrasings
+  handled (`step0.parse_fixing`, tested).
+
+### 0b Settlement (step0.py rules) — KILL A does not fire
+- First run 99.90% agreement (11 misses, all > 30 bp from strike). All 11 were parser errors (year
+  anchored on an overwritten end_date; the ambiguous 12AM event) and were fixed by metadata rules.
+- **Final: 11,261 / 11,261 = 100.00% agreement** with Gamma, including all 68 markets within 3 bp of the
+  strike. Rule: Binance BTCUSDT 1m candle OPENING at T; strike family S > K; range family boundary goes
+  to the higher bracket (S ≥ K for "greater than", S < K for "less than", K_lo ≤ S < K_hi).
+
+### 0c Underlying (step0.py basis)
+Deribit index / Binance BTCUSDT − 1 at T (678 fixing times): median +1.0 bp, IQR −4.0 / +4.5 bp,
+1–99% −25 / +17 bp; by year median +12.0 (2023), −0.2 (2024), +2.3 (2025), −4.0 (2026). The causal
+strike mapping of step 1 is kept.
+
+### 0d Fill source — the HuggingFace table FAILS and is REPLACED (not patched)
+- Checked against Polygon block timestamps by transaction hash: Polymarket's **data API** timestamps equal
+  the block time in 18/18 trades; the HF table's are off by +94…+102 s in some block ranges and by
+  −5…−6 h in others (e.g. markets 605522, 556542), and part of the v2-exchange fills is missing
+  (v2 share volume 50–90% of the API's). The API's per-market share volume equals Polymarket's own
+  volume counter (metadata `volume`) exactly on 30/40 sampled markets (the others were still trading
+  when the metadata snapshot was taken).
+- **New source: Polymarket data API taker trades** (`fetch_trades.py`, on the VM): per trade timestamp
+  (= block time), taker side, outcome index, size, price, taker wallet, tx hash. The original 0d count
+  criterion is replaced because the two tables have different units (maker fills vs taker trades).
+- **Gate for the new source (fixed now):** (i) share volume within 1% of the metadata volume on ≥ 95%
+  of markets that closed before 2026-07-15 (snapshot date margin); (ii) 50 random trades across the span
+  have timestamp = block time exactly. Failing either → stop and report.
+- **API cap:** ≤ 10,500 rows per query, newest first. Capped markets are re-fetched per side; if a side
+  still hits the cap the market is flagged `truncated` (oldest trades missing). Expected ≈ 1 market
+  (≈ 15 need the per-side split, all 2024-11 → 2025-03 weekly strikes). Truncated markets stay in, with
+  their available trades, and are reported separately.
+
+### Definitions fixed for Steps 1–2 (in API terms)
+- YES-equivalent trade: outcomeIndex 0 at price p, or outcomeIndex 1 at price q ↦ p = 1 − q.
+  **"Taker sold YES"** = (SELL, outcome 0) or (BUY, outcome 1).
+- PM price at t: share-weighted VWAP of YES-equivalent prices of all taker trades in [t − 60 min, t].
+- Entry fill (Rule R): the first "taker sold YES" trade with timestamp in (t + 60 s, t + 60 min], at its
+  YES-equivalent price. Fee 0.07·p·(1 − p) per share (identical for the NO-side representation).
+- **Strike extrapolation:** the main P_RN requires k(K_D) inside the traded k-range of **both**
+  bracketing smiles (no extrapolation in k either); extrapolated values are reported separately, never
+  used for the kill.
+- **Causal basis b(t):** median over trades in [t − 7 d, t] of (Deribit index_price / Binance 1m close of
+  the minute containing the trade) − 1, from 1 000 evenly spaced trades per day; K_D = K·(1 + b).
+- Range markets: between = P(K_lo) − P(K_hi); less than = 1 − P(K_hi); greater than = P(K_lo) (the
+  boundary convention is immaterial for a continuous distribution).
+- Clusters for all CIs and t-stats: the fixing date (ET calendar date of T).
+
+### 0e / 0f
+Computed after the trade fetch, in that order: the split (0f) first from fixing dates only (rule
+unchanged: common span of fixing dates with Binance-rule markets and Deribit trades on disk,
+2022-08-01 → 2026-08-31, and the inventory, markets created by 2026-07-20; dev = first 75% of the
+calendar span), then KILL B (0e) on dev fixing dates only. Deribit is not extended.

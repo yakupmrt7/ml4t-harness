@@ -1,0 +1,130 @@
+inventory 11317, with Gamma row 11291
+ambiguous 12AM fixing (excluded): 11 markets
+source: {'Binance': 11272, 'none': 36, 'Coinbase': 6, 'oinmarketcap': 3} | unparsed Binance rules: 11
+T's ET date != end_date's ET date: 61 markets (T - end_date h: {-800.7: 22, 21.0: 16, 16.0: 7, -7827.4: 4, -6200.4: 2, -5888.4: 2})
+49 rule templates; T parsed for 11261
+--- template 0: 3463 markets, e.g. Will the price of Bitcoin be less than $68,000 on May 4?
+    This market will resolve according to the final "Close" price of the Binance 1 minute candle for BTC/USDT 12:00 in the ET timezone (noon) on the date specified in the title. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTC/USDT "Clo
+--- template 1: 2955 markets, e.g. Will the price of Bitcoin be above $66,000 on May 4?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTC/USDT 12:00 in the ET timezone (noon) on the date specified in the title has a final "Close" price higher than the price specified in the title. Otherwise, this market will resolve to "No".  The resolution source for this market
+--- template 2: 5 markets, e.g. Bitcoin above $65,000 on August 9?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTCUSDT 9 Aug '24 12:00 in the ET timezone (noon) has a final “Close” price of 65,000.01 or higher. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTCUSDT "Close" pr
+--- template 3: 4 markets, e.g. Bitcoin above $60,000 on September 6?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTCUSDT 06 Sep '24 12:00 in the ET timezone (noon) has a final “Close” price of 60,000.01 or higher. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTCUSDT "Close" p
+--- template 4: 5 markets, e.g. Bitcoin above $60,000 on October 1?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTCUSDT 01 Oct '24 12:00 in the ET timezone (noon) has a final “Close” price of 60,000.01 or higher. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTCUSDT "Close" p
+--- template 5: 5 markets, e.g. Bitcoin above $68,000 on November 1?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTCUSDT 01 Nov '24 12:00 in the ET timezone (noon) has a final “Close” price of 68,000.01 or higher. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTCUSDT "Close" p
+--- template 6: 1 markets, e.g. Will Bitcoin ($BTC) be above $55k on April 1, 2021?
+    This is a market on if the USD price of Bitcoin $BTC will be above $55000 on April 1, 2021, 12:00 PM ET, according to coinmarketcap.com/currencies/bitcoin/. This market will resolve to “Yes“ if BTC is trading above $55000 according to Coinmarketcap on the resolution date, and “No“ otherwise. If pric
+--- template 7: 4 markets, e.g. Bitcoin above $98,000 on December 6?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTCUSDT 06 Dec '24 12:00 in the ET timezone (noon) has a final “Close” price of 98,000.01 or higher. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTCUSDT "Close" p
+--- template 8: 5 markets, e.g. Bitcoin above $94,000 on January 3?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTCUSDT 03 Jan '25 12:00 in the ET timezone (noon) has a final “Close” price of 94,000.01 or higher. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTCUSDT "Close" p
+--- template 9: 4 markets, e.g. Bitcoin above $105,000 on February 7?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTCUSDT 07 Feb '25 12:00 in the ET timezone (noon) has a final “Close” price of 105,000.01 or higher. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTCUSDT "Close" 
+--- template 10: 7 markets, e.g. Will Bitcoin be less than $92000 on February 14?
+    This market will resolve to according to the  final “Close” price for the Binance 1 minute candle for BTCUSDT 14 Feb '25 12:00 in the ET timezone (noon).  If the reported value falls exactly between two brackets, then this market will resolve to the higher range bracket.  The resolution source for t
+--- template 11: 7 markets, e.g. Will the price of Bitcoin be less than $93000 on Feb 28?
+    This market will resolve according to the final “Close” price of the Binance 1 minute candle for BTCUSDT 28 Feb '25 12:00 in the ET timezone (noon). Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTCUSDT "Close" prices currently avail
+--- template 12: 6 markets, e.g. Bitcoin above $84,000 on March 7?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTCUSDT 07 Mar '25 12:00 in the ET timezone (noon) has a final “Close” price of 84,000.01 or higher. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTCUSDT "Close" p
+--- template 13: 14 markets, e.g. Will the price of Bitcoin be less than $78000 on Mar 7?
+    This market will resolve according to the final “Close” price of the Binance 1 minute candle for BTCUSDT 07 Mar '25 12:00 in the ET timezone (noon). Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTCUSDT "Close" prices currently avail
+--- template 14: 14 markets, e.g. Will the price of Bitcoin be greater than $87000 on Mar 21?
+    This market will resolve according to the final "Close" price of the Binance 1 minute candle for BTCUSDT 21 Mar '25 12:00 in the ET timezone (noon). Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTCUSDT "Close" prices currently avail
+--- template 15: 8 markets, e.g. Bitcoin above $86,000 on April 4?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTCUSDT 04 Apr '25 12:00 in the ET timezone (noon) has a final “Close” price of 86,000.01 or higher. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTCUSDT "Close" p
+--- template 16: 23 markets, e.g. Will the price of Bitcoin be greater than $90000 on April 4?
+    This market will resolve according to the final "Close" price of the Binance 1 minute candle for BTCUSDT 04 Apr '25 12:00 in the ET timezone (noon). Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTCUSDT "Close" prices currently avail
+--- template 17: 622 markets, e.g. Will the price of Bitcoin be above $104,000 on October 20?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTC/USDT 12:00 in the ET timezone (noon) on the date specified in the title has a final “Close” price higher than the price specified in the title. Otherwise, this market will resolve to "No".  The resolution source for this market
+--- template 18: 14 markets, e.g. Bitcoin above $94,000 on May 2?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTCUSDT 02 May '25 12:00 in the ET timezone (noon) has a final “Close” price of 94,000.01 or higher. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTCUSDT "Close" p
+--- template 19: 35 markets, e.g. Will the price of Bitcoin be greater than $98000 on May 2?
+    This market will resolve according to the final "Close" price of the Binance 1 minute candle for BTCUSDT 02 May '25 12:00 in the ET timezone (noon). Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTCUSDT "Close" prices currently avail
+--- template 20: 1 markets, e.g. Will Bitcoin ($BTC) be above $55k on March 15, 2021?
+    This is a market on if the USD price of Bitcoin $BTC will be above $55000 on March 15, 2021, 12:00pm EST, according to coinmarketcap.com/currencies/bitcoin/. This market will resolve to “Yes“ if BTC is trading above $55000 according to Coinmarketcap on the resolution date, and “No“ otherwise. In the
+--- template 21: 54 markets, e.g. Will the price of Bitcoin be less than $101K at 5 PM ET today?
+    This market will resolve according to the final "Close" price of the Binance 1 minute candle for BTCUSDT 13 May '25 17:00 in the ET timezone. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTCUSDT "Close" prices currently available at
+--- template 22: 4 markets, e.g. Will the price of Bitcoin be less than $104K on May 20 at 5 PM ET?
+    This market will resolve according to the final "Close" price of the Binance 1 minute candle for BTCUSDT 20 May '25 17:00 in the ET timezone.   Otherwise, this market will resolve to "No"  The resolution source for this market is Binance, specifically the BTCUSDT "Close" prices currently available a
+--- template 23: 2 markets, e.g. Bitcoin above $106,000 on May 27?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTC/USDT 27 May '25 12:00 in the ET timezone (noon) has a final “Close” price of 106,000.01 or higher. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTC/USDT "Close
+--- template 24: 6 markets, e.g. Will the price of Bitcoin be less than $106K on May 30?
+    This market will resolve according to the final "Close" price of the Binance 1 minute candle for BTC/USDT 30 May '25 12:00 in the ET timezone (noon). Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTC/USDT "Close" prices currently ava
+--- template 25: 28 markets, e.g. Will the price of Bitcoin be less than $108K on May 25 at 5 PM ET?
+    This market will resolve according to the final "Close" price of the Binance 1 minute candle for BTC/USDT 25 May '25 17:00 in the ET timezone. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTC/USDT "Close" prices currently available 
+--- template 26: 2 markets, e.g. Bitcoin above $111,000 on June 3?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTC/USDT 3 June '25 12:00 in the ET timezone (noon) has a final “Close” price of 111,000.01 or higher. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTC/USDT "Close
+--- template 27: 20 markets, e.g. Will the price of Bitcoin be less than $107K on June 3?
+    This market will resolve according to the final "Close" price of the Binance 1 minute candle for BTCUSDT 3 June '25 12:00 in the ET timezone (noon). Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTC/USDT "Close" prices currently avai
+--- template 28: 36 markets, e.g. Will the price of Bitcoin be less than $103K on June 2 at 5 PM ET?
+    This market will resolve according to the final "Close" price of the Binance 1 minute candle for BTC/USDT 2 June '25 17:00 in the ET timezone. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTC/USDT "Close" prices currently available 
+--- template 29: 2 markets, e.g. Bitcoin above $107,000 on June 10?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTC/USDT 10 June '25 12:00 in the ET timezone (noon) has a final “Close” price higher than the price specified in the title. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifical
+--- template 30: 10 markets, e.g. Will the price of Bitcoin be less than $106K on June 17?
+    This market will resolve according to the final "Close" price of the Binance 1 minute candle for BTCUSDT 12:00 in the ET timezone (noon) on the date specified in the title. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTC/USDT "Clos
+--- template 31: 1740 markets, e.g. Will the price of Bitcoin be less than $108K on June 12 at 5 PM ET?
+    This market will resolve according to the final "Close" price of the Binance 1 minute candle for BTC/USDT on the time and date specified in the title. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTC/USDT "Close" prices currently av
+--- template 32: 9 markets, e.g. Will Bitcoin close above $120K on July 31?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTC/USDT 31 July '25 12:00 in the ET timezone (noon) has a final “Close” price higher than the price specified in the outcome title. Otherwise, this market will resolve to "No"  The resolution source for this market is Binance, spe
+--- template 33: 26 markets, e.g. Will the price of Bitcoin be between $88,000 and $90,000 on January 25?
+    nan
+--- template 34: 2 markets, e.g. BTC above $28,000 at end of August?
+    This market will resolve to "Yes" if the Coinbase 1 minute candle for BTC-USD 31 Aug '23 23:59 in the ET timezone has a final “Close” price of 28000.01 or higher. Otherwise, this market will resolve to "No".  The resolution source for this market is https://www.coinbase.com/, specifically the BTC-US
+--- template 35: 3 markets, e.g. BTC above $23,456.78 at end of September?
+    This market will resolve to "Yes" if the Coinbase 1 minute candle for BTC-USD 30 Sept '23 23:59 in the ET timezone has a final “Close” price of 23,456.79 or higher. Otherwise, this market will resolve to "No".  The resolution source for this market is https://www.coinbase.com/, specifically the BTC-
+--- template 36: 1 markets, e.g. BTC above $70,000 next friday?
+    This market will resolve to "Yes" if the Coinbase 1 minute candle for BTC-USD 15 Mar '24 12:00 in the ET timezone (noon) has a final “Close” price of 70,000.01 or higher. Otherwise, this market will resolve to "No".  The resolution source for this market is https://www.coinbase.com/, specifically th
+--- template 37: 245 markets, e.g. Bitcoin above $116.4K on August 17 at 12AM ET?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTC/USDT on the time and date specified in the title has a final “Close” price higher than the price specified in the title. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifical
+--- template 38: 1903 markets, e.g. Will the price of Bitcoin be above $109,000 on August 29 at 8AM ET?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTC/USDT on the time and date specified in the title has a final "Close" price higher than the price specified in the title. Otherwise, this market will resolve to "No".    The resolution source for this market is Binance, specific
+--- template 39: 4 markets, e.g. Will the price of $BTC be above $40,000 on February 1st, 2022?
+    This is a market on if the price of $BTC will be above $40,000 in USD on February 1st, 2022. This market will resolve to “Yes” if Bitcoin ($BTC) has a candlestick closing price of $40,000.01 or more, as per the resolution source, on February 1st, 2022, 12pm ET, and “No” otherwise.  The resolution so
+--- template 40: 1 markets, e.g. Will the price of $BTC be above $39,000 on March 16, 2022?
+    This is a market on if the price of $BTC will be above $39,000 in USD on March 16, 2022.   This market will resolve to “Yes” if Bitcoin ($BTC) has a candlestick closing price of $39,000.01 or more, as per the resolution source, on March 16, 2022, 12pm ET, and “No” otherwise.  The resolution source f
+--- template 41: 2 markets, e.g. Will the price of Bitcoin (BTC) be above $42,000 on 4/20?
+    This is a market on if the price of 1 BTC will be above $42,000 in USD on April 20, 2022.   This market will resolve to “Yes” if Bitcoin ($BTC) has a candlestick closing price of $42,000.01 or more, as per the resolution source, on April 20, 2022, 12pm ET, and “No” otherwise.  The resolution source 
+--- template 42: 4 markets, e.g. Bitcoin above $69,000 on June 7?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTCUSDT 7 June '24 12:00 in the ET timezone (noon) has a final “Close” price of 69,000.01 or higher. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTCUSDT "Close" p
+--- template 43: 4 markets, e.g. Bitcoin above $61,000 on July 5?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTCUSDT 05 July '24 12:00 in the ET timezone (noon) has a final “Close” price of 61,000.01 or higher. Otherwise, this market will resolve to "No".  The resolution source for this market is Binance, specifically the BTCUSDT "Close" 
+--- template 44: 1 markets, e.g. Will Bitcoin ($BTC) price be above $63,000 at noon on November 22, 2021?
+    This market will resolve to “Yes” if Bitcoin (BTC) has a candlestick closing price of $63000.01 or more, as per resolution source, on November 22nd 2021, 12pm ET, and “No” otherwise.   The resolution source for this market will be prices listed on CoinGecko (https://www.coingecko.com/en/coins/bitcoi
+--- template 45: 1 markets, e.g. Will Bitcoin ($BTC) price be above $60,000 at noon on November 30, 2021?
+    This market will resolve to “Yes” if Bitcoin (BTC) has a candlestick closing price of $60000.01 or more, as per resolution source, on 30th November 2021, 12pm ET, and “No” otherwise.   The resolution source for this market will be prices listed on CoinGecko (https://www.coingecko.com/en/coins/bitcoi
+--- template 46: 1 markets, e.g. Will Bitcoin ($BTC) price be above $60,000 at noon on December 7, 2021?
+    This market will resolve to “Yes” if Bitcoin ($BTC) has a candlestick closing price of $60,000.01 or more, as per resolution source, on December 7, 2021, 12pm ET, and “No” otherwise.   The resolution source for this market will be prices listed on CoinGecko (https://www.coingecko.com/en/coins/bitcoi
+--- template 47: 3 markets, e.g. BTC above $30,000 on April 12?
+    This market will resolve to "Yes" if the Binance 1 minute candle for BTC/USDT titled 2023/04/12 12:00 in the ET timezone (referring to noon ET) has a final “Close” price of 30,000.01 or higher, or to "No" otherwise.  The resolution source for this market is https://www.binance.com, specifically the 
+--- template 48: 1 markets, e.g. Will Bitcoin ($BTC) be above $55k on February 24, 2021?
+    This is a market on if the USD price of Bitcoin $BTC will be above $55000 on February 24, 2021, 12:00pm EST, according to coinmarketcap.com/currencies/bitcoin/. This market will resolve to “Yes“ if BTC is trading above $55000 according to Coinmarketcap on the resolution date, and “No“ otherwise. In 
+
+resolved 1-0 in Gamma: 11278; rebuildable: 11261
+agreement all: 100.0000% (0 misses)
+agreement |gap| > 1 bp (KILL A needs >= 99.5%): 100.0000% (0 misses of 11246)
+                  n  agree
+gap_bp                    
+(0.1, 1.0]       15    1.0
+(1.0, 3.0]       53    1.0
+(3.0, 10.0]     263    1.0
+(10.0, 30.0]    610    1.0
+(30.0, inf]   10320    1.0
+
+by family: {'size': {'range': 5461, 'strike': 5800}, 'mean': {'range': 1.0, 'strike': 1.0}}
+T vs end_date (h): {0.0: 10800, 4.0: 156, 1.0: 82, 9.0: 79, -4.0: 44, 5.0: 39, -800.72: 22, 21.0: 16}
+{
+ "n_inventory": 11317,
+ "n_gamma": 11291,
+ "n_T_parsed": 11261,
+ "n_templates": 49,
+ "n_resolved_1_0": 11278,
+ "n_rebuildable": 11261,
+ "agree_all": 1.0,
+ "agree_gt1bp": 1.0,
+ "n_gt1bp": 11246,
+ "misses_gt1bp": 0,
+ "kill_A": false
+}

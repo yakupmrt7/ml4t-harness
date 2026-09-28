@@ -1,0 +1,64 @@
+dropping 9 rows with implausible strikes:
+233127    Less than 7 green Bitcoin hourly candles on Ma...
+233139    Over 17 green Bitcoin hourly candles on March 23?
+372562    Less than 7 green Bitcoin hourly candles on Ma...
+372588    Over 17 green Bitcoin hourly candles on March 24?
+816329    BTC ETFs first week combined AUM under $10 bil...
+816330    BTC ETFs first week combined AUM between $10-3...
+816331    BTC ETFs first week combined AUM between $30-6...
+816332    BTC ETFs first week combined AUM over $60 bill...
+816337    Over $4 billion inflows in spot Bitcoin ETFs o...
+              markets  events  fix_times  fix_dates     vol_musd      vol_med   tau_h_med                     first                      last
+family                                                                                                                                       
+hourly_above    40547    2849       2849        123     8.373585    100.00000    1.332778 2026-03-20 01:00:00+00:00 2026-07-20 15:00:00+00:00
+range            5481     596        575        437   416.974397  26800.71561  167.998889 2021-11-22 00:00:00+00:00 2026-07-26 16:00:00+00:00
+strike           5836     622        603        437  1228.045859  61673.32398  167.997222 2021-02-24 00:00:00+00:00 2026-07-26 16:00:00+00:00
+family    hourly_above  range  strike
+end_date                             
+2021-02              0      0       1
+2021-03              0      0       1
+2021-04              0      0       1
+2021-11              0      2       0
+2021-12              0      1       0
+2022-02              0      4       0
+2022-03              0      1       0
+2022-04              0      2       0
+2023-04              0      0       3
+2023-08              0      0       2
+2023-09              0      3       0
+2024-03              0      0       3
+2024-04              0      0       4
+2024-05              0      0       4
+2024-06              0      0       4
+2024-07              0      0       4
+2024-08              0      0       5
+2024-09              0      0       4
+2024-10              0      0       5
+2024-11              0      0       5
+2024-12              0      0       4
+2025-01              0      0       5
+2025-02              0     14       4
+2025-03              0     28       4
+2025-04              0     23       4
+2025-05              0    123      12
+2025-06              0    152       8
+2025-07              0    184      19
+2025-08              0    242     440
+2025-09              0   1622    2029
+2025-10              0    341     341
+2025-11              0    319     319
+2025-12              0    341     330
+2026-01              0    337     341
+2026-02              0    286     308
+2026-03           2740    275     318
+2026-04           7071    301     351
+2026-05           7929    297     341
+2026-06          14075    319     348
+2026-07           8732    264     264
+family        kind   
+hourly_above  above      40547
+range         above        599
+              below        587
+              between     4295
+strike        above       5836
+{1: 51670, 0: 194}

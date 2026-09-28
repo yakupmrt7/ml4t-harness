@@ -1,0 +1,13 @@
+{
+ "n_inventory": 11317,
+ "n_gamma": 11291,
+ "n_T_parsed": 11261,
+ "n_templates": 49,
+ "n_resolved_1_0": 11278,
+ "n_rebuildable": 11261,
+ "agree_all": 1.0,
+ "agree_gt1bp": 1.0,
+ "n_gt1bp": 11246,
+ "misses_gt1bp": 0,
+ "kill_A": false
+}
