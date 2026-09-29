@@ -1,0 +1,245 @@
+{
+ "fee_0.07": {
+  "bound_c_equal_weight": 0.12606686543158108,
+  "t_iid_by_market": 1.8157071532475944,
+  "t_newey_west_5": 1.699015788583148,
+  "t_newey_west_12": 1.654998459315741,
+  "t_clustered_by_day": 1.5559289229574458,
+  "lag1_autocorr": 0.03360871028314628,
+  "share_weighted_c": 0.3016510282650502,
+  "share_weighted_t_by_market": 3.437514564435918,
+  "usd_per_day": 41344.23762289155,
+  "tables": {
+   "time_to_end_s": {
+    "after end": {
+     "share_of_volume": 0.0308,
+     "c_per_share": 0.214,
+     "t_by_market": 16.11
+    },
+    "last 60 s": {
+     "share_of_volume": 0.1999,
+     "c_per_share": 0.171,
+     "t_by_market": 4.87
+    },
+    "60-180 s": {
+     "share_of_volume": 0.4018,
+     "c_per_share": 0.316,
+     "t_by_market": 1.25
+    },
+    "180-300 s": {
+     "share_of_volume": 0.3124,
+     "c_per_share": 0.298,
+     "t_by_market": 2.24
+    },
+    "before window": {
+     "share_of_volume": 0.0551,
+     "c_per_share": 0.74,
+     "t_by_market": 1.37
+    }
+   },
+   "price_up": {
+    "(0.0, 0.05]": {
+     "share_of_volume": 0.1531,
+     "c_per_share": 0.163,
+     "t_by_market": 4.64
+    },
+    "(0.05, 0.2]": {
+     "share_of_volume": 0.1035,
+     "c_per_share": 0.57,
+     "t_by_market": 5.45
+    },
+    "(0.2, 0.4]": {
+     "share_of_volume": 0.1409,
+     "c_per_share": 0.46,
+     "t_by_market": 5.98
+    },
+    "(0.4, 0.6]": {
+     "share_of_volume": 0.2159,
+     "c_per_share": 0.29,
+     "t_by_market": -2.37
+    },
+    "(0.6, 0.8]": {
+     "share_of_volume": 0.1449,
+     "c_per_share": 0.273,
+     "t_by_market": 5.8
+    },
+    "(0.8, 0.95]": {
+     "share_of_volume": 0.1037,
+     "c_per_share": 0.365,
+     "t_by_market": 4.02
+    },
+    "(0.95, 1.0]": {
+     "share_of_volume": 0.138,
+     "c_per_share": 0.092,
+     "t_by_market": 3.75
+    }
+   },
+   "size_shares": {
+    "(0.0, 10.0]": {
+     "share_of_volume": 0.0885,
+     "c_per_share": -0.492,
+     "t_by_market": -11.66
+    },
+    "(10.0, 100.0]": {
+     "share_of_volume": 0.3888,
+     "c_per_share": -0.412,
+     "t_by_market": -6.57
+    },
+    "(100.0, 1000.0]": {
+     "share_of_volume": 0.3678,
+     "c_per_share": 0.722,
+     "t_by_market": 4.7
+    },
+    "(1000.0, inf]": {
+     "share_of_volume": 0.1549,
+     "c_per_share": 1.547,
+     "t_by_market": 4.53
+    }
+   },
+   "size_usd": {
+    "(0.0, 10.0]": {
+     "share_of_volume": 0.2747,
+     "c_per_share": 0.136,
+     "t_by_market": 6.48
+    },
+    "(10.0, 100.0]": {
+     "share_of_volume": 0.4393,
+     "c_per_share": -0.222,
+     "t_by_market": -6.22
+    },
+    "(100.0, 1000.0]": {
+     "share_of_volume": 0.2382,
+     "c_per_share": 1.304,
+     "t_by_market": 1.34
+    },
+    "(1000.0, inf]": {
+     "share_of_volume": 0.0477,
+     "c_per_share": 1.074,
+     "t_by_market": -0.79
+    }
+   }
+  }
+ },
+ "no_rebate": {
+  "bound_c_equal_weight": -0.0630788330972139,
+  "t_iid_by_market": -0.9085924375820698,
+  "t_newey_west_5": -0.8511812556112014,
+  "t_newey_west_12": -0.8298713702648695,
+  "t_clustered_by_day": -0.7812852368364408,
+  "lag1_autocorr": 0.03286590730984308,
+  "share_weighted_c": 0.10769913874633735,
+  "share_weighted_t_by_market": 1.2317611849070678,
+  "usd_per_day": 14761.225279818613,
+  "tables": {
+   "time_to_end_s": {
+    "after end": {
+     "share_of_volume": 0.0308,
+     "c_per_share": 0.205,
+     "t_by_market": 15.92
+    },
+    "last 60 s": {
+     "share_of_volume": 0.1999,
+     "c_per_share": 0.089,
+     "t_by_market": 3.8
+    },
+    "60-180 s": {
+     "share_of_volume": 0.4018,
+     "c_per_share": 0.145,
+     "t_by_market": -0.49
+    },
+    "180-300 s": {
+     "share_of_volume": 0.3124,
+     "c_per_share": 0.011,
+     "t_by_market": 0.48
+    },
+    "before window": {
+     "share_of_volume": 0.0551,
+     "c_per_share": 0.394,
+     "t_by_market": 0.35
+    }
+   },
+   "price_up": {
+    "(0.0, 0.05]": {
+     "share_of_volume": 0.1531,
+     "c_per_share": 0.142,
+     "t_by_market": 4.56
+    },
+    "(0.05, 0.2]": {
+     "share_of_volume": 0.1035,
+     "c_per_share": 0.425,
+     "t_by_market": 5.11
+    },
+    "(0.2, 0.4]": {
+     "share_of_volume": 0.1409,
+     "c_per_share": 0.166,
+     "t_by_market": 5.19
+    },
+    "(0.4, 0.6]": {
+     "share_of_volume": 0.2159,
+     "c_per_share": -0.056,
+     "t_by_market": -3.91
+    },
+    "(0.6, 0.8]": {
+     "share_of_volume": 0.1449,
+     "c_per_share": -0.016,
+     "t_by_market": 5.0
+    },
+    "(0.8, 0.95]": {
+     "share_of_volume": 0.1037,
+     "c_per_share": 0.224,
+     "t_by_market": 3.64
+    },
+    "(0.95, 1.0]": {
+     "share_of_volume": 0.138,
+     "c_per_share": 0.071,
+     "t_by_market": 3.67
+    }
+   },
+   "size_shares": {
+    "(0.0, 10.0]": {
+     "share_of_volume": 0.0885,
+     "c_per_share": -0.737,
+     "t_by_market": -14.07
+    },
+    "(10.0, 100.0]": {
+     "share_of_volume": 0.3888,
+     "c_per_share": -0.646,
+     "t_by_market": -9.71
+    },
+    "(100.0, 1000.0]": {
+     "share_of_volume": 0.3678,
+     "c_per_share": 0.542,
+     "t_by_market": 3.33
+    },
+    "(1000.0, inf]": {
+     "share_of_volume": 0.1549,
+     "c_per_share": 1.451,
+     "t_by_market": 4.25
+    }
+   },
+   "size_usd": {
+    "(0.0, 10.0]": {
+     "share_of_volume": 0.2747,
+     "c_per_share": -0.029,
+     "t_by_market": 4.9
+    },
+    "(10.0, 100.0]": {
+     "share_of_volume": 0.4393,
+     "c_per_share": -0.445,
+     "t_by_market": -8.74
+    },
+    "(100.0, 1000.0]": {
+     "share_of_volume": 0.2382,
+     "c_per_share": 1.107,
+     "t_by_market": 0.55
+    },
+    "(1000.0, inf]": {
+     "share_of_volume": 0.0477,
+     "c_per_share": 1.002,
+     "t_by_market": -0.93
+    }
+   }
+  }
+ },
+ "gt1000_shares_at_extremes_share": 0.6534048322281728
+}

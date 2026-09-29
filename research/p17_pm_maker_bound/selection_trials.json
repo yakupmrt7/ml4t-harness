@@ -10,5 +10,29 @@
    "bound_c_per_share_equal_weight": 0.20712930765820753,
    "t_by_market": 2.982931085968102
   }
+ },
+ {
+  "name": "p17_maker_bound_fee0.07",
+  "kind": "measurement",
+  "params": {
+   "fee_rate": 0.07,
+   "rebate_share": 0.2
+  },
+  "result": {
+   "bound_c_per_share_equal_weight": 0.12606686543158108,
+   "t_by_market": 1.8157071532475944
+  }
+ },
+ {
+  "name": "p17_maker_bound_fee0.0",
+  "kind": "measurement",
+  "params": {
+   "fee_rate": 0.0,
+   "rebate_share": 0.2
+  },
+  "result": {
+   "bound_c_per_share_equal_weight": -0.0630788330972139,
+   "t_by_market": -0.9085924375820698
+  }
  }
 ]

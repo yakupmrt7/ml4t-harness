@@ -5,10 +5,9 @@ to be able to say "there is nothing here". Owner is strong at ML and new to
 finance: explain market-specific reasoning (costs, microstructure, funding)
 when it comes up, and skip ML basics.
 
-**Current line (owner, 2026-09-29): NEWPLAN.md idea #2, variance risk premium on Deribit BTC
-options (p16+). NEWPLAN #1 (Polymarket vs Deribit) was killed in p15; the HL forced-flow line
-(docs/ROADMAP.md) was killed at p13; p14 (HL carry) is being finished. Other NEWPLAN.md ideas are
-parked, not started.**
+**Current line (owner, 2026-09-29): none open. NEWPLAN.md #1 (p15), #2 (p16) and #4 (p17) were
+killed on dev; the HL forced-flow line (docs/ROADMAP.md) was killed at p13; p14 (HL carry, NEWPLAN
+#3) is unfinished. The next line is the owner's decision.**
 
 ## Commands
 - `pip install -e ".[dev]"`: install
@@ -22,8 +21,8 @@ parked, not started.**
 - `data/raw` = Binance archive zips, `data/collector` = slices synced from the GCS collector, `data/bars` = parquet caches. All gitignored.
 - `trials.json`: the trial log of the closed Binance line (p01–p11). `trials_hl.json`: the trial
   log of the Hyperliquid line. `trials_pm.json`: the trial log of the Polymarket-vs-Deribit line
-  (p15). `trials_vrp.json`: the trial log of the Deribit VRP line (p16+). All committed. Never
-  delete or edit their entries. "The trial log" below means the current line's log
+  (p15). `trials_vrp.json`: the trial log of the Deribit VRP line (p16+). Each is created by its line's
+  first holdout trial and committed; only `trials.json` exists so far. Never delete or edit their entries. "The trial log" below means the current line's log
   (`trials_vrp.json` now; p14 still writes to `trials_hl.json`).
 
 ## Research script conventions (research/pNN_<name>/run.py)

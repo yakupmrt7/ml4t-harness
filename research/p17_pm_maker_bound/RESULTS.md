@@ -1,72 +1,92 @@
-# p17 — Upper bound on maker P&L, Polymarket 5-minute BTC up/down: passes as registered, NOT CREDITED
+# p17 — Maker P&L in Polymarket 5-minute BTC up/down markets: KILL FIRES on verified inputs
 
-**Verdict: the maker side of these markets earns only the rebate, and at the fee actually charged the bound is
-not significant.** Over 2,304 markets (2026-09-21 → 09-28, 3.48 M taker trades, 110 M shares), makers as a group
-lose **−0.06 ¢ per share** to takers before rebates (t −0.91). Everything positive comes from the maker rebate.
-- **As registered** (amendment 1: fee rate 0.10, the most generous reading of Gamma's `takerBaseFee = 1000`):
-  bound **+0.21 ¢/share, t 2.98 → the kill does not fire.**
-- **But the on-chain fee is 0.07**, not 0.10: the v2 exchange's `FeeCharged` event equals 0.0700 · p(1−p) ·
-  size on **24 / 24** sampled trades (`onchain_fee_check.py`). At the fee actually charged the bound is
-  **+0.13 ¢/share with t 1.82 < 2**, which is the registered kill condition.
+**Verdict: the passive side of these markets earns about zero before the fee rebate, and with the rebate
+actually paid the result is not significant. NEWPLAN #4 is closed.** Over 2,304 markets (2026-09-21 → 09-28,
+3.48 M taker trades, 110 M shares), maker P&L per share, equal-weighted by market (the registered statistic):
 
-The registered evaluation passes only because of a fee assumption the data now contradicts, so, as with p07's
-look-ahead universe, **the pass is recorded but not credited**. No strategy follows from it: a slow maker earns
-less than the group bound (the fast makers' cancellations are the fills a slow maker keeps). Zero trials; no
-trial log exists for this line.
+| inputs | bound ¢/share | t (registered: i.i.d. by market) | robust t | kill |
+|---|---:|---:|---|---|
+| **fee 0.07 with 20% rebate — verified on-chain** | **+0.126** | **1.82** | 1.70 / 1.66 (Newey-West 5 / 12), 1.56 (by day) | **fires (t < 2)** |
+| no rebate | −0.063 | −0.91 | −0.85 / −0.83, −0.78 | fires |
+| fee 0.10 (amendment 1's reading; false) | +0.207 | 2.98 | — | does not fire |
 
-Plan: `PLAN.md` (f1874aa) and amendment 1 (052c94d, after validation, before any P&L). Scripts committed
-before any trade was read (15e06f4).
+- **The kill fires once the fee is the one actually charged.** Amendment 1 (committed before any P&L) chose
+  to evaluate the kill at fee 0.10, reading Gamma's `takerBaseFee = 1000` as the most generous case while
+  Gamma and the collector disagreed. The on-chain `FeeCharged` event equals 0.0700 · p(1−p) · size on
+  24/24 trades (`onchain_fee_check.py`) and 65/65 in the review, so 0.10 was a factual error, not a generous
+  choice. Correcting a fact does not loosen any threshold, and it could not have manufactured a kill in
+  reverse: the statistic rises with the fee rate, so a kill at 0.10 would also have been a kill at 0.07.
+  The on-chain check was cheap and should have been done before amendment 1.
+- **The rebate is confirmed and exact, not a bound.** Polymarket pays makers daily from `0xfdb1b8dc…` at
+  **0.1997–0.1998** of their previous-day fee-equivalent (Σ 0.07 · shares · p(1−p) over their maker fills) for 3
+  wallets over 4 wallet-days (review). The rebate is weighted by fee-equivalent, i.e. by p(1−p), which is what
+  `step1.py` does, so the group number at 0.07 is the actual rebate paid to makers as a group. Makers pay no fee.
+  A second daily payer (`0x520bf77d…`) paid one wallet $897 and $207 in amounts that do not track fills,
+  probably liquidity rewards on other markets; not established (Gamma's rewards fields were not saved).
+- **Share-weighted, the number is larger:** +0.30 ¢/share at fee 0.07 (t 3.4 on per-market $ P&L), +0.11 ¢
+  without rebate (t 1.2); about $41 k/day to all makers with the rebate, $15 k/day without. This is not the
+  registered statistic, and it is dominated by the trade-size effect below.
+- **Group, not us:** the group average includes the fastest makers (who cancel stale quotes) and slow retail
+  limit orders. A slow maker 127 ms behind Binance keeps the fills the fast ones avoid; a selective maker could
+  beat the average. Either way the entire margin is the ~0.19 ¢/share rebate, while trade size alone moves
+  maker P&L by about ±0.7 ¢/share, so there is nothing robust to build on.
+
+Zero trials; no trial log exists for this line. Plan: `PLAN.md` (f1874aa), amendment 1 (052c94d, before any
+P&L). The `step1.py` change that implements amendment 1's three fee readings was committed with the results
+(f3cb0c9), not with the amendment.
 
 ## Data and validation
 | | |
 |---|---|
-| Markets | all 2,304 `btc-updown-5m` windows starting 2026-09-21 00:00 → 09-28 23:55 UTC; all found and resolved in Gamma (outcome 0 = Up) |
-| Trades | Polymarket data API, taker trades (timestamps = block time, p15); none truncated |
-| Volume gate | **96.1%** of markets within 1% of Gamma's volume counter (≥ 95%) |
-| Collector cross-check | the collector's own trade stream has a median 97% of the API's share volume (it misses a few %) |
-| Fees | Gamma: `feesEnabled`, `crypto_fees_v2`, base fee 1000 on all markets; collector `fee_rate_bps` = 0 on every trade (an order field, uninformative); **on-chain: 0.0700 · p(1−p) per share, 24/24** |
+| Markets | all 2,304 `btc-updown-5m` windows starting 2026-09-21 00:00 → 09-28 23:55 UTC; all found and resolved (outcome 0 = Up; after the end the Up price averages 0.99 when Up won and 0.03 when it lost) |
+| Trades | Polymarket data API taker trades: 3,479,125 rows = 3,479,125 distinct transactions (one row per taker order); side, size and price match the taker's on-chain fill to 1e-10 on 65 checked rows (review); none truncated |
+| Volume gate | 96.1% of markets within 1% of Gamma's volume counter (≥ 95%); 73 of the 89 failures are markets whose counter reads 0 |
+| Collector cross-check | the collector's own trade stream has a median 97% of the API's share volume |
+| Fees | on-chain 0.0700 · p(1−p) per share on the taker; Gamma `crypto_fees_v2`, base fee 1000; collector `fee_rate_bps` = 0 (an order field, uninformative) |
 
-## The bound (maker P&L per share, equal weight per market, t clustered by market)
-| fee rate for the rebate | bound ¢/share | t | share-weighted ¢/share | $ per day (all makers) | kill |
-|---|---:|---:|---:|---:|---|
-| **0.10 (registered, most generous)** | **+0.207** | **2.98** | +0.385 | 52.7 k | does not fire |
-| **0.07 (charged on-chain)** | **+0.126** | **1.82** | +0.302 | 41.3 k | fires |
-| 0 (no rebate) | −0.063 | −0.91 | +0.108 | 14.8 k | fires |
+## Descriptive (verified fee 0.07; `descriptive.py` → `descriptive.json`; not decision inputs)
+¢/share is share-weighted within the bucket; t is of per-market ¢/share (equal weight), so the two can disagree
+in sign.
 
-Rebate = 20% of the taker fee, assigned pro rata to every maker share (an upper bound on any one maker's
-share of the pool). Equal weighting per market is the registered primary; share weighting is higher because
-large trades are better for makers (below).
+| time before window end | share of volume | ¢/share (0.07) | t | ¢/share (no rebate) | t |
+|---|---:|---:|---:|---:|---:|
+| before the window opens | 5.5% | +0.74 | 1.37 | +0.39 | 0.35 |
+| 180–300 s | 31.2% | +0.30 | 2.24 | +0.01 | 0.48 |
+| 60–180 s | 40.2% | +0.32 | 1.25 | +0.15 | −0.49 |
+| last 60 s | 20.0% | +0.17 | 4.87 | +0.09 | 3.80 |
+| after the window end | 3.1% | +0.21 | 16.1 | +0.21 | 15.9 |
 
-### Descriptive (fee 0.10 row; not decision inputs)
-| time before window end | share of volume | ¢/share |
-|---|---:|---:|
-| before the window opens | 5.5% | +0.89 |
-| 180–300 s | 31.2% | +0.42 |
-| 60–180 s | 40.2% | +0.39 |
-| last 60 s | 20.0% | +0.21 |
-| after the window end | 3.1% | +0.22 |
+| price of Up | share of volume | ¢/share (0.07) | t | ¢/share (no rebate) | t |
+|---|---:|---:|---:|---:|---:|
+| ≤ 5 ¢ | 15.3% | +0.16 | 4.64 | +0.14 | 4.56 |
+| 5–20 ¢ | 10.4% | +0.57 | 5.45 | +0.43 | 5.11 |
+| 20–40 ¢ | 14.1% | +0.46 | 5.98 | +0.17 | 5.19 |
+| 40–60 ¢ | 21.6% | +0.29 | −2.37 | −0.06 | −3.91 |
+| 60–80 ¢ | 14.5% | +0.27 | 5.80 | −0.02 | 5.00 |
+| 80–95 ¢ | 10.4% | +0.37 | 4.02 | +0.22 | 3.64 |
+| ≥ 95 ¢ | 13.8% | +0.09 | 3.75 | +0.07 | 3.67 |
 
-| taker trade size (shares) | share of volume | ¢/share |
-|---|---:|---:|
-| ≤ 10 | 8.8% | −0.39 |
-| 10–100 | 38.9% | −0.31 |
-| 100–1,000 | 36.8% | +0.80 |
-| > 1,000 | 15.5% | +1.59 |
+| taker trade size | share of volume | ¢/share (0.07) | t |
+|---|---:|---:|---:|
+| ≤ 10 shares | 8.8% | −0.49 | −11.7 |
+| 10–100 shares | 38.9% | −0.41 | −6.6 |
+| 100–1,000 shares | 36.8% | +0.72 | 4.7 |
+| > 1,000 shares | 15.5% | +1.55 | 4.5 |
+| by dollars: ≤ $10 / $10–100 / $100–1k / > $1k | 27.5 / 43.9 / 23.8 / 4.8% | +0.14 / −0.22 / +1.30 / +1.07 | +6.5 / −6.2 / +1.3 / −0.8 |
 
-- **Small takers win against makers, large takers lose** (even after a generous rebate). That is the adverse-
-  selection pattern expected when small, fast bots pick off stale quotes; it is also exactly the flow a slow
-  maker cannot avoid.
-- By day: 7 of 8 days positive at fee 0.10; 2026-09-27 negative (−0.27 ¢).
-- By price: makers earn least at the extremes (≤ 5 ¢ and ≥ 95 ¢: +0.10 to +0.17 ¢) and most at 5–40 ¢.
+- **The share-size pattern is mostly a price effect:** 65% of the "> 1,000 shares" volume trades at ≤ 5 ¢ or
+  ≥ 95 ¢ (cheap long shots and near-certain buys). By dollar size the pattern is not monotone, so nothing here
+  says "small fast takers pick off makers"; that story is conjecture and is not claimed.
+- **Mid prices (40–60 ¢) are the worst range for makers without the rebate**, and the rebate is largest there
+  (it is proportional to p(1−p)). Trades after the window end are near-certain and small (3% of volume).
 
 ## What this means
-- The passive side of Polymarket's 5-minute BTC markets does not earn the spread; it earns the fee rebate, and
-  only when the book is aggregated over all makers, the fastest included. Before rebates makers lose to takers.
-- At the fee actually charged, even that aggregate is not distinguishable from zero over 8 days.
-- For a maker 127 ms behind Binance the bound is not reachable. NEWPLAN #4 is closed unless a later experiment
-  measures slow-maker fills directly, which this result gives no reason to fund.
+- Makers as a group capture about nothing from takers in these markets; the 20% rebate on a 0.07 · p(1−p) taker
+  fee is the whole margin, and over 8 days even that is not distinguishable from zero on the registered statistic.
+- With p09 (taker, killed), p15 (Polymarket vs Deribit, killed) and now p17, Polymarket's crypto markets have
+  failed three pre-registered tests from both sides. NEWPLAN #4 is closed.
 
 ## Files
-`PLAN.md` · `fetch.py` (throwaway VM, deleted) · `step1.py` (validate, measure) · `validate.log/json` ·
-`measure.json` (0.10), `measure_fee007.json`, `measure_fee0.json`, `measure.log` · `onchain_fee_check.py/.log` ·
-`selection_trials.json`.
+`PLAN.md` · `fetch.py` (throwaway VM, deleted) · `step1.py` (validate, measure) · `descriptive.py` ·
+`validate.log/json` · `measure.json` (0.10), `measure_fee007.json`, `measure_fee0.json`, `measure.log` ·
+`descriptive.json/log` · `onchain_fee_check.py/.log` · `selection_trials.json` · `REVIEW.md`.
