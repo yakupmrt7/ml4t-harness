@@ -77,11 +77,12 @@ def basis_samples():
         c = close.reindex(tt.dt.floor("min"), method="ffill").to_numpy()   # bar closing at floor(t) <= t
         rows.append(pd.DataFrame({"t": tt.to_numpy(), "b": x.index_price.to_numpy() / c - 1}))
     b = pd.concat(rows).dropna().sort_values("t")
-    return b.t.to_numpy(), b.b.to_numpy()
+    return pd.DatetimeIndex(b.t).as_unit("ns").asi8, b.b.to_numpy()       # int64 ns UTC, float
 
 
 def causal_basis(bt, bv, t):
-    lo, hi = np.searchsorted(bt, np.datetime64(t - pd.Timedelta(days=7)), "right"), np.searchsorted(bt, np.datetime64(t), "right")
+    lo = np.searchsorted(bt, (t - pd.Timedelta(days=7)).value, "right")
+    hi = np.searchsorted(bt, t.value, "right")                              # samples in (t - 7 d, t]
     return float(np.median(bv[lo:hi])) if hi > lo else np.nan
 
 

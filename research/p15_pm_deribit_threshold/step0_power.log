@@ -1,0 +1,8 @@
+{
+ "dev_markets": 4907,
+ "dev_markets_with_trades": 3563,
+ "dev_markets_with_usable_taker_sell": 2478,
+ "dev_clusters_fixing_dates": 198,
+ "kill_B_threshold": 100,
+ "kill_B": false
+}
