@@ -1,0 +1,18 @@
+[
+ {
+  "name": "p15_step1_gap_measurement",
+  "kind": "measurement",
+  "params": {
+   "window": "(t-60min,t]",
+   "main_set": "bracketed, k inside both smiles, basis ok"
+  },
+  "result": {
+   "kill_C_D_median_pp": 0.751,
+   "ci": [
+    0.639,
+    0.882
+   ]
+  },
+  "ts": "2026-09-29"
+ }
+]

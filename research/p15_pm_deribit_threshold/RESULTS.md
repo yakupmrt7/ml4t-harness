@@ -1,7 +1,8 @@
 # p15 — Polymarket BTC threshold markets vs Deribit option-implied probability: KILLED at KILL C (dev)
 
-**Verdict: no tradeable gap.** On 4,907 dev markets (2023-04 → 2025-09; 43,828 market-hours in the
-main set), Polymarket's price and the Deribit risk-neutral probability of the same event agree to within
+**Verdict: no tradeable gap.** On the dev span (fixing dates 2023-04 → 2025-09; in practice **97% of
+the 43,828 main-set market-hours are 2025**, 1,472 of 1,513 measured markets fix in 2025, and 2023
+contributes nothing), Polymarket's price and the Deribit risk-neutral probability of the same event agree to within
 about 1 pp. For longshots (P_RN < 15%) the median gap is **+0.75 pp [0.64, 0.88]** against the
 pre-registered 2 pp bar, so **KILL C fires** and Step 2 (the trading rule) was not run. As forecasters
 the two are indistinguishable (Brier 0.1426 vs 0.1418, t 0.23 by fixing date). No holdout was read and no
@@ -22,7 +23,7 @@ fees.
 ## Step 0 — data and settlement (all gates on dev pass)
 | check | result |
 |---|---|
-| Inventory | 11,261 in-scope markets (strike 5,800, range 5,461) after excluding 1-hour markets (never bracketed by two Deribit expiries), 6 Coinbase and 39 legacy/CoinMarketCap markets, and 11 markets of one event with an ambiguous "12AM ET" fixing |
+| Inventory | 11,261 in-scope markets (strike 5,800, range 5,461) after excluding 1-hour markets (never bracketed by two Deribit expiries), 6 Coinbase and 39 legacy/CoinMarketCap markets, and 11 markets of one event with an ambiguous "12AM ET" fixing. That exclusion rule uses metadata only, but it was **found through the settlement misses**; it cannot have changed KILL A, which already passed at 99.90% before any parser fix |
 | **KILL A: settlement rebuild** | **11,261 / 11,261 = 100%** agreement with Gamma, incl. all 68 markets within 3 bp of the strike (first run 99.90%; the 11 misses were parser bugs, fixed from metadata). The fixing time must come from each market's rule text: `end_date` is wrong for older markets |
 | Underlying | Deribit index / Binance BTCUSDT − 1 at the fixing: median +1.0 bp, IQR −4.0 / +4.5 bp (USDT/USD basis drifts by year: +12 bp 2023, −4 bp 2026); mapped causally into the strike |
 | Fill source | The public HuggingFace on-chain table **failed** (timestamps off by +94…+102 s or by 5–6 h vs Polygon block time in some ranges; part of the v2-exchange fills missing) and was **replaced** by Polymarket's data API (7.82 M taker trades; timestamps = block time on 50/50 checked) |
@@ -46,7 +47,14 @@ D = PM − P_RN, CIs by fixing-date bootstrap.
 | 95–100% | 1,579 | 187 | 77 | −0.90 [−1.18, −0.64] | −1.17 | 0.966 | 0.978 | 0.999 |
 
 **KILL C (pre-registered): median D in P_RN < 15% = +0.75 pp [0.64, 0.88] < 2 pp → fires.** The full
-P_RN × maturity table is in `step1.log` / `step1.json`; no cell with ≥ 100 rows reaches 2 pp.
+P_RN × maturity table is in `step1.log` / `step1.json`. Two cells with ≥ 100 rows sit at or near 2 pp,
+both **outside** the kill bucket or at its edge (`descriptive.json`):
+- P_RN 15–35%, > 7 days to fixing: **+2.47 pp** [2.04, 2.82], 220 rows, 53 markets, 23 dates. Long
+  maturities run higher in every bucket up to 35%, as in the prior paper, but all tenors ≥ 7 days
+  together are only 97 markets over 30 dates (median D +0.65 pp).
+- P_RN 5–15%, < 1 day: +1.91 pp [1.59, 2.25], 990 rows. The < 1 d cells show the largest |D| in *both*
+  directions (−2.8 pp at 65–85%), which fits the hour-average PM lagging a high-gamma P_RN taken at the
+  end of the hour: a timing artefact, not a price to sell into.
 
 - **The sign pattern is a favourite–longshot tilt** (Polymarket slightly rich on longshots, slightly
   cheap on favourites), consistent with arxiv 2609.12878, but about a tenth of the size needed. The
@@ -56,14 +64,27 @@ P_RN × maturity table is in `step1.log` / `step1.json`; no cell with ≥ 100 ro
   (both under-forecast: realised 0.63).
 
 ### Descriptive, post hoc (not used for any decision)
-- **The gap compressed:** low-bucket median D was +2.75 pp in 2024 (408 rows, few markets) and +0.72 pp in
-  2025 (14,022 rows). The prior paper's 2023 sample predates the compression.
-- **First observation per market** (916 low-bucket markets): PM 12.9% vs P_RN 10.6% vs realised 10.8%.
-  Early, thin prices are richer; this is a mean over each market's first hour, not the registered
-  statistic, and on dev it could only be a hypothesis for fresh data.
+(All numbers below come from `descriptive.py` → `descriptive.json`.)
+- **2024 vs 2025:** low-bucket median D +2.75 pp in 2024 (408 rows, **15 markets**) vs +0.72 pp in 2025
+  (14,022 rows, 901 markets). Fifteen markets cannot establish a trend; dev contains no measurable 2023
+  market, so nothing here says whether the prior paper's 2023 gap was real at the time.
+- **First observation per market** (each market's first main-set hour; 496 markets have P_RN < 15% there):
+  PM 10.5% vs P_RN 9.1% vs realised 9.3%, median D +0.69 pp — no different from the pooled bucket. (An
+  earlier draft reported 12.9 / 10.6 / 10.8% for "first low-bucket row", which is selected right after P_RN
+  falls below 15% while the hour-average PM lags, so its gap is mechanically positive; retracted.)
+- **Outcome check independent of the Deribit code (review):** in the P_RN < 15% rows, PM minus the
+  realised rate averages +0.48 pp [−1.52, +2.66] before fee and spread.
 - **Coverage:** main set 43,828 of 94,374 market-hours. 39,884 had no bracketing expiry pair (median
   0.9 d to fixing: the last hours after the final expiry before the 12:00 ET fixing), 10,662 needed strike
   extrapolation (their low-bucket median D is +0.40 pp, so extrapolated strikes do not hide a gap).
+
+## Review
+`REVIEW.md` (research-reviewer, pre-OOS): **ACCEPT WITH FIXES**. No bug or definition error that shrinks
+the gap was found: P_RN reproduces exactly on 300 random rows; an independent P_RN (trade IVs, piecewise
+smile, other forward convention) differs by −0.06 pp median and gives D 1.05 pp; the biases that exist
+mostly *enlarge* D (bucketing on noisy P_RN, VWAP including ask-side buys), so the kill is conservative.
+The fixes (false "no cell reaches 2 pp", the mislabelled first-observation numbers, the span headline,
+post-hoc numbers without code, a missing selection row, the 12 AM disclosure) are applied above.
 
 ## What survives, what does not
 - **Dead, as tested:** a pricing gap between Polymarket BTC threshold/range markets and the Deribit

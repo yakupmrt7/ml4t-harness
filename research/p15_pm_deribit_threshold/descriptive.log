@@ -1,0 +1,72 @@
+/Users/yakupmert/Desktop/ml4t-harness/research/p15_pm_deribit_threshold/descriptive.py:28: UserWarning: Converting to PeriodArray/Index representation will drop timezone information.
+  q = m.T_utc.dt.to_period("Q").astype(str)
+{
+ "coverage": {
+  "rows": {
+   "k outside fit": 10662,
+   "main": 43828,
+   "no bracket/smile": 39884
+  },
+  "tau_median_d": {
+   "k outside fit": 1.833,
+   "main": 2.958,
+   "no bracket/smile": 0.875
+  }
+ },
+ "extrapolated_low_bucket": {
+  "rows": 7759,
+  "D_median_pp": 0.404
+ },
+ "rows_by_quarter": {
+  "2024Q1": 92,
+  "2024Q2": 713,
+  "2024Q3": 955,
+  "2024Q4": 1517,
+  "2025Q1": 4284,
+  "2025Q2": 12317,
+  "2025Q3": 23950
+ },
+ "markets_by_year": {
+  "2024": 41,
+  "2025": 1472
+ },
+ "low_bucket_by_year": {
+  "2024": {
+   "rows": 408,
+   "markets": 15,
+   "D_median_pp": 2.75
+  },
+  "2025": {
+   "rows": 14022,
+   "markets": 901,
+   "D_median_pp": 0.717
+  }
+ },
+ "first_observation_low": {
+  "markets": 496,
+  "pm_mean": 0.1052,
+  "p_rn_mean": 0.091,
+  "realised": 0.0927,
+  "D_median_pp": 0.688
+ },
+ "cells_ge100_rows_median_ge_1p5pp": {
+  "[0.05, 0.15) x [0.0, 1.0)": {
+   "rows": 990,
+   "markets": 373,
+   "dates": 124,
+   "D_median_pp": 1.91
+  },
+  "[0.15, 0.35) x [7.0, inf)": {
+   "rows": 220,
+   "markets": 53,
+   "dates": 23,
+   "D_median_pp": 2.47
+  }
+ },
+ "tau_ge_7d_all_buckets": {
+  "rows": 1094,
+  "markets": 97,
+  "dates": 30,
+  "D_median_pp": 0.654
+ }
+}
