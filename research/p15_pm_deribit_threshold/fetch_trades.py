@@ -103,13 +103,27 @@ def fetch(path, out, workers=6):
             done = {r["market_id"] for r in good}
     todo = [t for t in todo if t[0] not in done]
     print(f"{len(done)} done, {len(todo)} to fetch, {workers} workers", flush=True)
+    # Bounded memory (2026-09-28 lesson: submitting every market at once kept all results alive and
+    # OOM'd a 2 GB VM): at most 2*workers futures in flight; each result is written and dropped.
+    from concurrent.futures import FIRST_COMPLETED, wait
+    it, pending, i = iter(todo), set(), 0
     with gzip.open(out, "at") as f, ThreadPoolExecutor(workers) as ex:
-        futs = [ex.submit(one_market, mid, cid) for mid, cid in todo]
-        for i, fu in enumerate(as_completed(futs)):
-            f.write(json.dumps(fu.result()) + "\n")
-            if i % 200 == 0:
-                f.flush()
-                print(f"{i}/{len(todo)} {time.strftime('%H:%M:%S')}", flush=True)
+        while True:
+            while len(pending) < 2 * workers:
+                nxt = next(it, None)
+                if nxt is None:
+                    break
+                pending.add(ex.submit(one_market, *nxt))
+            if not pending:
+                break
+            finished, pending = wait(pending, return_when=FIRST_COMPLETED)
+            for fu in finished:
+                f.write(json.dumps(fu.result()) + "\n")
+                i += 1
+                if i % 200 == 0:
+                    f.flush()
+                    print(f"{i}/{len(todo)} {time.strftime('%H:%M:%S')}", flush=True)
+            del finished
     print("done", flush=True)
 
 
