@@ -30,5 +30,77 @@
    "ann_on_capital_2025_%": 5.0051345400764085,
    "monthly_t_2025": 4.685984907430802
   }
+ },
+ {
+  "name": "p18_review_diagnostic_C_buffer_1.25",
+  "kind": "review_diagnostic",
+  "result": {
+   "C_ann_on_capital_2025_%": 5.27
+  },
+  "ts": "2026-09-29T17:26:19",
+  "source": "REVIEW.md (reviewer's dev-only scripts)"
+ },
+ {
+  "name": "p18_review_diagnostic_C_buffer_1.0",
+  "kind": "review_diagnostic",
+  "result": {
+   "C_ann_on_capital_2025_%": 5.56
+  },
+  "ts": "2026-09-29T17:26:19",
+  "source": "REVIEW.md (reviewer's dev-only scripts)"
+ },
+ {
+  "name": "p18_review_diagnostic_C_no_reset_cost",
+  "kind": "review_diagnostic",
+  "result": {
+   "C_ann_on_capital_2025_%": 5.98
+  },
+  "ts": "2026-09-29T17:26:19",
+  "source": "REVIEW.md (reviewer's dev-only scripts)"
+ },
+ {
+  "name": "p18_review_diagnostic_C_maker_fees",
+  "kind": "review_diagnostic",
+  "result": {
+   "C_ann_on_capital_2025_%": 5.59
+  },
+  "ts": "2026-09-29T17:26:19",
+  "source": "REVIEW.md (reviewer's dev-only scripts)"
+ },
+ {
+  "name": "p18_review_diagnostic_C_cross_margin",
+  "kind": "review_diagnostic",
+  "result": {
+   "C_ann_on_capital_2025_%": 5.64
+  },
+  "ts": "2026-09-29T17:26:19",
+  "source": "REVIEW.md (reviewer's dev-only scripts)"
+ },
+ {
+  "name": "p18_review_diagnostic_C_tbill_idle",
+  "kind": "review_diagnostic",
+  "result": {
+   "C_ann_on_capital_2025_%": 6.18
+  },
+  "ts": "2026-09-29T17:26:19",
+  "source": "REVIEW.md (reviewer's dev-only scripts)"
+ },
+ {
+  "name": "p18_review_diagnostic_C_cross_margin_buffer_1.0",
+  "kind": "review_diagnostic",
+  "result": {
+   "C_ann_on_capital_2025_%": 6.24
+  },
+  "ts": "2026-09-29T17:26:19",
+  "source": "REVIEW.md (reviewer's dev-only scripts)"
+ },
+ {
+  "name": "p18_review_diagnostic_C_buffer1_noreset_maker",
+  "kind": "review_diagnostic",
+  "result": {
+   "C_ann_on_capital_2025_%": 8.61
+  },
+  "ts": "2026-09-29T17:26:19",
+  "source": "REVIEW.md (reviewer's dev-only scripts)"
  }
 ]
