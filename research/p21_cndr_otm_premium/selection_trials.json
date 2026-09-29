@@ -1,0 +1,20 @@
+[
+ {
+  "name": "p21_cndr_net_median_cost",
+  "kind": "rule",
+  "sr_per_period": 0.08795077340626245,
+  "n": 426
+ },
+ {
+  "name": "p21_cndr_gross",
+  "kind": "measurement",
+  "sr_per_period": 0.11395455723600259,
+  "n": 426
+ },
+ {
+  "name": "p21_cndr_net_q3_cost",
+  "kind": "measurement",
+  "sr_per_period": 0.08151329775810304,
+  "n": 426
+ }
+]
