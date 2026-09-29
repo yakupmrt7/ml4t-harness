@@ -17,6 +17,8 @@
    "basis": 0.033188401533749454,
    "reset_cost": -1.0026788544155745
   },
+  "psr_vs_6pct_bar": 1.0,
+  "dsr_n_trials_1": 1.0,
   "kills": {
    "k1_return_below_6": false,
    "k2_monthly_t_below_2": false,
@@ -41,6 +43,8 @@
    "basis": 0.06136247507050554,
    "reset_cost": -1.1324830856473738
   },
+  "psr_vs_6pct_bar": 1.0,
+  "dsr_n_trials_1": 1.0,
   "kills": {
    "k1_return_below_6": false,
    "k2_monthly_t_below_2": false,
@@ -65,6 +69,8 @@
    "basis": 0.006783851723179968,
    "reset_cost": -0.8855846644694708
   },
+  "psr_vs_6pct_bar": 0.9859466690013121,
+  "dsr_n_trials_1": 1.0,
   "kills": {
    "k1_return_below_6": false,
    "k2_monthly_t_below_2": false,

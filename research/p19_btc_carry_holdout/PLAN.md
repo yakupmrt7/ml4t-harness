@@ -42,3 +42,23 @@ decomposition, the worst day, and the same numbers on dev (2024, 2025) for refer
 3. **Stop for the owner's "go".** Then run once: `python research/p19_btc_carry_holdout/run.py --holdout`,
    which logs exactly one trial to `trials_hl.json`. Never re-run with changes.
 4. RESULTS.md, final review, commit.
+
+---
+
+## Amendment 1 — 2026-09-29, after the pre-OOS review, before the holdout run (spec unchanged)
+- **Two post-hoc choices, disclosed:** (i) BTC was picked after seeing p18's per-coin table; (ii) B over A is a
+  second choice made after seeing dev, though a weak one: p18's rule 4 already ranked B first, and B had the
+  *lower* dev number (7.76 vs 8.87 %/yr in 2025).
+- **Action on the result:** fail → carry is closed with no variants. Pass → the next step is operational, not
+  research: a 3-month paper forward test with measured costs (no trial). Deploying capital is the owner's decision,
+  asked at the OOS gate.
+- **Abort rule:** if a fetch fails or an assert fires before `holdout.json` exists, delete the
+  `*_holdout.parquet` caches and repeat the same command; that is not a second look. Once `holdout.json` exists
+  the run is spent and `run.py` is never edited again.
+- **`validation_report` does not apply** (no model, no labels). Its substitute: Newey–West s.e. of the annual
+  return, PSR of the daily return on capital against the 6%/yr bar, and DSR with n_trials = 1.
+- The holdout caches (`hl_ohlc_BTC_holdout.parquet`, `bn_spot_ohlc_BTC_holdout.parquet`) and `holdout_daily.parquet`
+  are committed with the result (a few kB).
+- Power (review): s.e. of the annual return ≈ 1.2%/yr if 2026 is 2025-like, ≈ 4.1 if 2024-like. P(pass) at a
+  true 6 / 7.8 / 10 %/yr ≈ 0.45 / 0.93 / 1.00 (2025-like). A pass means the 2026 estimate is ≥ 6, not that it is
+  significantly above 6 (that needs ≈ 8.3+).

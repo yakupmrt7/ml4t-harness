@@ -16,7 +16,7 @@ import requests
 HERE = pathlib.Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(ROOT))
-from harness.metrics import TrialLog  # noqa: E402
+from harness.metrics import TrialLog, dsr, psr  # noqa: E402
 
 DATA = ROOT / "data/hl/funding"
 DEV = (pd.Timestamp("2024-01-01", tz="UTC"), pd.Timestamp("2026-01-12", tz="UTC"))
@@ -65,6 +65,9 @@ def load(span, holdout):
         hl = pd.read_parquet(DATA / "hl_ohlc_BTC.parquet").set_index("date")
         sp_ = pd.read_parquet(DATA / "bn_spot_ohlc_BTC.parquet").set_index("date")
     hl, sp_ = (x[(x.index >= pre) & (x.index < span[1])] for x in (hl, sp_))
+    if holdout:                              # review fix: every day of the span plus the day before, no gaps
+        n = (span[1] - pre).days
+        assert len(hl) == n and len(sp_) == n, f"candles: hl {len(hl)}, spot {len(sp_)}, expected {n}"
     return f, hl, sp_
 
 
@@ -102,6 +105,12 @@ def evaluate(pnl, fund, basis, reset, up):
     t_m = float(m.mean() / (m.std(ddof=1) / np.sqrt(len(m))))
     w5 = float(-f5.min() / f5.mean()) if f5.mean() > 0 else None
     liq = [str(d.date()) for d, u in up.items() if u > LIQ_UP]
+    x = r.to_numpy()
+    sr = float(x.mean() / x.std(ddof=1))
+    from scipy import stats as _st
+    sk, ku = float(_st.skew(x)), float(_st.kurtosis(x, fisher=False))
+    psr_bar = psr(sr, len(x), sk, ku, sr_star=(BAR / 100 / 365) / x.std(ddof=1))   # Sharpe test against the 6% bar
+    dsr1 = dsr(sr, len(x), sk, ku, 1, 0.0)                                           # one trial: DSR = PSR vs 0
     kills = {"k1_return_below_6": ann < BAR, "k2_monthly_t_below_2": not (t_m >= 2),
              "k3_tail": not (w5 is not None and w5 <= 12), "k4_liquidation": bool(liq)}
     return {"days": int(len(r)), "months": int(len(m)), "ann_on_capital_%": ann, "nw_se_%": 100 * nw_se_annual(r.to_numpy()),
@@ -109,6 +118,7 @@ def evaluate(pnl, fund, basis, reset, up):
             "worst_day": str(r.idxmin().date()), "max_hl_up_move_%": 100 * float(up.max()), "liquidation_days": liq,
             "decomposition_%yr_on_notional": {"hl_funding": 36500 * float(fund.mean()), "basis": 36500 * float(basis.mean()),
                                               "reset_cost": -36500 * float(reset.mean())},
+            "psr_vs_6pct_bar": psr_bar, "dsr_n_trials_1": dsr1,
             "kills": kills, "pass": not any(kills.values())}
 
 
@@ -119,12 +129,15 @@ def main():
     if a.holdout:
         out = HERE / "holdout.json"
         assert not out.exists(), "the holdout was already run once; never re-run"
+        parts = book(HOLD, True)                                   # computed once (review fix)
+        pnl, fund, basis, reset, up = parts
+        pd.DataFrame({"pnl_notional": pnl, "ret_capital": pnl / CAPITAL, "hl_funding": fund, "basis": basis,
+                      "reset_cost": reset, "hl_up_move": up}).to_parquet(HERE / "holdout_daily.parquet")
         res = {"span": [str(HOLD[0].date()), str(HOLD[1].date())], "capital": CAPITAL, "L_short": L_SHORT,
-               **evaluate(*book(HOLD, True))}
-        out.write_text(json.dumps(res, indent=1, default=str))
-        pnl = book(HOLD, True)[0] / CAPITAL
-        TrialLog(str(ROOT / "trials_hl.json")).log("p19_btc_short_hl_perp_long_bn_spot", pd.DataFrame({"net": pnl}),
+               **evaluate(*parts)}
+        TrialLog(str(ROOT / "trials_hl.json")).log("p19_btc_short_hl_perp_long_bn_spot", pd.DataFrame({"net": pnl / CAPITAL}),
                                                    {"L_short": L_SHORT, "capital": CAPITAL, "span": res["span"]})
+        out.write_text(json.dumps(res, indent=1, default=str))          # guard written only after the trial is logged
     else:
         res = {"capital": CAPITAL, "L_short": L_SHORT}
         pnl, fund, basis, reset, up = book(DEV, False)
