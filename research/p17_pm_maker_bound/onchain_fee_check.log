@@ -1,0 +1,25 @@
+p 0.960 size      5.05 fee 0.01357 implied rate 0.0699
+p 0.870 size     20.00 fee 0.15834 implied rate 0.0700
+p 0.060 size      1.75 fee 0.00690 implied rate 0.0699
+p 0.500 size     11.78 fee 0.20615 implied rate 0.0700
+p 0.010 size    100.00 fee 0.06930 implied rate 0.0700
+p 0.970 size     41.24 fee 0.08399 implied rate 0.0700
+p 0.250 size     28.00 fee 0.36750 implied rate 0.0700
+p 0.990 size     31.00 fee 0.02148 implied rate 0.0700
+p 0.290 size      5.00 fee 0.07206 implied rate 0.0700
+p 0.940 size      1.06 fee 0.00419 implied rate 0.0698
+p 0.600 size     14.00 fee 0.23520 implied rate 0.0700
+p 0.930 size      1.08 fee 0.00490 implied rate 0.0700
+p 0.990 size      5.05 fee 0.00349 implied rate 0.0698
+p 0.963 size    466.43 fee 1.17470 implied rate 0.0700
+p 0.820 size      1.22 fee 0.01259 implied rate 0.0699
+p 0.240 size     15.00 fee 0.19152 implied rate 0.0700
+p 0.090 size     48.44 fee 0.27770 implied rate 0.0700
+p 0.180 size     16.00 fee 0.16531 implied rate 0.0700
+p 0.050 size     20.00 fee 0.06650 implied rate 0.0700
+p 0.690 size     32.49 fee 0.48651 implied rate 0.0700
+p 0.880 size      2.25 fee 0.01663 implied rate 0.0700
+p 0.990 size    250.00 fee 0.17325 implied rate 0.0700
+p 0.520 size      5.77 fee 0.10080 implied rate 0.0700
+p 0.370 size     27.03 fee 0.44100 implied rate 0.0700
+n 24 median implied fee rate 0.06999984190035906

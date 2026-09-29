@@ -1,0 +1,14 @@
+[
+ {
+  "name": "p17_maker_upper_bound",
+  "kind": "measurement",
+  "params": {
+   "fee_rate": 0.1,
+   "rebate_share": 0.2
+  },
+  "result": {
+   "bound_c_per_share_equal_weight": 0.20712930765820753,
+   "t_by_market": 2.982931085968102
+  }
+ }
+]

@@ -105,7 +105,7 @@ def cluster_t(x):
     return float(x.mean() / (x.std(ddof=1) / np.sqrt(len(x)))) if len(x) > 2 else np.nan
 
 
-def cmd_measure(fee_rate_per_market=None):
+def cmd_measure(fee_rate_per_market=None, out="measure.json", log_selection=True):
     m = markets()
     m = m[m.found & m.up.notna()].set_index("slug")
     t, meta = trades()
@@ -147,11 +147,20 @@ def cmd_measure(fee_rate_per_market=None):
     res["by_day"] = {str(d): {"markets": int(len(x)), "c_per_share_eq": 100 * float(x.per_share.mean()),
                               "usd": float(x.pnl.sum())} for d, x in per.groupby(per.start.dt.date)}
     print(json.dumps(res, indent=1, default=str))
-    (HERE / "measure.json").write_text(json.dumps(res, indent=1, default=str))
-    sel = HERE / "selection_trials.json"
-    sel.write_text(json.dumps([{"name": "p17_maker_upper_bound", "kind": "measurement",
-                                "result": {k: res[k] for k in ("bound_c_per_share_equal_weight", "t_by_market")}}], indent=1))
+    (HERE / out).write_text(json.dumps(res, indent=1, default=str))
+    if log_selection:
+        sel = HERE / "selection_trials.json"
+        sel.write_text(json.dumps([{"name": "p17_maker_upper_bound", "kind": "measurement",
+                                    "params": {"fee_rate": fee_rate, "rebate_share": REBATE_SHARE},
+                                    "result": {k: res[k] for k in ("bound_c_per_share_equal_weight", "t_by_market")}}],
+                                  indent=1))
+    return res
 
 
 if __name__ == "__main__":
-    {"validate": cmd_validate, "measure": cmd_measure}[sys.argv[1]]()
+    if sys.argv[1] == "validate":
+        cmd_validate()
+    else:                                  # amendment 1: kill on fee 0.10 (most generous); 0.07 and 0 reported
+        cmd_measure(0.10, "measure.json", True)
+        for fr, name in ((0.07, "measure_fee007.json"), (0.0, "measure_fee0.json")):
+            r = cmd_measure(fr, name, False)
