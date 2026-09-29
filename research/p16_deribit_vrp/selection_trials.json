@@ -1,0 +1,45 @@
+[
+ {
+  "name": "p16_main",
+  "kind": "rule",
+  "params": {},
+  "sr_per_period": 0.17390943502717457,
+  "n": 156
+ },
+ {
+  "name": "p16_maker",
+  "kind": "measurement",
+  "params": {
+   "h_mode": "maker"
+  },
+  "sr_per_period": 0.1870048069154061,
+  "n": 156
+ },
+ {
+  "name": "p16_stressed_cost",
+  "kind": "measurement",
+  "params": {
+   "h_mode": "stressed"
+  },
+  "sr_per_period": 0.15166499499050556,
+  "n": 156
+ },
+ {
+  "name": "p16_hedge_daily_iv",
+  "kind": "measurement",
+  "params": {
+   "hedge_iv": "daily"
+  },
+  "sr_per_period": 0.16906081437703163,
+  "n": 156
+ },
+ {
+  "name": "p16_entry_0905",
+  "kind": "measurement",
+  "params": {
+   "entry_offset": "0 days 01:05:00"
+  },
+  "sr_per_period": 0.13546532615394402,
+  "n": 159
+ }
+]

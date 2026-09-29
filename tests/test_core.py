@@ -609,6 +609,9 @@ def test_cvar_and_tail_report_by_hand():
     assert np.isclose(rep2["worst_over_mean"], 8.5 / 1.5)
     # drawdown counts a loss from the starting level too (first period negative)
     assert tail_report(pd.Series([-3.0, 1.0, 1.0]))["max_drawdown"] == -3.0
+    # a date-only end bound includes that whole day (periods stamped 08:00, as in p16)
+    wk = pd.Series([1.0, -5.0, 1.0], pd.date_range("2022-11-04 08:00", periods=3, freq="7D", tz="UTC"))
+    assert tail_report(wk, {"d": ("2022-11-11", "2022-11-11")})["stress_d"]["periods"] == 1
 
 
 if __name__ == "__main__":

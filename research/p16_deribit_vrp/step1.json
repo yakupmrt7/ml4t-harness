@@ -1,0 +1,402 @@
+{
+ "main": {
+  "label": "main",
+  "weeks": 156,
+  "mean_net_pct_premium": 0.0913237061568922,
+  "mean_of_weekly_pct_premium": 0.061541879595955,
+  "median_net_pct_premium": 0.0993547233560021,
+  "mean_net_usd": 263.2599918621636,
+  "t_ret_notional": 2.172128147294603,
+  "sharpe_weekly": 0.17390943502717457,
+  "sharpe_annual": 1.2562474164124515,
+  "sharpe_annual_se": 0.5783486660200571,
+  "gross_mean_pct_premium": 0.1367104060159113,
+  "mean_iv": 0.48194121230849835,
+  "mean_rv": 0.4694905156353891,
+  "share_iv_gt_rv": 0.6794871794871795,
+  "cost_breakdown_pct_premium": {
+   "spread_cost": 0.005318612261219182,
+   "opt_fees": 0.011392583649552252,
+   "convert": 0.0005500000000000001,
+   "deliv_fee": 0.0028478872917872037,
+   "hedge_cost": 0.0209583555670196,
+   "funding": -0.004319261089440835
+  },
+  "tail": {
+   "n": 156,
+   "mean": 263.2599918621636,
+   "std": 1245.4532506186388,
+   "t": 2.640096079754029,
+   "hit_rate": 0.6217948717948718,
+   "skew": 0.3772590337515504,
+   "kurtosis": 4.363642692080984,
+   "cvar_5": -2398.600493721298,
+   "worst": -3443.546778124597,
+   "worst_when": "2025-02-28 08:00:00+00:00",
+   "worst_over_mean": 13.080402965018523,
+   "max_drawdown": -7241.012770197235,
+   "max_drawdown_end": "2024-08-30 08:00:00+00:00",
+   "stress_FTX_2022-11-04": {
+    "periods": 1,
+    "pnl": -863.008893632689,
+    "in_mean_periods": -3.2781619703328833
+   },
+   "stress_SVB_2023-03": {
+    "periods": 2,
+    "pnl": -717.1733416051856,
+    "in_mean_periods": -2.7242017920470034
+   },
+   "stress_unwind_2024-08-02": {
+    "periods": 1,
+    "pnl": -2106.1892462524775,
+    "in_mean_periods": -8.000415222056324
+   }
+  }
+ },
+ "maker": {
+  "label": "maker",
+  "weeks": 156,
+  "mean_net_pct_premium": 0.0966423184181114,
+  "mean_of_weekly_pct_premium": 0.0673561187590897,
+  "median_net_pct_premium": 0.10460054870358301,
+  "mean_net_usd": 278.59202206033683,
+  "t_ret_notional": 2.33568928975518,
+  "sharpe_weekly": 0.1870048069154061,
+  "sharpe_annual": 1.3508427849672429,
+  "sharpe_annual_se": 0.5783486660200571,
+  "gross_mean_pct_premium": 0.1367104060159113,
+  "mean_iv": 0.48194121230849835,
+  "mean_rv": 0.4694905156353891,
+  "share_iv_gt_rv": 0.6794871794871795,
+  "cost_breakdown_pct_premium": {
+   "spread_cost": 0.0,
+   "opt_fees": 0.011392583649552252,
+   "convert": 0.0005500000000000001,
+   "deliv_fee": 0.0028478872917872037,
+   "hedge_cost": 0.0209583555670196,
+   "funding": -0.004319261089440835
+  },
+  "tail": {
+   "n": 156,
+   "mean": 278.59202206033683,
+   "std": 1247.3449877087821,
+   "t": 2.789615763530464,
+   "hit_rate": 0.6282051282051282,
+   "skew": 0.3879495083688507,
+   "kurtosis": 4.358981422600355,
+   "cvar_5": -2380.7453426880556,
+   "worst": -3417.3367906292833,
+   "worst_when": "2025-02-28 08:00:00+00:00",
+   "worst_over_mean": 12.266456036164469,
+   "max_drawdown": -6932.122843845485,
+   "max_drawdown_end": "2024-08-30 08:00:00+00:00",
+   "stress_FTX_2022-11-04": {
+    "periods": 1,
+    "pnl": -860.4468068860815,
+    "in_mean_periods": -3.0885550868349267
+   },
+   "stress_SVB_2023-03": {
+    "periods": 2,
+    "pnl": -694.4529741303907,
+    "in_mean_periods": -2.4927238367938176
+   },
+   "stress_unwind_2024-08-02": {
+    "periods": 1,
+    "pnl": -2088.7392463695064,
+    "in_mean_periods": -7.4974840662060735
+   }
+  }
+ },
+ "stressed_cost": {
+  "label": "stressed_cost",
+  "weeks": 156,
+  "mean_net_pct_premium": 0.08164231841811141,
+  "mean_of_weekly_pct_premium": 0.05235611875908967,
+  "median_net_pct_premium": 0.089600548703583,
+  "mean_net_usd": 235.35133413700262,
+  "t_ret_notional": 1.8942951802856205,
+  "sharpe_weekly": 0.15166499499050556,
+  "sharpe_annual": 1.0955630905664122,
+  "sharpe_annual_se": 0.5783486660200571,
+  "gross_mean_pct_premium": 0.1367104060159113,
+  "mean_iv": 0.48194121230849835,
+  "mean_rv": 0.4694905156353891,
+  "share_iv_gt_rv": 0.6794871794871795,
+  "cost_breakdown_pct_premium": {
+   "spread_cost": 0.015000000000000005,
+   "opt_fees": 0.011392583649552252,
+   "convert": 0.0005500000000000001,
+   "deliv_fee": 0.0028478872917872037,
+   "hedge_cost": 0.0209583555670196,
+   "funding": -0.004319261089440835
+  },
+  "tail": {
+   "n": 156,
+   "mean": 235.35133413700262,
+   "std": 1241.0273378500845,
+   "t": 2.3686321256261023,
+   "hit_rate": 0.6153846153846154,
+   "skew": 0.34477151471073086,
+   "kurtosis": 4.3661016608363825,
+   "cvar_5": -2437.713881696301,
+   "worst": -3501.29762356039,
+   "worst_when": "2025-02-28 08:00:00+00:00",
+   "worst_over_mean": 14.876897283795367,
+   "max_drawdown": -7896.604989659862,
+   "max_drawdown_end": "2024-08-30 08:00:00+00:00",
+   "stress_FTX_2022-11-04": {
+    "periods": 1,
+    "pnl": -875.9185706036108,
+    "in_mean_periods": -3.7217489070774565
+   },
+   "stress_SVB_2023-03": {
+    "periods": 2,
+    "pnl": -731.3190035254606,
+    "in_mean_periods": -3.1073501503915226
+   },
+   "stress_unwind_2024-08-02": {
+    "periods": 1,
+    "pnl": -2136.2674960994996,
+    "in_mean_periods": -9.076929620700328
+   }
+  }
+ },
+ "hedge_daily_iv": {
+  "label": "hedge_daily_iv",
+  "weeks": 156,
+  "mean_net_pct_premium": 0.09662653774707589,
+  "mean_of_weekly_pct_premium": 0.059403106339923344,
+  "median_net_pct_premium": 0.12741833051792972,
+  "mean_net_usd": 278.546530922239,
+  "t_ret_notional": 2.111568894784331,
+  "sharpe_weekly": 0.16906081437703163,
+  "sharpe_annual": 1.2212230535079642,
+  "sharpe_annual_se": 0.5783486660200571,
+  "gross_mean_pct_premium": 0.1409560659154239,
+  "mean_iv": 0.48194121230849835,
+  "mean_rv": 0.4694905156353891,
+  "share_iv_gt_rv": 0.6794871794871795,
+  "cost_breakdown_pct_premium": {
+   "spread_cost": 0.005318612261219182,
+   "opt_fees": 0.011392583649552252,
+   "convert": 0.0005500000000000001,
+   "deliv_fee": 0.0028478872917872037,
+   "hedge_cost": 0.020303909925690537,
+   "funding": -0.0039165350400988475
+  },
+  "tail": {
+   "n": 156,
+   "mean": 278.546530922239,
+   "std": 1270.3242556904238,
+   "t": 2.7387063110509,
+   "hit_rate": 0.6282051282051282,
+   "skew": 0.29814063213860365,
+   "kurtosis": 4.086943070157847,
+   "cvar_5": -2396.3231125556526,
+   "worst": -3427.0997594651176,
+   "worst_when": "2025-02-28 08:00:00+00:00",
+   "worst_over_mean": 12.303509033547614,
+   "max_drawdown": -6696.108394442415,
+   "max_drawdown_end": "2024-08-30 08:00:00+00:00",
+   "stress_FTX_2022-11-04": {
+    "periods": 1,
+    "pnl": -1131.6268449991978,
+    "in_mean_periods": -4.062613313662522
+   },
+   "stress_SVB_2023-03": {
+    "periods": 2,
+    "pnl": -939.8202205414045,
+    "in_mean_periods": -3.3740151687754145
+   },
+   "stress_unwind_2024-08-02": {
+    "periods": 1,
+    "pnl": -1517.3903073589709,
+    "in_mean_periods": -5.447529008295479
+   }
+  }
+ },
+ "entry_0905": {
+  "label": "entry_0905",
+  "weeks": 159,
+  "mean_net_pct_premium": 0.077694329951402,
+  "mean_of_weekly_pct_premium": 0.04275215570046826,
+  "median_net_pct_premium": 0.08844013351926655,
+  "mean_net_usd": 217.6202491003087,
+  "t_ret_notional": 1.708152768287753,
+  "sharpe_weekly": 0.13546532615394402,
+  "sharpe_annual": 0.9785436078713659,
+  "sharpe_annual_se": 0.5728665644187403,
+  "gross_mean_pct_premium": 0.12488549658823646,
+  "mean_iv": 0.46956606266268824,
+  "mean_rv": 0.4677183069753206,
+  "share_iv_gt_rv": 0.6352201257861635,
+  "cost_breakdown_pct_premium": {
+   "spread_cost": 0.005307265760998553,
+   "opt_fees": 0.011652606836120852,
+   "convert": 0.0005500000000000001,
+   "deliv_fee": 0.0029137504617727595,
+   "hedge_cost": 0.021774854688985115,
+   "funding": -0.004992688888957155
+  },
+  "tail": {
+   "n": 159,
+   "mean": 217.6202491003087,
+   "std": 1169.9306043850695,
+   "t": 2.345512562442135,
+   "hit_rate": 0.5974842767295597,
+   "skew": 0.3902259800482488,
+   "kurtosis": 4.369690084228746,
+   "cvar_5": -2265.570623010739,
+   "worst": -3306.5146156680867,
+   "worst_when": "2025-02-28 08:00:00+00:00",
+   "worst_over_mean": 15.193965769904066,
+   "max_drawdown": -5468.014422886602,
+   "max_drawdown_end": "2024-08-23 08:00:00+00:00",
+   "stress_FTX_2022-11-04": {
+    "periods": 1,
+    "pnl": -926.2751647659903,
+    "in_mean_periods": -4.256383165608077
+   },
+   "stress_SVB_2023-03": {
+    "periods": 2,
+    "pnl": -511.8160768045619,
+    "in_mean_periods": -2.351877083683734
+   },
+   "stress_unwind_2024-08-02": {
+    "periods": 1,
+    "pnl": -1746.3785234874947,
+    "in_mean_periods": -8.024889828531206
+   }
+  }
+ },
+ "kills": {
+  "k1_mean_net_pct_premium": 0.0913237061568922,
+  "k1_threshold": 0.02,
+  "k1_fires": false,
+  "k2_t": 2.172128147294603,
+  "k2_fires": false,
+  "k3_worst_over_mean": 13.080402965018523,
+  "k3_fires": true,
+  "killed": true
+ },
+ "halves": {
+  "first": {
+   "label": "first half",
+   "weeks": 78,
+   "mean_net_pct_premium": 0.0721921692609574,
+   "mean_of_weekly_pct_premium": 0.04970515901071131,
+   "median_net_pct_premium": 0.12410450393883647,
+   "mean_net_usd": 103.1651646944181,
+   "t_ret_notional": 1.354442680371931,
+   "sharpe_weekly": 0.15336043410503863,
+   "sharpe_annual": 1.1078102179691547,
+   "sharpe_annual_se": 0.8179085272659523,
+   "gross_mean_pct_premium": 0.11857336410511579,
+   "mean_iv": 0.4755570219138367,
+   "mean_rv": 0.45505192270532957,
+   "share_iv_gt_rv": 0.6923076923076923,
+   "cost_breakdown_pct_premium": {
+    "spread_cost": 0.006553700336002213,
+    "opt_fees": 0.011523361768434225,
+    "convert": 0.0005500000000000001,
+    "deliv_fee": 0.0029030696335777995,
+    "hedge_cost": 0.021328856717226993,
+    "funding": -0.003522206388917156
+   },
+   "tail": {
+    "n": 78,
+    "mean": 103.1651646944181,
+    "std": 593.1511156966271,
+    "t": 1.536084212277593,
+    "hit_rate": 0.6538461538461539,
+    "skew": -0.5418450751642467,
+    "kurtosis": 3.4922133191151277,
+    "cvar_5": -1365.8086914608223,
+    "worst": -1502.9993048600759,
+    "worst_when": "2023-02-10 08:00:00+00:00",
+    "worst_over_mean": 14.56886449328179,
+    "max_drawdown": -3338.178137447768,
+    "max_drawdown_end": "2023-03-10 08:00:00+00:00",
+    "stress_FTX_2022-11-04": {
+     "periods": 1,
+     "pnl": -863.008893632689,
+     "in_mean_periods": -8.365313002591304
+    },
+    "stress_SVB_2023-03": {
+     "periods": 2,
+     "pnl": -717.1733416051856,
+     "in_mean_periods": -6.951700641679771
+    },
+    "stress_unwind_2024-08-02": {
+     "periods": 0,
+     "pnl": 0.0,
+     "in_mean_periods": 0.0
+    }
+   }
+  },
+  "second": {
+   "label": "second half",
+   "weeks": 78,
+   "mean_net_pct_premium": 0.09762840784910204,
+   "mean_of_weekly_pct_premium": 0.07337860018119867,
+   "median_net_pct_premium": 0.05057455022224151,
+   "mean_net_usd": 423.35481902990915,
+   "t_ret_notional": 1.7394036517282294,
+   "sharpe_weekly": 0.19694868079591188,
+   "sharpe_annual": 1.4226730791060553,
+   "sharpe_annual_se": 0.8179085272659523,
+   "gross_mean_pct_premium": 0.1426873768912083,
+   "mean_iv": 0.4883254027031599,
+   "mean_rv": 0.48392910856544874,
+   "share_iv_gt_rv": 0.6666666666666666,
+   "cost_breakdown_pct_premium": {
+    "spread_cost": 0.004911595202554786,
+    "opt_fees": 0.011349486378700245,
+    "convert": 0.0005500000000000001,
+    "deliv_fee": 0.0028297022287909735,
+    "hedge_cost": 0.02083625877775566,
+    "funding": -0.004581926454304607
+   },
+   "tail": {
+    "n": 78,
+    "mean": 423.35481902990915,
+    "std": 1648.847408523745,
+    "t": 2.267625557071563,
+    "hit_rate": 0.5897435897435898,
+    "skew": 0.09833635050552121,
+    "kurtosis": 2.706307549944418,
+    "cvar_5": -2795.7724930427003,
+    "worst": -3443.546778124597,
+    "worst_when": "2025-02-28 08:00:00+00:00",
+    "worst_over_mean": 8.133949640670838,
+    "max_drawdown": -7241.012770197231,
+    "max_drawdown_end": "2024-08-30 08:00:00+00:00",
+    "stress_FTX_2022-11-04": {
+     "periods": 0,
+     "pnl": 0.0,
+     "in_mean_periods": 0.0
+    },
+    "stress_SVB_2023-03": {
+     "periods": 0,
+     "pnl": 0.0,
+     "in_mean_periods": 0.0
+    },
+    "stress_unwind_2024-08-02": {
+     "periods": 1,
+     "pnl": -2106.1892462524775,
+     "in_mean_periods": -4.974997688885831
+    }
+   }
+  }
+ },
+ "psr_dsr": {
+  "psr": 0.9799072299084938,
+  "dsr": 0.961542182770877,
+  "n_trials": 5
+ },
+ "no_entry_weeks": [
+  "2022-12-30",
+  "2023-06-09",
+  "2024-04-05"
+ ]
+}

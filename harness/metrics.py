@@ -96,8 +96,15 @@ def tail_report(pnl: pd.Series, stress_windows: dict | None = None, alpha: float
         "max_drawdown_end": str(dd.idxmin()),
     }
     for name, (a, b) in (stress_windows or {}).items():
-        w = x[(x.index >= pd.Timestamp(a, tz=x.index.tz) if isinstance(x.index, pd.DatetimeIndex) else x.index >= a)
-              & (x.index <= pd.Timestamp(b, tz=x.index.tz) if isinstance(x.index, pd.DatetimeIndex) else x.index <= b)]
+        if isinstance(x.index, pd.DatetimeIndex):
+            lo, hi = pd.Timestamp(a), pd.Timestamp(b)
+            lo = lo.tz_localize(x.index.tz) if lo.tzinfo is None and x.index.tz is not None else lo
+            hi = hi.tz_localize(x.index.tz) if hi.tzinfo is None and x.index.tz is not None else hi
+            if isinstance(b, str) and len(b) == 10:            # date-only end: inclusive of the whole day
+                hi = hi + pd.Timedelta(days=1) - pd.Timedelta(1, "ns")
+            w = x[(x.index >= lo) & (x.index <= hi)]
+        else:
+            w = x[(x.index >= a) & (x.index <= b)]
         out[f"stress_{name}"] = {"periods": int(len(w)), "pnl": float(w.sum()),
                                  "in_mean_periods": float(w.sum() / mean) if mean > 0 else float("nan")}
     return out
