@@ -91,7 +91,8 @@ If the owner still wants the rule closed with an OOS number: commit a `--holdout
 (position state and 7-day window carried from dev; one `TrialLog("trials_hl.json")` entry), run
 `python research/p14_hl_funding_carry/run.py --holdout` once, with kills exactly PLAN 1–2 and the persistence flag;
 delay-2 and survival reported; a pass worded "passes screen; not investable at 2× (dev survival)".
-**Owner's decision: pending.**
+**Owner's decision (2026-09-29): keep the holdout sealed.** No holdout run, no trial; the 2026-01-12 → 2026-09-27
+funding data stays unread for a surviving carry variant (p18 decides whether one exists).
 
 ## Review and hygiene
 `REVIEW.md` (pre-OOS): **ACCEPT WITH FIXES**, both dev verdicts stand; no look-ahead; signs, day sums, candles
