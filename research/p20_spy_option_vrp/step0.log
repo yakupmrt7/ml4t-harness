@@ -1,0 +1,46 @@
+{
+ "chain_rows": 7349442,
+ "chain_days": 3002,
+ "yahoo_days": 3021,
+ "share_of_trading_days_present": 0.992717643164515,
+ "duplicate_keys": 0,
+ "put_bid_gt_ask": 22375,
+ "call_bid_gt_ask": 8671,
+ "share_put_zero_bid": 0.07564438225378199,
+ "gate_days": true,
+ "underlying_days_compared": 2999,
+ "underlying_median_abs_rel_diff": 0.0001257725901235851,
+ "underlying_share_within_0.5pct": 0.9989996665555185,
+ "underlying_worst_days": {
+  "2020-03-13": 0.00602,
+  "2020-03-17": 0.00514,
+  "2020-03-18": 0.00513,
+  "2020-03-24": 0.00473,
+  "2012-01-20": 0.00333
+ },
+ "gate_underlying": true,
+ "cross_shankerabhigyan": {
+  "pair": "dudesurfin vs shankerabhigyan",
+  "matched_quotes": 141252,
+  "dates": 36,
+  "median_abs_mid_diff_$": 0.025000000000000355,
+  "share_within_5c": 0.6190638008665365,
+  "p99_abs_mid_diff_$": 0.4299999999999997,
+  "gate_pass": false,
+  "book_region_median_abs_mid_diff_$": 0.019999999999999574,
+  "book_region_share_within_5c": 0.6829549485633203
+ },
+ "cross_kylegraupe": {
+  "pair": "dudesurfin vs kylegraupe (same schema)",
+  "matched_quotes": 290790,
+  "dates": 30,
+  "median_abs_mid_diff_$": 0.0,
+  "share_within_5c": 1.0,
+  "p99_abs_mid_diff_$": 0.0,
+  "gate_pass": true,
+  "book_region_median_abs_mid_diff_$": 0.0,
+  "book_region_share_within_5c": 1.0
+ }
+}
+missing days: ['2010-05-19', '2010-11-15', '2011-01-19', '2011-01-20', '2011-01-21', '2011-01-24', '2011-01-25', '2011-08-22', '2011-12-16', '2012-02-29', '2012-10-24', '2014-01-02', '2014-08-04', '2016-04-18', '2017-09-27', '2019-03-01', '2019-05-24', '2019-06-07', '2019-09-30', '2020-06-18', '2020-11-27', '2020-12-24'] 
+extra days: ['2012-10-29', '2012-10-30', '2018-12-05']

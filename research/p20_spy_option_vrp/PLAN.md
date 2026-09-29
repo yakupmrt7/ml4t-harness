@@ -102,3 +102,24 @@ inside the holdout), logged as one trial in `trials_eqvol.json`. Pass = kills 1 
 - **EOD quotes at 16:00** can be stale for far strikes; the 10%-OTM wing is liquid on SPY, but the taker assumption
   (bid/ask) is used for the kills for that reason.
 - **Source switch inside the holdout (2024)**, handled by the Step 0 cross-validation.
+
+---
+
+## Amendment 1 — 2026-09-29, after Step 0, before any P&L
+Step 0 (`step0.py`, `step0.json`, `step0.log`; dev dates only):
+- dudesurfin: 3,002 chain days vs 3,021 SPY trading days (Yahoo) = **99.3% present** (gate 98%: pass); 22 missing
+  days listed in step0.json; **3 rows-days on market closures** (2012-10-29, 2012-10-30 Hurricane Sandy; 2018-12-05)
+  → dropped as stale. 0 duplicate keys. Crossed quotes (bid > ask): 22,375 put and 8,671 call rows; zero put bids 7.6%.
+- Underlying vs Yahoo unadjusted SPY close: median |diff| 1.3 bp, 99.9% within 0.5% (gate: pass).
+- Cross-source: dudesurfin vs kylegraupe identical (0.0 ¢ on 290,790 quotes; same optionsDX origin, so this checks the
+  conversion, not the vendor). **dudesurfin vs shankerabhigyan FAILS** (median |mid diff| 2.5 ¢; 62% within 5 ¢;
+  book region 2.0 ¢ / 68%; 36 of 60 sampled dates present in shankerabhigyan).
+- **Per PLAN, the holdout is therefore 2022-01-01 → 2023-12-31 only** (dudesurfin); 2024–2025 files are not used.
+
+Definitions fixed now:
+- Chain days on non-trading days (per Yahoo's SPY calendar) are dropped.
+- Leg selection uses only valid quotes: bid > 0 and bid ≤ ask. The short put = the valid put strike nearest the entry
+  spot; the long put = the valid put strike nearest 0.90 × spot; both in the target expiry. If the target expiry has no
+  valid pair on the entry day, the next trading day is used (counted and reported); after 3 days, the cycle is skipped.
+- Missing expiration-day close: S_T from Yahoo's SPY close on the expiration date (the chain's underlying agrees to
+  1.3 bp median).
