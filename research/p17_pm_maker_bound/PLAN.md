@@ -63,3 +63,18 @@ these markets. A pass does **not** make a strategy: it opens a separate experime
 - **Rebate uncertainty:** program rules (20% share, eligibility) are from Polymarket documentation as of 2026
   and may differ per market; the no-rebate number is reported next to it.
 - **Collector outage** 2026-09-28 20:25 → 09-29 06:05 affects only the fee cross-check, not the API data.
+
+---
+
+## Amendment 1 — 2026-09-29, after validation, before any P&L is computed
+- Validation (`validate.log`, `validate.json`): 2,304/2,304 markets found and resolved (outcome 0 = "Up" in all);
+  none truncated; **volume gate 96.1% within 1% of Gamma's counter (≥ 95%: pass)**; the collector's own
+  `last_trade_price` stream has a median 97% of the API's share volume on the 1,441 markets it covers (it misses a
+  few percent, the API does not).
+- **Fee conflict:** Gamma reports `feesEnabled = True`, `takerBaseFee = 1000`, `makerBaseFee = 1000`,
+  `feeType = crypto_fees_v2` on all 2,304 markets, while every trade in the collector stream carries
+  `fee_rate_bps = 0` (an order field, not necessarily the fee charged). PLAN said to take the rate from the
+  collector, which would give no rebate. For an **upper bound** the generous reading is the right one, so:
+  **the kill is evaluated with fee rate 0.10** (takerBaseFee 1000 bps read as 0.10·p·(1−p) per share, the most
+  generous interpretation), rebate 20% of it, assigned pro rata to every maker share. Reported alongside:
+  fee rate 0.07 (the documented crypto rate) and 0 (no rebate). This choice can only make the kill harder to fire.

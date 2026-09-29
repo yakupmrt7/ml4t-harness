@@ -1,0 +1,24 @@
+{
+ "slugs": 2304,
+ "found": 2304,
+ "resolved": 2304,
+ "volume_gate_share": 0.9613715277777778,
+ "volume_gate_pass": true,
+ "truncated": 0,
+ "collector_markets": 1441,
+ "collector_over_api_median": 0.9678654198914534,
+ "fee_fields": {
+  "feesEnabled": {
+   "True": 2304
+  },
+  "takerBaseFee": {
+   "1000": 2304
+  },
+  "makerBaseFee": {
+   "1000": 2304
+  },
+  "feeType": {
+   "crypto_fees_v2": 2304
+  }
+ }
+}
