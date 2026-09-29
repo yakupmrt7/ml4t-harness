@@ -1,56 +1,61 @@
 {
  "portfolio": {
   "taker": {
-   "ann_ret_pct": 4.4142009417601304,
-   "sharpe": 5.313791552172097,
+   "ann_ret_pct": 5.246355012015541,
+   "sharpe": 6.656363862885049,
    "years": 2.032876712328767
   },
   "maker": {
-   "ann_ret_pct": 5.309483960628055,
-   "sharpe": 6.545072643569745,
+   "ann_ret_pct": 6.236331427109881,
+   "sharpe": 7.939826206728391,
    "years": 2.032876712328767
   },
-  "gross_funding_ann%": 5.525998314869721,
-  "basis_ann%": 0.23112715519229615,
-  "coins_net_positive_taker": 3,
-  "n_coins": 3,
-  "median_s_ar1": 0.5555324373293146,
-  "kill1_econ": true,
+  "gross_funding_ann%": 6.388812331182615,
+  "basis_ann%": 0.342507303474436,
+  "coins_net_positive_taker": 8,
+  "n_coins": 8,
+  "median_s_ar1": 0.6407007120086269,
+  "kill1_econ": false,
   "kill2_robust": false,
   "kill3_persist_flag": false,
   "delay": 1,
   "net_ann%_taker_by_quarter": {
-   "2024Q1": 12.51,
-   "2024Q2": 4.73,
-   "2024Q3": 3.6,
-   "2024Q4": 11.56,
-   "2025Q1": 0.52,
-   "2025Q2": 0.59,
-   "2025Q3": 2.94,
-   "2025Q4": -0.65,
-   "2026Q1": 0.0
+   "2024Q1": 17.95,
+   "2024Q2": 3.37,
+   "2024Q3": 1.87,
+   "2024Q4": 12.07,
+   "2025Q1": 0.76,
+   "2025Q2": 2.02,
+   "2025Q3": 3.89,
+   "2025Q4": 0.66,
+   "2026Q1": -0.11
   },
   "posthoc_static_short_hl": {
-   "ann_ret_pct": 8.091167772278192,
-   "sharpe": 7.688729091962235,
+   "ann_ret_pct": 8.226293079624948,
+   "sharpe": 8.204715606600216,
    "years": 2.032876712328767,
    "per_coin_ann%": {
     "BTC": 8.67,
     "ETH": 6.13,
-    "SOL": 9.47
+    "SOL": 9.47,
+    "XRP": 4.79,
+    "DOGE": 13.3,
+    "LINK": 9.88,
+    "AVAX": 6.29,
+    "SUI": 7.28
    },
    "by_quarter_ann%": {
-    "2024Q1": 19.47,
-    "2024Q2": 8.29,
-    "2024Q3": 5.6,
-    "2024Q4": 13.74,
-    "2025Q1": 4.11,
-    "2025Q2": 3.27,
-    "2025Q3": 7.81,
-    "2025Q4": 3.41,
-    "2026Q1": -0.02
+    "2024Q1": 23.36,
+    "2024Q2": 5.16,
+    "2024Q3": 3.87,
+    "2024Q4": 14.76,
+    "2025Q1": 4.51,
+    "2025Q2": 3.1,
+    "2025Q3": 8.32,
+    "2025Q4": 3.66,
+    "2026Q1": 0.48
    },
-   "worst_5d_bps": -17.952074460904473
+   "worst_5d_bps": -20.471547026428148
   }
  },
  "per_coin": {
@@ -98,6 +103,81 @@
    "sharpe_taker": 4.1418,
    "round_trips": 16.0,
    "worst5d_basis_bps": -35.2428
+  },
+  "XRP": {
+   "days": 742,
+   "in_mkt": 0.3922,
+   "short_hl_share": 0.3383,
+   "s_mean_bps_day": 1.347,
+   "s_ar1": 0.5929,
+   "fund_ann%": 4.3153,
+   "basis_ann%": 0.3962,
+   "cost_ann%_taker": -1.4462,
+   "net_ann%_taker": 3.2653,
+   "net_ann%_maker": 4.2294,
+   "sharpe_taker": 3.2483,
+   "round_trips": 14.0,
+   "worst5d_basis_bps": -26.5315
+  },
+  "DOGE": {
+   "days": 742,
+   "in_mkt": 0.4259,
+   "short_hl_share": 0.3989,
+   "s_mean_bps_day": 3.7447,
+   "s_ar1": 0.7981,
+   "fund_ann%": 11.4234,
+   "basis_ann%": 0.1543,
+   "cost_ann%_taker": -1.1363,
+   "net_ann%_taker": 10.4414,
+   "net_ann%_maker": 11.199,
+   "sharpe_taker": 5.6914,
+   "round_trips": 11.0,
+   "worst5d_basis_bps": -56.941
+  },
+  "LINK": {
+   "days": 742,
+   "in_mkt": 0.3935,
+   "short_hl_share": 0.3868,
+   "s_mean_bps_day": 2.8101,
+   "s_ar1": 0.6623,
+   "fund_ann%": 6.8564,
+   "basis_ann%": 0.2671,
+   "cost_ann%_taker": -1.1363,
+   "net_ann%_taker": 5.9872,
+   "net_ann%_maker": 6.7447,
+   "sharpe_taker": 4.0848,
+   "round_trips": 11.0,
+   "worst5d_basis_bps": -95.1117
+  },
+  "AVAX": {
+   "days": 742,
+   "in_mkt": 0.4879,
+   "short_hl_share": 0.3989,
+   "s_mean_bps_day": 1.847,
+   "s_ar1": 0.6716,
+   "fund_ann%": 6.4609,
+   "basis_ann%": 0.4035,
+   "cost_ann%_taker": -2.3759,
+   "net_ann%_taker": 4.4885,
+   "net_ann%_maker": 6.0725,
+   "sharpe_taker": 3.2329,
+   "round_trips": 23.0,
+   "worst5d_basis_bps": -40.2118
+  },
+  "SUI": {
+   "days": 742,
+   "in_mkt": 0.3598,
+   "short_hl_share": 0.314,
+   "s_mean_bps_day": 2.037,
+   "s_ar1": 0.6609,
+   "fund_ann%": 5.4764,
+   "basis_ann%": 0.8255,
+   "cost_ann%_taker": -1.7561,
+   "net_ann%_taker": 4.5458,
+   "net_ann%_maker": 5.7166,
+   "sharpe_taker": 3.0893,
+   "round_trips": 17.0,
+   "worst5d_basis_bps": -34.8392
   }
  }
 }

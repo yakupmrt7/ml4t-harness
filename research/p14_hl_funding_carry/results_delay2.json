@@ -1,34 +1,61 @@
 {
  "portfolio": {
   "taker": {
-   "ann_ret_pct": 3.4112158644804413,
-   "sharpe": 4.354716384248441,
+   "ann_ret_pct": 4.635651869052712,
+   "sharpe": 6.068331215019317,
    "years": 2.032876712328767
   },
   "maker": {
-   "ann_ret_pct": 4.203196996555912,
-   "sharpe": 5.523228847740078,
+   "ann_ret_pct": 5.625628284147053,
+   "sharpe": 7.439759754216147,
    "years": 2.032876712328767
   },
-  "gross_funding_ann%": 4.481527627695418,
-  "basis_ann%": 0.11765993489823083,
-  "coins_net_positive_taker": 2,
-  "n_coins": 2,
-  "median_s_ar1": 0.5793618447962362,
+  "gross_funding_ann%": 5.961690789706874,
+  "basis_ann%": 0.15892570198734923,
+  "coins_net_positive_taker": 8,
+  "n_coins": 8,
+  "median_s_ar1": 0.6407007120086269,
   "kill1_econ": true,
   "kill2_robust": false,
   "kill3_persist_flag": false,
   "delay": 2,
   "net_ann%_taker_by_quarter": {
-   "2024Q1": 9.15,
-   "2024Q2": 4.99,
-   "2024Q3": 4.18,
-   "2024Q4": 7.51,
-   "2025Q1": -0.41,
-   "2025Q2": 0.61,
-   "2025Q3": 1.52,
-   "2025Q4": 0.12,
-   "2026Q1": 0.0
+   "2024Q1": 16.87,
+   "2024Q2": 2.71,
+   "2024Q3": 1.12,
+   "2024Q4": 11.28,
+   "2025Q1": 0.58,
+   "2025Q2": 1.44,
+   "2025Q3": 3.1,
+   "2025Q4": 0.53,
+   "2026Q1": -0.01
+  },
+  "posthoc_static_short_hl": {
+   "ann_ret_pct": 8.226293079624948,
+   "sharpe": 8.204715606600216,
+   "years": 2.032876712328767,
+   "per_coin_ann%": {
+    "BTC": 8.67,
+    "ETH": 6.13,
+    "SOL": 9.47,
+    "XRP": 4.79,
+    "DOGE": 13.3,
+    "LINK": 9.88,
+    "AVAX": 6.29,
+    "SUI": 7.28
+   },
+   "by_quarter_ann%": {
+    "2024Q1": 23.36,
+    "2024Q2": 5.16,
+    "2024Q3": 3.87,
+    "2024Q4": 14.76,
+    "2025Q1": 4.51,
+    "2025Q2": 3.1,
+    "2025Q3": 8.32,
+    "2025Q4": 3.66,
+    "2026Q1": 0.48
+   },
+   "worst_5d_bps": -20.471547026428148
   }
  },
  "per_coin": {
@@ -61,6 +88,96 @@
    "sharpe_taker": 2.8923,
    "round_trips": 11.0,
    "worst5d_basis_bps": -25.0067
+  },
+  "SOL": {
+   "days": 742,
+   "in_mkt": 0.5229,
+   "short_hl_share": 0.5108,
+   "s_mean_bps_day": 2.6412,
+   "s_ar1": 0.5555,
+   "fund_ann%": 6.9447,
+   "basis_ann%": 0.2466,
+   "cost_ann%_taker": -1.6528,
+   "net_ann%_taker": 5.5384,
+   "net_ann%_maker": 6.6403,
+   "sharpe_taker": 4.0233,
+   "round_trips": 16.0,
+   "worst5d_basis_bps": -35.2428
+  },
+  "XRP": {
+   "days": 742,
+   "in_mkt": 0.3922,
+   "short_hl_share": 0.3383,
+   "s_mean_bps_day": 1.347,
+   "s_ar1": 0.5929,
+   "fund_ann%": 3.8429,
+   "basis_ann%": 0.2317,
+   "cost_ann%_taker": -1.4462,
+   "net_ann%_taker": 2.6284,
+   "net_ann%_maker": 3.5925,
+   "sharpe_taker": 2.6419,
+   "round_trips": 14.0,
+   "worst5d_basis_bps": -26.5315
+  },
+  "DOGE": {
+   "days": 742,
+   "in_mkt": 0.4259,
+   "short_hl_share": 0.3989,
+   "s_mean_bps_day": 3.7447,
+   "s_ar1": 0.7981,
+   "fund_ann%": 11.0547,
+   "basis_ann%": 0.1008,
+   "cost_ann%_taker": -1.1363,
+   "net_ann%_taker": 10.0191,
+   "net_ann%_maker": 10.7767,
+   "sharpe_taker": 5.4585,
+   "round_trips": 11.0,
+   "worst5d_basis_bps": -56.941
+  },
+  "LINK": {
+   "days": 742,
+   "in_mkt": 0.3935,
+   "short_hl_share": 0.3868,
+   "s_mean_bps_day": 2.8101,
+   "s_ar1": 0.6623,
+   "fund_ann%": 6.325,
+   "basis_ann%": -0.0608,
+   "cost_ann%_taker": -1.1363,
+   "net_ann%_taker": 5.1278,
+   "net_ann%_maker": 5.8854,
+   "sharpe_taker": 3.5346,
+   "round_trips": 11.0,
+   "worst5d_basis_bps": -95.1117
+  },
+  "AVAX": {
+   "days": 742,
+   "in_mkt": 0.4879,
+   "short_hl_share": 0.3989,
+   "s_mean_bps_day": 1.847,
+   "s_ar1": 0.6716,
+   "fund_ann%": 5.9071,
+   "basis_ann%": 0.1719,
+   "cost_ann%_taker": -2.3759,
+   "net_ann%_taker": 3.703,
+   "net_ann%_maker": 5.287,
+   "sharpe_taker": 2.6296,
+   "round_trips": 23.0,
+   "worst5d_basis_bps": -23.8606
+  },
+  "SUI": {
+   "days": 742,
+   "in_mkt": 0.3598,
+   "short_hl_share": 0.314,
+   "s_mean_bps_day": 2.037,
+   "s_ar1": 0.6609,
+   "fund_ann%": 4.6561,
+   "basis_ann%": 0.346,
+   "cost_ann%_taker": -1.7561,
+   "net_ann%_taker": 3.246,
+   "net_ann%_maker": 4.4168,
+   "sharpe_taker": 2.1872,
+   "round_trips": 17.0,
+   "worst5d_basis_bps": -34.8392
   }
  }
 }
