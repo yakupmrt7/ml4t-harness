@@ -1,5 +1,12 @@
 [
  {
+  "name": "p20_r_P_run1_before_expiry_fix",
+  "kind": "rule",
+  "sr_per_period": 0.28377926042313845,
+  "n": 142,
+  "note": "restored; overwritten by run 2"
+ },
+ {
   "name": "p20_r_P",
   "kind": "rule",
   "sr_per_period": 0.22310754633779142,
