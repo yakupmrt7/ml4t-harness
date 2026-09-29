@@ -1,0 +1,66 @@
+{
+ "portfolio": {
+  "taker": {
+   "ann_ret_pct": 3.4112158644804413,
+   "sharpe": 4.354716384248441,
+   "years": 2.032876712328767
+  },
+  "maker": {
+   "ann_ret_pct": 4.203196996555912,
+   "sharpe": 5.523228847740078,
+   "years": 2.032876712328767
+  },
+  "gross_funding_ann%": 4.481527627695418,
+  "basis_ann%": 0.11765993489823083,
+  "coins_net_positive_taker": 2,
+  "n_coins": 2,
+  "median_s_ar1": 0.5793618447962362,
+  "kill1_econ": true,
+  "kill2_robust": false,
+  "kill3_persist_flag": false,
+  "delay": 2,
+  "net_ann%_taker_by_quarter": {
+   "2024Q1": 9.15,
+   "2024Q2": 4.99,
+   "2024Q3": 4.18,
+   "2024Q4": 7.51,
+   "2025Q1": -0.41,
+   "2025Q2": 0.61,
+   "2025Q3": 1.52,
+   "2025Q4": 0.12,
+   "2026Q1": 0.0
+  }
+ },
+ "per_coin": {
+  "BTC": {
+   "days": 742,
+   "in_mkt": 0.4205,
+   "short_hl_share": 0.4205,
+   "s_mean_bps_day": 2.4099,
+   "s_ar1": 0.6205,
+   "fund_ann%": 5.1353,
+   "basis_ann%": 0.1698,
+   "cost_ann%_taker": -1.2396,
+   "net_ann%_taker": 4.0655,
+   "net_ann%_maker": 4.8919,
+   "sharpe_taker": 4.0802,
+   "round_trips": 12.0,
+   "worst5d_basis_bps": -28.1714
+  },
+  "ETH": {
+   "days": 742,
+   "in_mkt": 0.3194,
+   "short_hl_share": 0.3019,
+   "s_mean_bps_day": 1.7251,
+   "s_ar1": 0.5382,
+   "fund_ann%": 3.8278,
+   "basis_ann%": 0.0655,
+   "cost_ann%_taker": -1.1363,
+   "net_ann%_taker": 2.7569,
+   "net_ann%_maker": 3.5145,
+   "sharpe_taker": 2.8923,
+   "round_trips": 11.0,
+   "worst5d_basis_bps": -25.0067
+  }
+ }
+}

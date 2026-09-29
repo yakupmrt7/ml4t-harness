@@ -1,0 +1,103 @@
+{
+ "portfolio": {
+  "taker": {
+   "ann_ret_pct": 4.4142009417601304,
+   "sharpe": 5.313791552172097,
+   "years": 2.032876712328767
+  },
+  "maker": {
+   "ann_ret_pct": 5.309483960628055,
+   "sharpe": 6.545072643569745,
+   "years": 2.032876712328767
+  },
+  "gross_funding_ann%": 5.525998314869721,
+  "basis_ann%": 0.23112715519229615,
+  "coins_net_positive_taker": 3,
+  "n_coins": 3,
+  "median_s_ar1": 0.5555324373293146,
+  "kill1_econ": true,
+  "kill2_robust": false,
+  "kill3_persist_flag": false,
+  "delay": 1,
+  "net_ann%_taker_by_quarter": {
+   "2024Q1": 12.51,
+   "2024Q2": 4.73,
+   "2024Q3": 3.6,
+   "2024Q4": 11.56,
+   "2025Q1": 0.52,
+   "2025Q2": 0.59,
+   "2025Q3": 2.94,
+   "2025Q4": -0.65,
+   "2026Q1": 0.0
+  },
+  "posthoc_static_short_hl": {
+   "ann_ret_pct": 8.091167772278192,
+   "sharpe": 7.688729091962235,
+   "years": 2.032876712328767,
+   "per_coin_ann%": {
+    "BTC": 8.67,
+    "ETH": 6.13,
+    "SOL": 9.47
+   },
+   "by_quarter_ann%": {
+    "2024Q1": 19.47,
+    "2024Q2": 8.29,
+    "2024Q3": 5.6,
+    "2024Q4": 13.74,
+    "2025Q1": 4.11,
+    "2025Q2": 3.27,
+    "2025Q3": 7.81,
+    "2025Q4": 3.41,
+    "2026Q1": -0.02
+   },
+   "worst_5d_bps": -17.952074460904473
+  }
+ },
+ "per_coin": {
+  "BTC": {
+   "days": 742,
+   "in_mkt": 0.4205,
+   "short_hl_share": 0.4205,
+   "s_mean_bps_day": 2.4099,
+   "s_ar1": 0.6205,
+   "fund_ann%": 5.5227,
+   "basis_ann%": 0.3096,
+   "cost_ann%_taker": -1.2396,
+   "net_ann%_taker": 4.5928,
+   "net_ann%_maker": 5.4192,
+   "sharpe_taker": 4.4734,
+   "round_trips": 12.0,
+   "worst5d_basis_bps": -28.1714
+  },
+  "ETH": {
+   "days": 742,
+   "in_mkt": 0.3194,
+   "short_hl_share": 0.3019,
+   "s_mean_bps_day": 1.7251,
+   "s_ar1": 0.5382,
+   "fund_ann%": 3.9961,
+   "basis_ann%": 0.1305,
+   "cost_ann%_taker": -1.1363,
+   "net_ann%_taker": 2.9903,
+   "net_ann%_maker": 3.7479,
+   "sharpe_taker": 3.0297,
+   "round_trips": 11.0,
+   "worst5d_basis_bps": -25.0067
+  },
+  "SOL": {
+   "days": 742,
+   "in_mkt": 0.5229,
+   "short_hl_share": 0.5108,
+   "s_mean_bps_day": 2.6412,
+   "s_ar1": 0.5555,
+   "fund_ann%": 7.0592,
+   "basis_ann%": 0.2532,
+   "cost_ann%_taker": -1.6528,
+   "net_ann%_taker": 5.6595,
+   "net_ann%_maker": 6.7614,
+   "sharpe_taker": 4.1418,
+   "round_trips": 16.0,
+   "worst5d_basis_bps": -35.2428
+  }
+ }
+}
