@@ -1,0 +1,34 @@
+[
+ {
+  "name": "p18_A",
+  "kind": "measurement",
+  "result": {
+   "ann_on_capital_2025_%": 2.7389025923903514,
+   "monthly_t_2025": 2.818793566302892
+  }
+ },
+ {
+  "name": "p18_B",
+  "kind": "measurement",
+  "result": {
+   "ann_on_capital_2025_%": 4.205665332685489,
+   "monthly_t_2025": 3.124480338499995
+  }
+ },
+ {
+  "name": "p18_oracle_A",
+  "kind": "measurement",
+  "result": {
+   "ann_on_capital_2025_%": 3.76179278404589,
+   "monthly_t_2025": 5.6426792709001345
+  }
+ },
+ {
+  "name": "p18_oracle_B",
+  "kind": "measurement",
+  "result": {
+   "ann_on_capital_2025_%": 5.0051345400764085,
+   "monthly_t_2025": 4.685984907430802
+  }
+ }
+]
