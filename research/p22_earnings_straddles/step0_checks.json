@@ -1,0 +1,60 @@
+{
+ "snapshot_vs_optionsdx_aapl": {
+  "matched_quotes": 5250,
+  "dates": 57,
+  "median_abs_mid_diff_$": 0.02499999999999991,
+  "median_rel_diff": 0.0,
+  "median_abs_rel_diff": 0.0050893668772101774,
+  "share_within_5pct": 0.8771428571428571
+ },
+ "earnings_timing_vs_edgar": {
+  "events": 154,
+  "with_edgar_8k": 107,
+  "timing_agree_share": 0.9345794392523364,
+  "edgar_during_market": 0,
+  "disagreements": [
+   {
+    "sym": "NFLX",
+    "date": "2024-10-17",
+    "when": "Before market open",
+    "edgar_time": "2024-10-17 16:01:18-04:00"
+   },
+   {
+    "sym": "NKE",
+    "date": "2020-06-25",
+    "when": NaN,
+    "edgar_time": "2020-06-25 16:18:22-04:00"
+   },
+   {
+    "sym": "ORCL",
+    "date": "2020-06-16",
+    "when": NaN,
+    "edgar_time": "2020-06-16 16:17:05-04:00"
+   },
+   {
+    "sym": "ORCL",
+    "date": "2020-09-09",
+    "when": NaN,
+    "edgar_time": "2020-09-10 16:16:34-04:00"
+   },
+   {
+    "sym": "ORCL",
+    "date": "2020-12-10",
+    "when": NaN,
+    "edgar_time": "2020-12-10 16:11:22-05:00"
+   },
+   {
+    "sym": "ORCL",
+    "date": "2021-12-09",
+    "when": NaN,
+    "edgar_time": "2021-12-09 16:22:05-05:00"
+   },
+   {
+    "sym": "ORCL",
+    "date": "2023-03-09",
+    "when": NaN,
+    "edgar_time": "2023-03-09 16:09:36-05:00"
+   }
+  ]
+ }
+}
