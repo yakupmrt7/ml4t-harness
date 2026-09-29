@@ -7,8 +7,9 @@ when it comes up, and skip ML basics.
 
 **Current line (owner, 2026-09-29): none open. NEWPLAN.md #1 (p15), #2 (p16), #3 (p14 + p18) and
 #4 (p17) are closed on dev; the HL forced-flow line (docs/ROADMAP.md) was killed at p13. The owner
-reopened one test (2026-09-29): p19, BTC-only carry (short HL perp / long Binance spot), which may spend
-p14's sealed holdout (2026-01-12 → 2026-09-27) as one trial in `trials_hl.json` after review and "go".**
+reopened one test (2026-09-29): p19, BTC-only carry, which spent p14's holdout as trial #1 in
+`trials_hl.json` and FAILED (2.73%/yr on capital vs 6%). Carry is closed with no variants. The next
+line, if any, is the owner's decision.**
 
 ## Commands
 - `pip install -e ".[dev]"`: install

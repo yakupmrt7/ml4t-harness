@@ -4,7 +4,7 @@ Written 2026-09-28, from a review of p01–p14 plus a literature and market-stru
 It keeps the ideas on record. It is not a pre-registration: each idea still gets its own
 `research/pNN_*/PLAN.md` with kill criteria before any data is read.
 
-**Status:** #1 (p15) **KILLED on dev** 2026-09-29: Polymarket − Deribit longshot gap +0.75 pp vs a 2 pp bar. #2 (p16) **KILLED on dev** 2026-09-29: unconditional weekly short straddle, worst week 13.1× the mean (kill 3); the premium itself is not established in 2022–25. #4 (p17) **KILLED** 2026-09-29: maker P&L ≈ 0 before the fee rebate; with the verified rebate +0.13 ¢/share, t 1.82 < 2. #3 (p14 + p18) **CLOSED** 2026-09-29 by pre-registered decision: on survivable capital even oracle timing earns 5.0%/yr in 2025 (< 6%); p14 holdout kept sealed. All NEWPLAN ideas are closed.
+**Status:** #1 (p15) **KILLED on dev** 2026-09-29: Polymarket − Deribit longshot gap +0.75 pp vs a 2 pp bar. #2 (p16) **KILLED on dev** 2026-09-29: unconditional weekly short straddle, worst week 13.1× the mean (kill 3); the premium itself is not established in 2022–25. #4 (p17) **KILLED** 2026-09-29: maker P&L ≈ 0 before the fee rebate; with the verified rebate +0.13 ¢/share, t 1.82 < 2. #3 (p14 + p18) **CLOSED** 2026-09-29 by pre-registered decision: on survivable capital even oracle timing earns 5.0%/yr in 2025 (< 6%); p14 holdout kept sealed. All NEWPLAN ideas are closed. BTC-only carry (p19, owner-reopened) failed its one holdout look: 2.73%/yr on capital vs 6%.
 
 ---
 

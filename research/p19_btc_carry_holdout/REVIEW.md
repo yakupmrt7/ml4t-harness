@@ -141,3 +141,116 @@ python research/p19_btc_carry_holdout/run.py --holdout 2>&1 | tee research/p19_b
 ```
 Then commit `holdout.json`, `holdout.log`, `holdout_daily.parquet`, `trials_hl.json` and RESULTS.md, and do not edit
 run.py afterwards.
+
+---
+
+## Final review (post-OOS)
+**Decision on the write-up:** ACCEPT WITH FIXES. The fixes are wording only. Every number is verified, the run
+followed PLAN, and the FAIL is robust. No code changes, no re-run.
+**One line:** on the code-unread 2026 span, frozen BTC carry earned 2.73 ± 0.90 %/yr on capital, which is below
+the 6% bar (NW z −3.6) and also below 3-month T-bills (3.67% average). Even the gross funding alone, with zero costs
+and zero basis, is 4.81 / 1.2568 = 3.83 %/yr on capital. So the failure comes from the income, not the costs.
+
+### (a) Procedure: clean
+- `git diff ff73d53 HEAD -- run.py` is empty, so run.py did not change between the reviewed version and the run.
+  The run commit fc58eeb adds only the outputs and `trials_hl.json`.
+- The trial was logged at 17:38:03, 64 s after ff73d53. `holdout.log` is just the JSON print: no traceback and no
+  sign of an aborted earlier attempt.
+- `trials_hl.json` is a new file with exactly 1 entry.
+  - n = 258 and sr_per_period = 0.29419. I recomputed mean/std(ddof=1) of `ret_capital` = pnl/1.2568 and got
+    exactly that, so the logged series is the daily return on capital.
+  - DSR with n_trials = 1 is correct.
+- The guard was written after the log, as the review fix required.
+
+### (b) Numbers: exact match
+I recomputed from the two candle caches plus `hl_funding_BTC.parquet` cut to [01-12, 09-27). This is independent
+code, not `run.py`:
+- the daily series matches `holdout_daily.parquet` with max |diff| = 0.0;
+- ann 2.72697, NW(30) 0.90426, monthly t 2.72718, tail 2.3482, max up-move 13.976% (2026-02-06), worst day
+  −0.1198% (09-26);
+- decomposition +4.807 / +0.006 / −0.947;
+- the monthly table: all 9 rows to 2 dp.
+
+The FAIL does not depend on the choices that were fixed in advance:
+- NW s.e. is 0.63 / 0.67 / 0.90 / 1.16 at 5 / 10 / 30 / 60 lags. Even at 60 lags, 2.73 sits 2.8 s.e. below 6.
+- Without the entry and exit costs the return is 3.08.
+
+### (c) Data integrity: clean
+- Both candle frames have 259 rows (2026-01-11 → 2026-09-26), with 0 duplicates and 0 gaps. The assert held.
+- Funding in the span: 6,192 rows = 258 × 24, with exactly 24 per day, 0 duplicates, first 01-12 00:00:00.053 and
+  last 09-26 23:00:00.010. This agrees with the pre-OOS count (6,232 = 6,192 + 40 rows on 09-27/28, which were
+  excluded). `fillna(0)` was a no-op.
+
+### (d) Wording fixes to RESULTS.md (non-blocking; apply, no numbers change)
+1. **T-bill: the number is missing, and "roughly T-bill level" overclaims.** The pre-OOS review asked for the span's
+   T-bill average to be reported next to the result.
+   - FRED DTB3 over 2026-01-12 → 09-25: mean **3.67%** (179 obs, range 3.56–4.08).
+   - The book earned 0.94 pt/yr *less* than T-bills (z −1.0), so its excess return over cash is zero to negative.
+   - Re-basing the bar to 2026 T-bill + 2 = 5.67 would not change the verdict (z −3.3).
+   - Market reasoning: the capital sits in USDT/USDC earning nothing. The alternative is a T-bill with no exchange,
+     stablecoin or transfer risk. A carry book has to beat that, not zero.
+2. **"significantly positive (DSR vs 0 ≈ 1.0) and significantly below the bar (PSR ≈ 0)".**
+   - PSR and DSR treat the daily returns as i.i.d. The NW s.e. is 1.57× the i.i.d. s.e. (0.90 vs 0.58), so
+     1.5e-7 and 0.99999 overstate the certainty. Quote the NW z-scores next to them: +3.0 vs 0, −3.6 vs 6.
+   - Qualify "positive": it is gross of the unmodelled items and of the cost of capital, and against T-bills it is
+     not positive.
+3. **Line 3: "read by code for the first time in this run"** contradicts the last bullet. p14's run/static scripts,
+   and p19's own dev path, loaded the holdout funding rows into memory. Write "this book's P&L computed on it for
+   the first time".
+4. **"It recovered in Jul–Sep 2026 (5–7%/yr on capital)".** The table shows 4.85–7.09. Jul–Sep combined is
+   **5.89** (6.4 without the exit cost), which is at the bar, not above it. Say that.
+   - The bar needs HL BTC funding of about **8.5%/yr on notional** (6 × 1.2568 + 0.95 reset).
+   - 2026 averaged 4.8. It cleared 8.5 only in Jul (9.5) and Sep (9.0).
+5. **Table footnote.**
+   - Jan includes the 15.5 bps entry cost, about 2.2 %/yr over 20 days, so Jan without it is about 3.8.
+   - Sep includes the exit cost, about 1.7 %/yr over 26 days, so Sep without it is about 6.6.
+6. **"tiny tails (worst day −0.12% of capital)".** That day, 09-26, is the exit day, and it is mostly the 0.123%
+   exit cost. The worst ordinary day was −0.068% (08-21). The tail claim gets stronger, but the attribution should
+   be correct.
+7. **"24.1 → 10.6 → 4.8".** Label 2026 as a partial year (01-12 → 09-26).
+   - "The holdout continued it rather than reverting" holds for the average.
+   - The path inside the span was a V: −0.85 in Apr, 9.5 in Jul. The following sentence already covers this, so
+     it is fine.
+
+What is correct and should stay:
+- the verdict line;
+- "carry is closed, with no variants";
+- the kill 2–4 passes;
+- "a description, not a signal";
+- the code-unread vs market-unknown caveat;
+- the unmodelled-costs list.
+
+### What the evidence supports
+- The mechanics worked. The book stayed delta-neutral: basis was +0.006 %/yr on notional, and monthly basis ranged
+  from −0.56 to +0.74. There was no liquidation (max 14.0% against 20.7%), and tails were negligible.
+- The income did not. HL BTC funding averaged 4.8 %/yr on notional, which is 3.8 %/yr on survivable capital. That is
+  below the risk-free rate before any cost.
+- The funding level is regime-driven. Perp funding is what leveraged longs pay to shorts, and it is high when
+  speculative long demand is high (2024). The book has no skill component that could offset a low-demand year.
+- Across p14 → p18 → p19 the carry line fell 24 → 11 → 5 %/yr on notional. It is closed by three pre-registered
+  decisions, and the holdout is spent.
+
+### Recommendation: what the owner should do next
+1. **Stop opening lines. Do the ROADMAP §9 write-up now (0 trials).**
+   - Extend it to p01–p19: one table, with the kill that fired and the trial counts from both logs.
+   - The durable findings are:
+     - the harness killed every idea at its pre-registered bar, including the one idea that reached a holdout;
+     - retail-cost bar-direction prediction needs AUC ≈ 0.56–0.59, against a best of 0.54 (p10b);
+     - "structural" edges (carry, VRP, maker rebates, longshot gaps) were either regime-decayed or sub-cost at small
+       size (p14–p19).
+   - p19 is a good closing exhibit: a clean one-look holdout whose failure has a stated economic cause.
+2. **Do not revisit HL carry because funding recovered in Jul–Sep.** Any future look needs a new PLAN, data after
+   2026-09-27 that nobody has read, a bar re-based to T-bill + 2, and the owner's written reversal. With the 2026
+   data it would be a coin flip again.
+3. **If the owner wants one more research line after the write-up,** the only parked idea with an external prior
+   and free historical data is the **non-crypto Polymarket favourite–longshot bias** (ROADMAP §10; the arXiv
+   2609.12878 study). It is distinct from p15 (crypto longshot vs Deribit) and p17 (5m BTC maker).
+   - Hypothesis: on resolved sports/politics markets, contracts priced ≤ 10¢ resolve YES less often than their
+     price, by more than the fee plus half-spread.
+   - Design: a single calibration study on resolved markets, split by resolution date (dev before a fixed date,
+     holdout after it).
+   - Kill fixed in advance: abandon if the dev calibration gap at ≤ 10¢, net of the measured spread and the
+     on-chain fee, is below 1¢ per share or has t < 2 with market-clustered s.e.
+   - Cost: 1 trial, and data from the Gamma/CLOB history.
+   - Otherwise, **stopping is a legitimate result.** The harness's job was to be able to say "there is nothing
+     here", and it has said so 19 times with the bookkeeping intact.
