@@ -73,7 +73,9 @@ def book(span, holdout):
     idx = pd.date_range(span[0], span[1] - pd.Timedelta(days=1), freq="D", tz="UTC")
     r_hl = hl.close.pct_change().reindex(idx)
     r_sp = sp.close.pct_change().reindex(idx)
-    assert r_hl.notna().all() and r_sp.notna().all(), "missing candles in the span"
+    # only the span's first day may lack a prior close (dev files start 2024-01-01; p18 set it to 0)
+    assert r_hl.iloc[1:].notna().all() and r_sp.iloc[1:].notna().all(), "missing candles in the span"
+    r_hl, r_sp = r_hl.fillna(0), r_sp.fillna(0)
     fund = f.reindex(idx).fillna(0)
     reset = r_hl.abs() * C_HL + r_sp.abs() * C_SPOT
     pnl = fund - (r_hl - r_sp) - reset
