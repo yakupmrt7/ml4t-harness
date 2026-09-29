@@ -1,0 +1,14 @@
+[
+ {"name": "p14_rule_interim_3coins_delay1", "kind": "rule", "params": {"coins": ["BTC", "ETH", "SOL"], "delay": 1},
+  "result": {"net_ann_pct_taker": 4.41}, "note": "interim screen, superseded by the 8-coin run"},
+ {"name": "p14_posthoc_static_diagnostic_3coins", "kind": "measurement", "params": {"coins": ["BTC", "ETH", "SOL"]},
+  "result": {"net_ann_pct": 8.09}, "note": "post hoc, inside run.py; seen before amendment 1"},
+ {"name": "p14_rule_8coins_delay1", "kind": "rule", "params": {"delay": 1},
+  "result": {"net_ann_pct_taker": 5.25, "newey_west_se_ann_pct": 1.6, "kill1_fires": false}},
+ {"name": "p14_rule_8coins_delay2", "kind": "measurement", "params": {"delay": 2},
+  "result": {"net_ann_pct_taker": 4.64}},
+ {"name": "p14_static_book_dev", "kind": "rule", "params": {"leverage_per_leg": 2, "reset": "weekly Monday"},
+  "result": {"net_ann_pct": 7.70, "t_weekly": 7.15, "worst5d_over_mean5d": 2.08, "kill4_survival_fires": true}},
+ {"name": "p14_rule_survival_diagnostic", "kind": "measurement", "params": {"leverage_per_leg": 2},
+  "result": {"coins_with_liquidation": 5}}
+]
