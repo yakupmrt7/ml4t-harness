@@ -117,3 +117,33 @@ run tests and selftest.
 - **Hedging at 08:05 once a day** leaves intraday gamma unhedged; that is part of the P&L being measured, not a
   flaw, but it makes the result specific to daily hedging.
 - **Survivorship / selection:** none (every Friday is traded unless the smile is missing).
+
+---
+
+## Amendment 1 — 2026-09-29, after Step 0, before any P&L is computed
+
+**Step 0 results (no P&L read):**
+- Settlement: official delivery price vs the mean Deribit index in [07:30, 08:00] on 20 random Fridays: median
+  |diff| 1.6 bp (gate < 10 bp) → the delivery file is the right series. (The sample included some holdout
+  Fridays; this reads settlement levels, not strategy outcomes.)
+- Coverage: 212 entry Fridays; 205 have an entry smile (missing: 2022-12-30, 2023-06-09, 2024-04-05 in dev;
+  2026-03-06, 04-17, 04-24, 08-07 in holdout); all 212 expiries have a delivery price. Missing weeks are
+  "no entry" and reported.
+- Split (split.json, committed f44ff31): **dev = 159 entry Fridays 2022-08-05 → 2025-08-15; holdout = 53,
+  2025-08-22 → 2026-08-21.**
+- Effective half-spread of ATM (|ln K/index| < 5%) options with 3–8 days to expiry (`step0_costs_by_month.csv`):
+  median **0.55% of mark** over all months (monthly medians 0.10%–1.40%), $4.4 per 1-BTC option. 30–47% of
+  trades print on the "wrong" side of mark, so mark is not always the mid, and the median may understate a
+  lone taker's cost.
+
+**Definitions fixed now:**
+- The half-spread charged at entry is in **% of mark** (scale-free): the trailing 3-month median of
+  h_pct_mark over trades strictly before that Friday 08:00, times each leg's mark.
+- **Stressed-cost variant (reported, not used for the kills):** h = max(measured, 1.5% of mark) per leg, i.e.
+  half of the ~3% full ATM spread reported for 2019–20 Deribit (NEWPLAN sources).
+- Hedge prices: Binance BTCUSDT perp 5m bar closing at the hedge time (08:05; the expiry close uses the bar
+  closing 08:00). Straddle delta (Black-76 on the perp price, entry IV) = 2·N(d1) − 1 for the long; the short
+  book holds +(2·N(d1) − 1) BTC of perp. Funding: Binance settled rates at funding times in (t_i, t_{i+1}],
+  paid on the position held then (long pays a positive rate).
+- Stress windows (entry Fridays, dev): FTX 2022-11-04; SVB/USDC 2023-03-03 and 2023-03-10; carry unwind
+  2024-08-02.
