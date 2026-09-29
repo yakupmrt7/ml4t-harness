@@ -63,7 +63,7 @@ def events(days):
     def exit_day(r):
         if r.date not in pos:
             return pd.NaT
-        w = (r.when or "").lower()
+        w = r.when.lower() if isinstance(r.when, str) else ""
         if "after" in w:
             return r.date
         if "before" in w:
