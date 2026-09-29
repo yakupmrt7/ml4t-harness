@@ -4,7 +4,7 @@ Written 2026-09-28, from a review of p01–p14 plus a literature and market-stru
 It keeps the ideas on record. It is not a pre-registration: each idea still gets its own
 `research/pNN_*/PLAN.md` with kill criteria before any data is read.
 
-**Status:** #1 was chosen on 2026-09-28 and run as p15: **KILLED on dev (2026-09-29)**. The Polymarket − Deribit longshot gap is a median +0.75 pp against a 2 pp bar (research/p15_pm_deribit_threshold/RESULTS.md). #2–#4 are parked; the p15 review proposes #2 next.
+**Status:** #1 (p15) **KILLED on dev** 2026-09-29: Polymarket − Deribit longshot gap +0.75 pp vs a 2 pp bar. #2 (p16) **KILLED on dev** 2026-09-29: unconditional weekly short straddle, worst week 13.1× the mean (kill 3); the premium itself is not established in 2022–25. #3–#4 parked; the p16 review proposes #4 step 0 next.
 
 ---
 
