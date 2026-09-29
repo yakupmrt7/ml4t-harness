@@ -73,8 +73,8 @@ def main():
             x = f.loc[c.entry]
             if x[FEATS].isna().any():
                 continue
-            p_har = float(har[0] + har[1:] @ x[HAR].to_numpy())
-            p_gbm = float(gbm.predict(x[FEATS].to_frame().T)[0])
+            p_har = float(har[0] + har[1:] @ x[HAR].astype(float).to_numpy())
+            p_gbm = float(gbm.predict(x[FEATS].astype(float).to_frame().T)[0])
             win = lr[(lr.index > c.entry) & (lr.index <= last)]
             real = float((win ** 2).mean() * 252)
             rows.append({"last_day": last, "year": yr, "entry": c.entry, "iv2": float(c.iv_atm) ** 2, "rv21": float(x.rv21),

@@ -34,5 +34,17 @@
   "kind": "measurement",
   "sr_per_period": 0.1217351710260871,
   "n": 143
+ },
+ {
+  "name": "p20_timed_P",
+  "kind": "rule",
+  "sr_per_period": 0.20248252945413459,
+  "n": 108
+ },
+ {
+  "name": "p20_timed_P_other_model",
+  "kind": "measurement",
+  "sr_per_period": 0.145609406243878,
+  "n": 108
  }
 ]
