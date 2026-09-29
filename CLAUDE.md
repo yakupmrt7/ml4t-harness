@@ -10,7 +10,8 @@ when it comes up, and skip ML basics.
 reopened one test (2026-09-29): p19, BTC-only carry, which spent p14's holdout as trial #1 in
 `trials_hl.json` and FAILED (2.73%/yr on capital vs 6%). Carry is closed with no variants.
 Current line (owner, 2026-09-29): NEWPLAN2.md #1, index option premia, trial log `trials_eqvol.json`:
-p20 (SPY ATM put spread) killed on dev; p21 (CBOE iron-condor index, OTM premium) in progress.**
+p20 (SPY ATM put spread) and p21 (CBOE iron-condor index) killed on dev; short volatility abandoned
+after three failures (p16, p20, p21). Current: NEWPLAN2 #2, earnings straddles (p22), trial log `trials_earn.json`.**
 
 ## Commands
 - `pip install -e ".[dev]"`: install
