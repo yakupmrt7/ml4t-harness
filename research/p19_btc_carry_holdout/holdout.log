@@ -1,0 +1,32 @@
+{
+ "span": [
+  "2026-01-12",
+  "2026-09-27"
+ ],
+ "capital": 1.2568053415511042,
+ "L_short": 3.894,
+ "days": 258,
+ "months": 9,
+ "ann_on_capital_%": 2.726971743790879,
+ "nw_se_%": 0.9042628030616192,
+ "monthly_t": 2.7271787005248624,
+ "worst5d_over_mean5d": 2.348224652254553,
+ "worst_day_%_capital": -0.11976848237781948,
+ "worst_day": "2026-09-26",
+ "max_hl_up_move_%": 13.975895951919103,
+ "liquidation_days": [],
+ "decomposition_%yr_on_notional": {
+  "hl_funding": 4.806968157945736,
+  "basis": 0.006246308813584972,
+  "reset_cost": -0.9473759214311489
+ },
+ "psr_vs_6pct_bar": 1.5093611061495444e-07,
+ "dsr_n_trials_1": 0.9999901249951362,
+ "kills": {
+  "k1_return_below_6": true,
+  "k2_monthly_t_below_2": false,
+  "k3_tail": false,
+  "k4_liquidation": false
+ },
+ "pass": false
+}
