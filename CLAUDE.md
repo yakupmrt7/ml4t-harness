@@ -5,9 +5,9 @@ to be able to say "there is nothing here". Owner is strong at ML and new to
 finance: explain market-specific reasoning (costs, microstructure, funding)
 when it comes up, and skip ML basics.
 
-**Current line (owner, 2026-09-29): none open. NEWPLAN.md #1 (p15), #2 (p16) and #4 (p17) were
-killed on dev; the HL forced-flow line (docs/ROADMAP.md) was killed at p13; p14 (HL carry, NEWPLAN
-#3) is unfinished. The next line is the owner's decision.**
+**Current line (owner, 2026-09-29): none open. NEWPLAN.md #1 (p15), #2 (p16), #3 (p14 + p18) and
+#4 (p17) are closed on dev; the HL forced-flow line (docs/ROADMAP.md) was killed at p13. p14's holdout
+(2026-01-12 → 2026-09-27) is sealed and unspent. The next line is the owner's decision.**
 
 ## Commands
 - `pip install -e ".[dev]"`: install
