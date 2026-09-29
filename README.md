@@ -1,7 +1,7 @@
 # quant-research-harness
 
 **A validation harness for machine-learning trading research, built to be able to say "there is
-nothing here", and 13 experiments on crypto markets where it did.**
+nothing here", and 21 experiments on crypto markets where it did.**
 
 Most backtests that look profitable are wrong in one of a few boring ways: labels leak through
 overlapping windows, features peek at the future, costs are guessed, or the best of many tries is
@@ -11,7 +11,8 @@ criterion written down before the data is read, costs are measured rather than a
 result is reviewed by an independent reviewer before it counts.
 
 The headline result is negative, and it is the point: **no idea tested here cleared its trading
-costs.** The interesting part is *how* each one failed, and how that was established.
+costs, or, for the carry and premium trades, the cost of the capital they tie up.** The interesting part
+is *how* each one failed, and how that was established.
 
 ![Every line of research: the edge never cleared its cost](docs/figures/edge_vs_cost.png)
 
@@ -29,6 +30,8 @@ orange with room to spare. It never is, except where the uncertainty is larger t
 - [Research line 2: daily cross-sectional factors (p06, p07, p07b)](#line-2-daily-cross-sectional-factors)
 - [Research line 3: Polymarket 5-minute BTC markets (p08, p09)](#line-3-polymarket-5-minute-btc-markets)
 - [Research line 4: forced liquidations on Hyperliquid (p12, p13)](#line-4-forced-liquidations-on-hyperliquid)
+- [Research line 5: cross-venue prices and option premia (p15, p16, p17)](#line-5-cross-venue-prices-and-option-premia)
+- [Research line 6: funding carry, Hyperliquid vs Binance (p14, p18, p19)](#line-6-funding-carry-hyperliquid-vs-binance)
 - [Ablations and robustness checks](#ablations-and-robustness-checks)
 - [What generalises](#what-generalises)
 - [How the research was run](#how-the-research-was-run)
@@ -41,12 +44,13 @@ orange with room to spare. It never is, except where the uncertainty is larger t
 | `harness/` | the library: labels, sample weights, purged cross-validation, walk-forward backtester with costs and funding, metrics (PSR, DSR, breakeven cost), null tests, loaders |
 | `selftest.py`, `tests/` | proof the harness works: it must find nothing in noise, find a planted signal, and flag a leaky feature |
 | `research/pNN_*/` | one folder per experiment: `PLAN.md` (hypothesis and kill criterion, written first), code, `RESULTS.md`, `REVIEW.md` (independent review), and the raw numbers |
-| `trials.json` | the trial log. Only **3** experiments ever touched the out-of-sample period; every other one was killed before it, by its own pre-registered criterion |
+| `trials.json`, `trials_hl.json` | the trial logs, one per research line. Only **4** experiments ever touched out-of-sample data (3 in `trials.json`, 1 in `trials_hl.json`); every other one was killed before it, by its own pre-registered criterion |
 | `docs/` | `HARNESS.md` (harness details), `ROADMAP.md`, figures and the script that builds them |
 
-Markets: Binance USD-M perpetual futures (15 of them), Polymarket, Hyperliquid, plus Deribit,
-Bybit and OKX as external data. Data spans 2020-10 → 2026-09, all from free public archives or
-self-collected; none of it is committed (tens of GB), but every download script is.
+Markets: Binance USD-M perpetual futures (15 of them) and spot, Polymarket (5-minute and multi-day BTC
+markets), Hyperliquid, Deribit BTC options, plus Bybit and OKX as external data. Data spans
+2020-10 → 2026-09, all from free public archives, public APIs, the Polygon chain, or self-collected;
+none of it is committed (tens of GB), but every download script is.
 
 ## The harness
 
@@ -200,6 +204,52 @@ when you would trade. Sorted by what is known at entry, the pattern disappears:
 
 ![p13 deciles](docs/figures/p13_size_deciles.png)
 
+## Line 5: cross-venue prices and option premia
+
+After the direction line closed, the next ideas were structural: prices of the same risk on two venues,
+premia that option sellers are paid, and the passive side of a fee-subsidised market. Each has a
+pre-registered bar in its own unit; none cleared it.
+
+![p15-p19 against their bars](docs/figures/later_lines_vs_bar.png)
+
+- **p15 (Polymarket BTC threshold markets vs Deribit options):** Polymarket's "BTC above $K on date"
+  contracts are digital options; Deribit's option surface prices the same event. A published paper found
+  Polymarket 6–11 pp rich on longshots (3 contracts). On 11,261 markets the settlement was rebuilt from
+  Binance with **100%** agreement, a Deribit surface/digital pricer was built and tested, and the median
+  longshot gap came out at **+0.75 pp** [0.64, 0.88] against a 2 pp bar; the two venues are equally good
+  forecasters (Brier 0.1426 vs 0.1418). Along the way a public on-chain Polymarket dataset failed
+  validation (timestamps off by 95 s to 6 h against block time) and was replaced by Polymarket's own API.
+- **p16 (Deribit variance risk premium):** sell the 7-day ATM straddle every Friday, delta-hedge daily,
+  settle on Deribit's official delivery price, pay measured spreads and fees. Net **+9.1% of premium**
+  (t 2.17) over 156 weeks, but the worst week lost **13.1×** the mean week (bar 12×); every variant failed
+  the tail check too. The review showed the premium itself is not established in 2022–25 (implied minus
+  realised vol 1.25 points, t 1.03).
+- **p17 (Polymarket 5-minute markets as a maker):** makers as a group earn **≈ 0 before the fee rebate**
+  over 2,304 markets and 3.5 M trades. The taker fee was verified on-chain (0.07·p(1−p) on 89/89 trades)
+  and the 20% maker rebate from actual payouts; with it, the bound is **+0.13 ¢/share, t 1.82** (bar t ≥ 2).
+
+## Line 6: funding carry, Hyperliquid vs Binance
+
+Hyperliquid's retail longs pay more for leverage than Binance's, so short Hyperliquid / long Binance
+collects the difference with no price exposure. **The premium is real and persistent, but it roughly
+quartered from 2024 to 2025, and on the capital a book needs to survive the venues' wicks it paid less
+than T-bills in 2026.**
+
+- **p14 (8 coins, dev 2024 → 2026-01):** the registered rule passed its screen by 0.25 pt (5.25 ± 1.6 %/yr,
+  0.15 s.e.) and failed at one day of delay; the always-on book was killed because at 2× per leg a leg
+  would have been **liquidated in 6 of 8 coins** (XRP's short leg +116% in a week; −60 to −84% intraday wicks
+  on 2025-10-10). Hyperliquid's auto-deleveraging that day was checked in the fill archive; it was not the
+  danger, the Binance long leg's wick was.
+- **p18 (return on survivable capital):** sizing each leg to survive the worst dev day with a buffer, even a
+  **perfect-foresight** timing of the best book earned **5.0 %/yr on capital in 2025**, below a 6% bar
+  (T-bill + 2); the static books earned 2.7–4.2%. Carry was closed by its pre-registered rule.
+- **p19 (BTC only, one holdout look):** BTC alone cleared the bar on dev, a post-hoc pick. The owner reopened
+  it for one pre-registered test on the sealed 2026 holdout: **2.73 ± 0.90 %/yr on capital**, below the 6% bar
+  and below the 3.67% T-bill. The book behaved (no liquidation, tiny tails); the income did not: Hyperliquid's
+  BTC funding fell from 24% (2024) to 11% (2025) to 5% (2026).
+
+![p19 decay](docs/figures/p19_carry_decay.png)
+
 ---
 
 ## Ablations and robustness checks
@@ -222,6 +272,12 @@ when you would trade. Sorted by what is known at entry, the pattern disappears:
 | Book cadence 0.5 s vs 5 s | p13 | killed at both |
 | Event size: whole-cluster vs known at entry | p13 | continuation was look-ahead; flat when causal |
 | Cost variants: exit-time book, $50k clip, maker exit | p13 | 9.8 / 10.5 / 6.4 bps; all above the ≤ 2.3 bps reversion |
+| Independent P_RN recomputation (trade IVs, other smile, other forward) | p15 | gap 1.05 pp vs 0.75; kill unchanged |
+| Maker / stressed spread / daily-IV hedge / 1 h later entry | p16 | worst week 12.3–15.2× the mean in every variant |
+| Fee rate 0.10 (assumed) vs 0.07 (on-chain) vs 0 | p17 | bound t 2.98 / 1.82 / −0.91: the "pass" was a wrong fee |
+| Weekly vs daily reset; last-trade vs mark price | p14 | 2× legs liquidated either way (2025-10-10) |
+| Buffer, reset cost, maker fees, cross-margin, T-bill on idle capital | p18 | each alone keeps the oracle < 6% except T-bill on idle (6.18) |
+| Newey–West lags 5–60 | p19 | s.e. 0.63–1.16; the holdout fail holds |
 
 ## What generalises
 
@@ -237,7 +293,17 @@ when you would trade. Sorted by what is known at entry, the pattern disappears:
 5. **Size known at entry, not size known afterwards.** Event studies conditioned on the event's final
    magnitude select on the outcome.
 6. **Ask what the model would need to be.** p10b's "required AUC" turned an open-ended feature search
-   into a single number, and closed a research line on it.
+   into a single number, and closed a research line on it. p18's oracle did the same for carry: if perfect
+   foresight cannot clear the bar, no forecast will.
+7. **Measure return on the capital the trade needs, not on notional.** Hedged books look safe per unit of
+   notional; per venue, one leg can be liquidated. Sizing to survive the worst day turned 7.7%/yr on
+   notional into 2.7–5.0% on capital (p14, p18).
+8. **A premium can be real and still not pay.** Funding carry (p14–p19), the option premium (p16) and the
+   maker rebate (p17) all exist; none covered its tail, its capital or its fees. And they decayed: the
+   holdout continued the dev trend rather than reverting to it.
+9. **Verify inputs at the source.** A public dataset's timestamps were off by hours (p15), a fee read from
+   metadata was wrong (p17), and a settlement rule differed from the obvious field (p15); each was caught
+   against block times, on-chain events or rebuilt outcomes before it could decide a verdict.
 
 ## How the research was run
 
@@ -265,6 +331,11 @@ This project was built with an AI coding assistant (Claude Code) doing much of t
 under these rules. The rules, the reviewer and the pre-registered kills are what keep that honest, and
 the review files show where they caught real mistakes.
 
+One process failure is recorded rather than hidden: a p15 data fetch run on the live collector VM
+held its results in memory, drove the machine out of memory and cost the collectors ~9.7 hours of data
+(2026-09-28/29, including a feed with no public archive). Research jobs now run on throwaway VMs with
+bounded memory (research/p15_pm_deribit_threshold/RESULTS.md, "Incident").
+
 ## Reproducing
 
 ```bash
@@ -281,8 +352,8 @@ and scripts, but their raw data is not redistributable here.
 
 ## Limitations
 
-- Everything is crypto, and mostly 2022–2026. The negative results are about these markets, horizons
-  and cost levels, not about ML in trading in general.
+- Everything is crypto (and crypto prediction markets), mostly 2022–2026. The negative results are
+  about these markets, horizons and cost levels, not about ML in trading in general.
 - Costs are measured for a small retail trader (VIP0 fees, $10–50k orders). A market maker with
   rebates and co-location faces a different problem.
 - Several kills are "not distinguishable from cost" rather than "certainly unprofitable"; the

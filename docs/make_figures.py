@@ -219,6 +219,82 @@ def fig_regime_features():
     save(fig, "regime_features.png")
 
 
+# ------------------------------------------------------------------ 10. p15-p19: each result vs its pre-registered bar
+def fig_later_lines():
+    """One panel per experiment, in its own unit (no shared axis): measured value with its interval (blue) and the
+    pre-registered bar (orange). Sources: the committed JSON of each experiment."""
+    p15 = load("p15_pm_deribit_threshold/step1.json")["kill_C"]
+    p16 = load("p16_deribit_vrp/step1.json")["main"]["tail"]
+    p17 = load("p17_pm_maker_bound/descriptive.json")["fee_0.07"]
+    p18 = load("p18_carry_on_capital/results.json")["C"]
+    p19 = load("p19_btc_carry_holdout/holdout.json")
+    s17 = p17["bound_c_equal_weight"] / p17["t_iid_by_market"]
+    panels = [
+        ("p15  Polymarket − Deribit gap,\nlongshots (pp, median, 95% CI)", p15["D_median_pp"], tuple(p15["ci"]),
+         2.0, "bar ≥ 2 pp", "higher needed"),
+        ("p16  short-vol week: worst week\n÷ mean week (×)", p16["worst_over_mean"], None, 12.0, "bar ≤ 12×",
+         "lower needed"),
+        ("p17  maker P&L, verified fee\n(¢/share, ± 2 s.e.)", p17["bound_c_equal_weight"],
+         (p17["bound_c_equal_weight"] - 2 * s17, p17["bound_c_equal_weight"] + 2 * s17), 0.0, "bar: interval > 0",
+         "higher needed"),
+        ("p18  carry, perfect timing, 2025\n(%/yr on capital, ± 2 s.e.)", p18["ann_on_capital_%"],
+         (p18["ann_on_capital_%"] - 2 * p18["nw_se_%"], p18["ann_on_capital_%"] + 2 * p18["nw_se_%"]), 6.0,
+         "bar ≥ 6%", "higher needed"),
+        ("p19  BTC carry, HOLDOUT 2026\n(%/yr on capital, ± 2 s.e.)", p19["ann_on_capital_%"],
+         (p19["ann_on_capital_%"] - 2 * p19["nw_se_%"], p19["ann_on_capital_%"] + 2 * p19["nw_se_%"]), 6.0,
+         "bar ≥ 6%", "higher needed"),
+    ]
+    fig, axes = plt.subplots(1, 5, figsize=(13, 3.1))
+    for ax, (title, v, ci, bar, blab, direction) in zip(axes, panels):
+        lo, hi = ci if ci else (v, v)
+        span = max(hi, bar, v) - min(lo, bar, v, 0)
+        ax.axvline(bar, color=COST, lw=3, solid_capstyle="round", zorder=2)
+        if ci:
+            ax.plot([lo, hi], [0, 0], color=EDGE, lw=2, alpha=0.6, solid_capstyle="round", zorder=3)
+        ax.plot(v, 0, "o", ms=9, color=EDGE, mec=SURFACE, mew=2, zorder=4)
+        ax.set_xlim(min(lo, bar, v, 0) - 0.25 * span, max(hi, bar, v) + 0.25 * span)
+        ax.set_ylim(-1, 1)
+        ax.set_yticks([])
+        ax.grid(axis="y", visible=False)
+        ax.spines["left"].set_visible(False)
+        ax.set_title(title, fontsize=9.5)
+        ax.annotate(f"{v:.2f}", (v, 0), xytext=(0, 12), textcoords="offset points", ha="center", fontsize=9,
+                    color=INK, bbox=dict(boxstyle="round,pad=0.15", fc=SURFACE, ec="none"), zorder=6)
+        ax.annotate(f"{blab}\n({direction})", (bar, -0.9), xytext=(4, 0), textcoords="offset points", ha="left",
+                    va="bottom", fontsize=8, color=INK2)
+    fig.suptitle("After the direction line: every result against the bar it had to clear (blue = measured, "
+                 "orange = pre-registered bar)", x=0.01, ha="left", fontsize=11, fontweight="bold")
+    fig.tight_layout(rect=(0, 0, 1, 0.97))
+    save(fig, "later_lines_vs_bar.png")
+
+
+# ------------------------------------------------------------------ 11. p19: the carry decayed year by year
+def fig_p19_decay():
+    dev = load("p19_btc_carry_holdout/dev_reference.json")
+    ho = load("p19_btc_carry_holdout/holdout.json")
+    tbill = 3.67        # FRED DTB3 mean over 2026-01-12..09-27, p19 RESULTS.md (final review)
+    rows = [("2024 (dev)", dev["2024"]), ("2025 (dev)", dev["2025"]), ("2026 holdout\n(one look)", ho)]
+    fig, ax = plt.subplots(figsize=(7.5, 4))
+    x = np.arange(len(rows))
+    for i, (lab, r) in enumerate(rows):
+        v, se = r["ann_on_capital_%"], r["nw_se_%"]
+        ax.bar(i, v, width=0.55, color=EDGE, zorder=3)
+        ax.plot([i, i], [v - 2 * se, v + 2 * se], color=INK2, lw=1.5, zorder=4)
+        ax.annotate(f"{v:.1f}%", (i + 0.3, v), xytext=(4, 0), textcoords="offset points", ha="left",
+                    va="center", fontsize=10, color=INK)
+    ax.axhline(6.0, color=COST, lw=2.5, zorder=5, label="pre-registered bar, 6%/yr")
+    ax.axhline(tbill, color=MUTED, lw=1.5, ls=(0, (4, 3)), zorder=5,
+               label=f"3-month T-bill over the holdout, {tbill}%")
+    ax.legend(loc="upper right", fontsize=9)
+    ax.set_xlim(-0.5, 2.75)
+    ax.set_ylim(0, 27)
+    ax.set_xticks(x, [r[0] for r in rows])
+    ax.set_ylabel("%/yr on capital (± 2 Newey–West s.e.)")
+    ax.grid(axis="x", visible=False)
+    ax.set_title("p19: BTC funding carry (short HL perp / long Binance spot) decayed below its bar")
+    save(fig, "p19_carry_decay.png")
+
+
 # ------------------------------------------------------------------ 8. p13 price path around a liquidation
 def fig_p13_path():
     d = pd.read_csv(R / "p13_hl_liquidation_history" / "event_path.csv")
@@ -267,5 +343,5 @@ def fig_p13_deciles():
 
 if __name__ == "__main__":
     for f in (fig_edge_vs_cost, fig_ic_decay, fig_p02_grid, fig_p05, fig_survivorship, fig_required_auc,
-              fig_regime_features, fig_p13_path, fig_p13_deciles):
+              fig_regime_features, fig_p13_path, fig_p13_deciles, fig_later_lines, fig_p19_decay):
         f()
