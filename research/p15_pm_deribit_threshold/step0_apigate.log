@@ -1,0 +1,13 @@
+(i) markets 11041: share volume within 1% of counter: 88.6152% (truncated 11, by_side 23)
+    ratio quantiles: {0.01: 0.9284, 0.05: 0.962, 0.5: 1.0, 0.95: 1.0002, 0.99: 1.0818}
+    failing markets by truncation: {False: 1246, True: 11}
+(ii) timestamp - block time over 50/50 resolved: all zero = True; nonzero []
+{
+ "i_markets": 11041,
+ "i_share_within_1pct": 0.8861516167013858,
+ "i_pass": false,
+ "ii_resolved": 50,
+ "ii_all_zero": true,
+ "truncated_markets": 11,
+ "by_side_markets": 23
+}

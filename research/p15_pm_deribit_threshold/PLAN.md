@@ -227,3 +227,20 @@ Computed after the trade fetch, in that order: the split (0f) first from fixing 
 unchanged: common span of fixing dates with Binance-rule markets and Deribit trades on disk,
 2022-08-01 → 2026-08-31, and the inventory, markets created by 2026-07-20; dev = first 75% of the
 calendar span), then KILL B (0e) on dev fixing dates only. Deribit is not extended.
+
+---
+
+## Amendment 2 — 2026-09-29, owner's decision after the 0d source gate failed as written; before any Polymarket price is read
+
+- **Gate (ii) passes:** 50/50 random trades have timestamp = Polygon block time.
+- **Gate (i) FAILS as written** (amendment 1 scope: all markets closed before 2026-07-15): 88.6% within 1% of
+  Polymarket's volume counter vs the 95% bar. By span: **dev 99.35%** (volume-weighted |API − counter| 1.1%;
+  failures are the 11 truncated 2024-12 → 2025-02 weekly strikes and markets whose counter is 0), **holdout
+  80.0%**, concentrated in 2026-03 (70% fail) and 2026-04 (96% fail) fixings, where the API is a median ~4%
+  below the counter (around the v1 → v2 exchange migration of 2026-04-28).
+- **Owner's decision (post hoc, disclosed):** the gate is evaluated per span. Steps 1–2 run on dev, which
+  passes. **Before any holdout run**, the 2026-03/04 shortfall must be explained by an independent on-chain
+  check of ≥ 5 affected markets; if it is not explained, those fixing months are excluded from the holdout by
+  a rule written down before the holdout is read. The 95% threshold itself is unchanged.
+- The 11 truncated markets (oldest trades missing) stay in dev with their available trades and are
+  reported separately in Step 2.
