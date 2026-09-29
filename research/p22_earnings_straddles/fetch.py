@@ -23,13 +23,22 @@ OPT = "https://www.dolthub.com/api/v1alpha1/post-no-preference/options/master?q=
 ERN = "https://www.dolthub.com/api/v1alpha1/post-no-preference/earnings/master?q="
 
 
+class RowLimit(Exception):
+    """DoltHub's SQL API returns at most 1,000 rows and flags the result 'RowLimit' (found 2026-09-29)."""
+
+
 def q(base, sql, tries=6):
     for k in range(tries):
         try:
             r = json.loads(urllib.request.urlopen(base + urllib.parse.quote(sql), timeout=180).read())
-            if r.get("query_execution_status") == "Success":
+            st = r.get("query_execution_status")
+            if st == "Success":
                 return r.get("rows") or []
+            if st == "RowLimit":
+                raise RowLimit(sql[:120])
             err = r.get("query_execution_message")
+        except RowLimit:
+            raise
         except Exception as e:
             err = repr(e)
         time.sleep(3 * (k + 1))
@@ -95,15 +104,25 @@ def events(days):
     return ev
 
 
-def pull(company, symbols, dates):
+def pull(symbols, dates, exp_lo, exp_hi):
+    """Quotes for the given dates and an expiration window, under the 1,000-row cap: split by date, then by
+    expiration window, whenever the API reports RowLimit."""
     dates = sorted({d for d in dates if not pd.isna(d) and d <= DEV_END})
     if not dates:
-        return pd.DataFrame()
+        return []
     inl = ",".join(f"'{a}'" for a in symbols)
     dl = ",".join(f"'{d.date()}'" for d in dates)
-    rows = q(OPT, f"SELECT date, act_symbol, expiration, strike, call_put, bid, ask, vol FROM option_chain "
-                  f"WHERE act_symbol IN ({inl}) AND date IN ({dl})")
-    return pd.DataFrame(rows)
+    try:
+        return q(OPT, f"SELECT date, act_symbol, expiration, strike, call_put, bid, ask, vol FROM option_chain "
+                      f"WHERE date IN ({dl}) AND act_symbol IN ({inl}) "
+                      f"AND expiration BETWEEN '{exp_lo.date()}' AND '{exp_hi.date()}'")
+    except RowLimit:
+        if len(dates) > 1:
+            return [r for d in dates for r in pull(symbols, [d], exp_lo, exp_hi)]
+        mid = exp_lo + (exp_hi - exp_lo) / 2
+        if (exp_hi - exp_lo).days < 2:
+            raise
+        return pull(symbols, dates, exp_lo, mid.normalize()) + pull(symbols, dates, mid.normalize() + pd.Timedelta(days=1), exp_hi)
 
 
 def main():
@@ -115,24 +134,24 @@ def main():
     jobs = []
     for comp, g in ev.groupby("company"):
         f = Q / f"{comp.replace('.', '_')}.parquet"
-        if f.exists():
-            continue
-        dates = set()
-        for r in g.itertuples():
-            dates |= set(r.E_cands) | ({r.X} if not pd.isna(r.X) else set())
-            if r.placebo_ok:
-                dates |= set(r.Ep_cands) | {r.Xp}
-        jobs.append((comp, ALIASES.get(comp, [comp]), dates, f))
+        if not f.exists():
+            jobs.append((comp, ALIASES.get(comp, [comp]), g, f))
 
     def run(job):
-        comp, al, dates, f = job
-        dl = sorted(dates)
-        parts = [pull(comp, al, dl[i:i + 12]) for i in range(0, len(dl), 12)]    # 12 dates per query
-        df = pd.concat(parts, ignore_index=True) if parts else pd.DataFrame()
+        comp, al, g, f = job
+        rows = []
+        for r in g.itertuples():                              # one query per event (and one per placebo)
+            if pd.isna(r.X):
+                continue
+            ann = r.date
+            rows += pull(al, list(r.E_cands) + [r.X], ann + pd.Timedelta(days=7), ann + pd.Timedelta(days=45))
+            if r.placebo_ok:
+                rows += pull(al, list(r.Ep_cands) + [r.Xp], r.Xp + pd.Timedelta(days=7), r.Xp + pd.Timedelta(days=45))
+        df = pd.DataFrame(rows).drop_duplicates() if rows else pd.DataFrame()
         df.to_parquet(f)
         return comp, len(df)
 
-    with ThreadPoolExecutor(3) as ex:
+    with ThreadPoolExecutor(6) as ex:
         for fu in as_completed([ex.submit(run, j) for j in jobs]):
             comp, n = fu.result()
             print(comp, n, time.strftime("%H:%M:%S"), flush=True)
