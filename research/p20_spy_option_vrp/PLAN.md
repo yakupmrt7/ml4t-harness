@@ -123,3 +123,29 @@ Definitions fixed now:
   valid pair on the entry day, the next trading day is used (counted and reported); after 3 days, the cycle is skipped.
 - Missing expiration-day close: S_T from Yahoo's SPY close on the expiration date (the chain's underlying agrees to
   1.3 bp median).
+
+---
+
+## Amendment 2 — 2026-09-29, implementation details fixed before any P&L or model is run
+- **Monthly expiry:** for each month, the chain expiry dated on the third Friday, or the Saturday after it (SPY
+  monthlies before 2015), or the Thursday before it (exchange holiday). Its **last trading day** (Friday, or Thursday
+  on a holiday) is the settlement day; S_T = Yahoo's unadjusted SPY close on that day.
+- **Cycle:** entry = first trading day after the previous monthly expiry's last trading day; dev cycles are those whose
+  settlement day is in 2010-02 … 2021-12 (entries from 2010-01).
+- **Returns:** SPY excess return over a cycle = Yahoo adjusted-close return (dividends included) minus the 3-month
+  T-bill (FRED DTB3, act/360, compounded daily) over the same days. The book's r is already an excess return.
+  CBOE PUT index over the same cycles minus T-bill, reported.
+- **Delta-hedged straddle (reported):** short the ATM call and put at the bids, hedge daily at the SPY close with the
+  Black–Scholes delta at the entry IV (average of the two legs' chain IVs), 1 bp per unit of hedge traded, settle at
+  S_T; P&L as % of premium and per unit of spot.
+- **ML rows:** the models train on **daily** rows (target = log(RV²₂₁,fwd / RV²₂₁,trailing): the next 21 trading days'
+  realised variance over the trailing 21-day one), features as in PLAN, all ratios or trailing z-scores. Training rows
+  whose 21-day target window reaches past the test year's first day are purged. Predictions are made at each cycle's
+  entry and converted to RV̂²_cycle = RV²₂₁,trailing × exp(prediction), annualised.
+- **Models:** HAR = OLS of the target on log(RV²₅/RV²₂₁) and log(RV²₆₃/RV²₂₁); LightGBM = `LGBMRegressor` with the
+  harness default hyper-parameters (n_estimators 300, learning_rate 0.03, num_leaves 15, min_child_samples 200,
+  subsample 0.7, colsample 0.7, reg_lambda 5), seed 0, no tuning. Expanding window, test years 2013 … 2021.
+- **IV_ATM at entry** = mean of the call and put chain IVs at the short-put strike of the cycle's expiry. The timing
+  decision compares IV_ATM² (annualised) with RV̂²_cycle.
+- **Fold-id test:** LightGBM classifier predicting the calendar year (2013–2021, 9 classes) from the daily feature rows,
+  5-fold shuffled CV accuracy vs chance 1/9, reported.
