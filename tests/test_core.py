@@ -593,6 +593,24 @@ def test_table_cost_model_add_bps():
     assert np.allclose(TableCostModel(tab, "X", add_bps=2.5).per_unit_at(c.index), 7.5e-4)
 
 
+def test_cvar_and_tail_report_by_hand():
+    from harness.metrics import cvar, tail_report
+    idx = pd.date_range("2024-01-05", periods=10, freq="7D", tz="UTC")
+    pnl = pd.Series([1, 1, 1, 1, -10, 1, 1, 1, 1, 2], idx, dtype=float)
+    assert cvar(pnl, 0.05) == -10.0                          # ceil(0.5) = 1 worst obs
+    assert cvar(pnl, 0.2) == -4.5                            # worst 2: -10, 1
+    rep = tail_report(pnl, {"crash": ("2024-02-01", "2024-02-03"), "none": ("2023-01-01", "2023-01-02")})
+    assert np.isclose(rep["mean"], 0.0) and np.isnan(rep["worst_over_mean"])
+    assert rep["worst"] == -10.0 and rep["worst_when"].startswith("2024-02-02")
+    assert rep["max_drawdown"] == -10.0                      # peak 4 after four wins, trough -6
+    assert rep["stress_crash"]["periods"] == 1 and rep["stress_crash"]["pnl"] == -10.0
+    assert rep["stress_none"]["periods"] == 0
+    rep2 = tail_report(pnl + 1.5)                            # mean 1.5 > 0
+    assert np.isclose(rep2["worst_over_mean"], 8.5 / 1.5)
+    # drawdown counts a loss from the starting level too (first period negative)
+    assert tail_report(pd.Series([-3.0, 1.0, 1.0]))["max_drawdown"] == -3.0
+
+
 if __name__ == "__main__":
     for k, fn in list(globals().items()):
         if k.startswith("test_"):

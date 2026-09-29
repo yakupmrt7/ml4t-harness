@@ -59,6 +59,50 @@ def dsr(sr: float, n: int, skew: float, kurt: float, n_trials: int, var_sr: floa
     return psr(sr, n, skew, kurt, sr_star=expected_max_sr(n_trials, var_sr))
 
 
+def cvar(r, alpha: float = 0.05) -> float:
+    """Expected shortfall: mean of the worst ceil(alpha * n) observations (a loss is negative).
+    Uses the empirical tail, no distribution assumption."""
+    x = np.sort(np.asarray(pd.Series(r).dropna(), float))
+    if len(x) == 0:
+        return float("nan")
+    k = max(1, int(np.ceil(alpha * len(x))))
+    return float(x[:k].mean())
+
+
+def tail_report(pnl: pd.Series, stress_windows: dict | None = None, alpha: float = 0.05) -> dict:
+    """Skew-aware summary of a per-period P&L series (e.g. weekly P&L of a short-vol book).
+    pnl is additive (P&L per period, not compounded). stress_windows: {name: (start, end)} inclusive,
+    reported as the summed P&L of periods inside each window and its size in mean periods.
+    'worst_over_mean' = worst period loss / mean P&L (how many mean periods one bad period erases);
+    NaN if the mean is <= 0."""
+    x = pd.Series(pnl).dropna()
+    eq = x.cumsum()
+    dd = eq - np.maximum.accumulate(np.r_[0.0, eq.to_numpy()])[1:]
+    mean = float(x.mean())
+    worst = float(x.min())
+    out = {
+        "n": int(len(x)),
+        "mean": mean,
+        "std": float(x.std(ddof=1)),
+        "t": float(mean / (x.std(ddof=1) / np.sqrt(len(x)))) if len(x) > 1 and x.std(ddof=1) > 0 else float("nan"),
+        "hit_rate": float((x > 0).mean()),
+        "skew": float(stats.skew(x)),
+        "kurtosis": float(stats.kurtosis(x, fisher=False)),
+        f"cvar_{int(alpha * 100)}": cvar(x, alpha),
+        "worst": worst,
+        "worst_when": str(x.idxmin()),
+        "worst_over_mean": float(-worst / mean) if mean > 0 else float("nan"),
+        "max_drawdown": float(dd.min()),
+        "max_drawdown_end": str(dd.idxmin()),
+    }
+    for name, (a, b) in (stress_windows or {}).items():
+        w = x[(x.index >= pd.Timestamp(a, tz=x.index.tz) if isinstance(x.index, pd.DatetimeIndex) else x.index >= a)
+              & (x.index <= pd.Timestamp(b, tz=x.index.tz) if isinstance(x.index, pd.DatetimeIndex) else x.index <= b)]
+        out[f"stress_{name}"] = {"periods": int(len(w)), "pnl": float(w.sum()),
+                                 "in_mean_periods": float(w.sum() / mean) if mean > 0 else float("nan")}
+    return out
+
+
 def summarize(bt: pd.DataFrame, trials: "TrialLog | None" = None) -> dict:
     ppy = periods_per_year(bt.index)
     net, gross = bt["net"], bt["gross"]
