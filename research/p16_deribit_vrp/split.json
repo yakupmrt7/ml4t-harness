@@ -1,0 +1,10 @@
+{
+ "dev_start": "2022-08-05 08:00:00+00:00",
+ "dev_end": "2025-08-17 02:00:00+00:00",
+ "holdout_start": "2025-08-17 02:00:00+00:00",
+ "holdout_end": "2026-08-21 08:00:00+00:00",
+ "rule": "entry Fridays 08:00 UTC from the first with data to the last whose expiry is inside the data; dev = first 75% of the calendar span (PLAN)",
+ "n_weeks_dev": 159,
+ "n_weeks_holdout": 53,
+ "fixed_on": "2026-09-29 08:20:23+00:00"
+}
