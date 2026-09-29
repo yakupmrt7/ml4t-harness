@@ -42,10 +42,12 @@ below runs on free or cheap *history*); results must be tradeable by a retail ac
   (SPY/QQQ options ~1 ¢ wide); (iii) **defined-risk structures** (put spreads / iron condors) cap the tail that
   killed p16 at kill 3; (iv) ML is used where it works: HAR-RV + LightGBM forecasts of realised vol decide when
   and how much to sell.
-- **Data (free, historical, no collection):** SPY, QQQ, IWM end-of-day option chains, Jan 2008 → Dec 2025,
-  ~53 M contracts with bid/ask, Greeks and IV (public GitHub datasets, e.g. SaidBahaDev/options-dataset-hist and
-  philippdubach's historic-options-dataset; **validate against a paid sample before trusting**, p15's lesson);
-  VIX index and CBOE PUT/BXM benchmark index histories (free from CBOE).
+- **Data (free, historical, no collection):** the GitHub SPY/QQQ/IWM chain datasets cited at first are **gone**
+  (404 on 2026-09-29, likely taken down). Replacements found (owner's pointers + search): Kaggle
+  `dudesurfin` SPY EOD chains 2010–2023 (optionsDX schema, bid/ask, IV, Greeks), Kaggle `shankerabhigyan` SPY
+  2014–2025 (bid/ask, sizes, OI, IV, Greeks), Kaggle `kylegraupe` SPY 2020–2022, DoltHub `post-no-preference/options`
+  (thin SPY slice to 2026-09); all download without credentials. CBOE PUT/BXM/VIX/VIX3M histories (free).
+  **Cross-validate sources before trusting** (p15's lesson).
 - **Kill (to fix in its PLAN):** on dev, net return on margin capital ≥ T-bill + 3 pts, t ≥ 2, worst month
   ≥ −X × mean month, and the ML-timed book must beat the unconditional book *and* the PUT index after costs.
 - **Deployable:** yes (IBKR options; defined-risk spreads keep margin known).
