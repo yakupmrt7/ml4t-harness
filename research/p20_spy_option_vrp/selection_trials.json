@@ -1,0 +1,38 @@
+[
+ {
+  "name": "p20_r_P",
+  "kind": "rule",
+  "sr_per_period": 0.22310754633779142,
+  "n": 143
+ },
+ {
+  "name": "p20_r_P_mid",
+  "kind": "measurement",
+  "sr_per_period": 0.22834312564012865,
+  "n": 143
+ },
+ {
+  "name": "p20_r_P5",
+  "kind": "measurement",
+  "sr_per_period": 0.19502822669436568,
+  "n": 143
+ },
+ {
+  "name": "p20_r_CSP",
+  "kind": "measurement",
+  "sr_per_period": 0.1779919594634879,
+  "n": 143
+ },
+ {
+  "name": "p20_r_P_delay1",
+  "kind": "measurement",
+  "sr_per_period": 0.2356524216736479,
+  "n": 143
+ },
+ {
+  "name": "p20_straddle_per_spot",
+  "kind": "measurement",
+  "sr_per_period": 0.1217351710260871,
+  "n": 143
+ }
+]

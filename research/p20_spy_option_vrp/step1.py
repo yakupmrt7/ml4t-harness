@@ -45,13 +45,26 @@ def monthly_expiries(ch, trading_days):
         fridays = pd.date_range(f"{y}-{m:02d}-01", periods=31, freq="D")
         fridays = fridays[(fridays.month == m) & (fridays.dayofweek == 4)]
         f3 = fridays[2]
-        cand = [d for d in g if d in (f3, f3 + pd.Timedelta(days=1), f3 - pd.Timedelta(days=1))]
-        if not cand:
+        gs = set(g)
+        # preference (bug fix after the first run): third Friday, then the Saturday after (pre-2015), then the
+        # Thursday before (holiday); the first run took whichever came first in date order (a Thursday could win)
+        cand = [d for d in (f3, f3 + pd.Timedelta(days=1), f3 - pd.Timedelta(days=1)) if d in gs]
+        if not cand or f3 > trading_days.max():          # expiries beyond the loaded span are not cycles
             continue
         e = cand[0]
         last = trading_days[trading_days <= min(e, f3)].max()
-        rows.append((e, last))
-    return pd.DataFrame(rows, columns=["expiry", "last_day"])
+        rows.append((e, last, f3))
+    return pd.DataFrame(rows, columns=["expiry", "last_day", "f3"])
+
+
+def label_on(g, f3):
+    """The monthly expiry's label as listed on this entry day (third Friday, Saturday after, or Thursday before;
+    the same monthly can carry different labels on different days, e.g. 2015-12-19 then 2015-12-18)."""
+    have = set(g.expiry.unique())
+    for d in (f3, f3 + pd.Timedelta(days=1), f3 - pd.Timedelta(days=1)):
+        if d in have:
+            return d
+    return None
 
 
 def valid_puts(day_rows):
@@ -69,7 +82,7 @@ def build_cycles(ch, close, adj, rf):
     by_day = {d: g for d, g in ch.groupby("date")}
     out = []
     for i in range(1, len(ex)):
-        prev_last, e, last = ex.last_day.iloc[i - 1], ex.expiry.iloc[i], ex.last_day.iloc[i]
+        prev_last, last, f3 = ex.last_day.iloc[i - 1], ex.last_day.iloc[i], ex.f3.iloc[i]
         if last > DEV_END or last < pd.Timestamp("2010-02-01"):
             continue
         entries = days[days > prev_last][:4]
@@ -77,6 +90,9 @@ def build_cycles(ch, close, adj, rf):
         for k, t in enumerate(entries[:3]):                # up to 3 tries (amendment 1)
             g = by_day.get(t)
             if g is None:
+                continue
+            e = label_on(g, f3)
+            if e is None:
                 continue
             g = g[g.expiry == e]
             vp = valid_puts(g)
@@ -95,8 +111,9 @@ def build_cycles(ch, close, adj, rf):
             # entry one trading day later (reported variant)
             t2 = entries[k + 1] if k + 1 < len(entries) else None
             g2 = by_day.get(t2)
-            if g2 is not None:
-                g2 = valid_puts(g2[g2.expiry == e])
+            e2 = label_on(g2, f3) if g2 is not None else None
+            if g2 is not None and e2 is not None:
+                g2 = valid_puts(g2[g2.expiry == e2])
                 if len(g2) >= 2:
                     sp2 = float(by_day[t2].underlying.median())
                     a = nearest(g2, sp2)
@@ -106,7 +123,7 @@ def build_cycles(ch, close, adj, rf):
                         rec.update({"d2_K1": a.strike, "d2_K2": b.strike, "d2_credit": a.p_bid - b.p_ask})
             break
         if rec is None:
-            out.append({"expiry": e, "last_day": last, "skipped": True})
+            out.append({"expiry": f3, "last_day": last, "skipped": True})
             continue
         S_T = float(close.loc[last])
         rec["S_T"] = S_T
